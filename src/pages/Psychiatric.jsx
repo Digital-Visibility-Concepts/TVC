@@ -1,36 +1,24 @@
 import { useEffect, useRef, useState } from "react";
-
-const P = {
-  hero:        "/assets/counsalting.jpg",
-  drGill:      "/assets/Gill_Japsharan.jpg",
-  drGillIn:    "/assets/dr J gill-inside.jpg",
-  consult2:    "/assets/Counsalting 2.jpg",
-  interior:    "/assets/inetrioir clinic.jpg",
-  inside:      "/assets/inside clinic1.jpg",
-};
-
-function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
-
-function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
+import IMAGES from "../constants/images";
+import DoctorAvatars from "../components/DoctorAvatars";
 
 const CONDITIONS=[
-  {id:"anxiety",   label:"Anxiety Disorders",        sub:"GAD · Social · Panic",  desc:"Generalized anxiety, social anxiety, panic disorder, and phobias — diagnosed and treated with evidence-based medication management and personalized care.",                    icon:"🧠"},
-  {id:"depression",label:"Major Depression",          sub:"MDD · Persistent",      desc:"From mild depressive episodes to treatment-resistant depression, Dr. Gill provides thorough evaluations and targeted treatment plans tailored to your biology.",              icon:"💙"},
-  {id:"adhd",      label:"ADHD",                     sub:"Adult Diagnosis",        desc:"Adult ADHD is widely under-diagnosed. Dr. Gill conducts comprehensive evaluations and creates management strategies that fit your life — not a one-size-fits-all prescription.", icon:"⚡"},
-  {id:"ptsd",      label:"PTSD & Trauma",             sub:"Complex · Single Event", desc:"Trauma manifests differently in every person. Dr. Gill provides compassionate, evidence-based treatment for PTSD, complex trauma, and trauma-related mood disruptions.",    icon:"🌿"},
-  {id:"bipolar",   label:"Bipolar Disorder",          sub:"Type I · Type II",       desc:"Proper diagnosis of bipolar disorder requires experience and precision. Dr. Gill specializes in mood stabilization and long-term management for Bipolar I and II.",         icon:"⚖️"},
-  {id:"ocd",       label:"OCD",                      sub:"Obsessive-Compulsive",   desc:"OCD is often mistaken for other conditions. Dr. Gill accurately diagnoses and manages OCD with a treatment approach tailored to the severity and type of your symptoms.",    icon:"🔄"},
-  {id:"insomnia",  label:"Insomnia",                 sub:"Chronic · Acute",        desc:"Sleep disorders have cascading effects on mental and physical health. Dr. Gill addresses insomnia with a psychiatric lens — often revealing and treating underlying causes.", icon:"🌙"},
-  {id:"substance", label:"Substance Abuse",          sub:"Dual Diagnosis",         desc:"Mental health and substance use disorders frequently co-occur. Dr. Gill provides integrated dual-diagnosis treatment that addresses both conditions simultaneously.",         icon:"🛡️"},
+  {id:"anxiety",   label:"Anxiety Disorders",    sub:"GAD · Social · Panic",    desc:"Generalized anxiety, social anxiety, panic disorder, and phobias — diagnosed and treated with evidence-based medication management.",icon:"🧠"},
+  {id:"depression",label:"Major Depression",      sub:"MDD · Persistent",        desc:"From mild depressive episodes to treatment-resistant depression, our physicians provide thorough evaluations and targeted treatment plans.",icon:"💙"},
+  {id:"adhd",      label:"ADHD",                 sub:"Adult Diagnosis",          desc:"Adult ADHD is widely under-diagnosed. We conduct comprehensive evaluations and create management strategies that fit your life.",icon:"⚡"},
+  {id:"ptsd",      label:"PTSD & Trauma",         sub:"Complex · Single Event",  desc:"Providers at Tri-Valley Clinic offer compassionate care for individuals coping with trauma. Trauma can make you feel easily frightened, avoidant, and may increase susceptibility to substance abuse. Treatments include psychotherapy and medications.",icon:"🌿"},
+  {id:"bipolar",   label:"Bipolar Disorder",      sub:"Type I · Type II",        desc:"These individuals experience periods of mania and depression — emotional highs and extreme lows. Untreated bipolar disorder can lead to risk of substance abuse, self-harm, or suicide. If you are considering self-harm or suicide, call 911 for emergency assistance.",icon:"⚖️"},
+  {id:"ocd",       label:"OCD",                   sub:"Obsessive-Compulsive",    desc:"OCD is often mistaken for other conditions. Our physicians accurately diagnose and manage OCD with a treatment approach tailored to the severity and type of your symptoms.",icon:"🔄"},
+  {id:"insomnia",  label:"Insomnia",              sub:"Chronic · Acute",         desc:"Sleep disorders have cascading effects on mental and physical health. We address insomnia with a psychiatric lens — often revealing and treating underlying causes.",icon:"🌙"},
+  {id:"substance", label:"Substance Abuse",       sub:"Dual Diagnosis",          desc:"Mental health and substance use disorders frequently co-occur. We provide integrated dual-diagnosis treatment that addresses both conditions simultaneously.",icon:"🛡️"},
 ];
 
+function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
+function Counter({to,suffix="",ms=1800}){const[v,setV]=useState(0);const[ref,vis]=useReveal(0.5);useEffect(()=>{if(!vis)return;let t0=null;const f=(ts)=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/ms,1);setV(Math.floor(p*to));if(p<1)requestAnimationFrame(f);};requestAnimationFrame(f);},[vis,to,ms]);return <span ref={ref}>{v}{suffix}</span>;}
+function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
+
 export default function Psychiatric(){
-  return(
-    <main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none"}}>
-      <style>{CSS}</style><Cursor/>
-      <Hero/><Marquee/><ConditionsSection/><ProcessSection/><DrGillSplit/><TestimonialsStrip/><FAQSection/><CTA/>
-    </main>
-  );
+  return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none"}}><style>{CSS}</style><Cursor/><Hero/><Mq/><CondSection/><ProcessSection/><DrSection/><TestSection/><FAQSection/><CTA/></main>);
 }
 
 function Hero(){
@@ -39,7 +27,8 @@ function Hero(){
     <section className="relative min-h-[88vh] flex items-end overflow-hidden" style={{background:"linear-gradient(140deg,#2C1A0E 0%,#3D2B1F 55%,#4E3525 100%)"}}>
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,backgroundSize:"180px"}}/>
       <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] overflow-hidden">
-        <img src={P.hero} alt="Consultation" className="w-full h-full object-cover opacity-30" style={{filter:"saturate(0.7)"}}/>
+        {/* ✅ Approved inside clinic — not red face */}
+        <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Gill" className="w-full h-full object-cover object-top opacity-30" style={{filter:"saturate(0.7)"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to right,#2C1A0E 0%,#2C1A0E 12%,transparent 58%)"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to top,#2C1A0E 0%,transparent 55%)"}}/>
       </div>
@@ -52,21 +41,16 @@ function Hero(){
       <div className="relative mx-auto max-w-7xl w-full px-5 md:px-10 xl:px-16 pb-20 pt-36 grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
         <div>
           <div className={`inline-flex items-center gap-2.5 border border-[#B8925A]/40 bg-[#B8925A]/8 px-4 py-2 mb-7 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"100ms"}}>
-            <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse"/><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Board-Certified · Accepting New Patients</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse"/><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Dr. Gill & Dr. Gondara · Accepting New Patients</span>
           </div>
           <h1 className={`text-[48px] md:text-[64px] xl:text-[76px] text-[#F0E8DA] leading-[0.98] mb-5 transition-all duration-900 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,transitionDelay:"200ms"}}>
             Psychiatric<br/><em className="italic text-[#C9A46A]">Care That</em><br/>Sees You.
           </h1>
-          <div className={`flex items-center gap-4 mb-5 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"370ms"}}>
-            <span className="w-10 h-px bg-[#B8925A]/60"/><span className="text-[10px] tracking-[0.22em] uppercase text-[#A89880] font-light">Comprehensive Adult Psychiatric Services · Fremont, CA</span>
-          </div>
           <p className={`text-[#A89880] text-lg leading-relaxed max-w-lg font-light mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"440ms"}}>
-            Dr. Japsharan Gill provides thorough psychiatric evaluations, precise diagnosis, and personalized medication management — delivered with the warmth and attention every patient deserves.
+            Comprehensive adult psychiatric evaluations, precise diagnosis, and personalized medication management — delivered by Dr. Gill and Dr. Gondara with warmth and clinical excellence.
           </p>
           <div className={`flex flex-wrap gap-4 mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"540ms"}}>
-            <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">
-              <Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
-            </a>
+            <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
             <a href="#conditions" className="flex items-center gap-3 border border-[#B8925A]/50 text-[#C9A46A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">View Conditions ↓</a>
           </div>
           <div className={`flex flex-wrap gap-3 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"640ms"}}>
@@ -75,22 +59,32 @@ function Hero(){
             ))}
           </div>
         </div>
+        {/* Right — Dr. Gill + floating second photo */}
         <div className={`hidden lg:flex flex-col gap-4 items-end transition-all duration-1000 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{transitionDelay:"380ms"}}>
           <div className="relative">
             <div className="absolute inset-0 translate-x-4 translate-y-4 bg-[#B8925A]/20 -z-10"/>
             <span className="absolute -top-3 -left-3 w-9 h-9 border-t-2 border-l-2 border-[#B8925A] z-10"/><span className="absolute -top-3 -right-3 w-9 h-9 border-t-2 border-r-2 border-[#B8925A] z-10"/>
             <span className="absolute -bottom-3 -left-3 w-9 h-9 border-b-2 border-l-2 border-[#B8925A] z-10"/><span className="absolute -bottom-3 -right-3 w-9 h-9 border-b-2 border-r-2 border-[#B8925A] z-10"/>
             <div className="w-[320px] overflow-hidden" style={{height:"400px"}}>
-              <img src={P.drGillIn} alt="Dr. Gill" className="w-full h-full object-cover object-top"/>
+              {/* 🔄 Photo 1 → dr-gill-outdoor.jpg */}
+              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill" className="w-full h-full object-cover object-top"/>
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2C1A0E]/80 to-transparent px-5 py-4 z-10">
                 <p style={{fontFamily:"'Cormorant Garamond',serif"}} className="text-[#C9A46A] text-xl font-light italic">Dr. Japsharan Gill, MD</p>
-                <p className="text-[#E8D5BE]/60 text-[9px] tracking-[0.2em] uppercase mt-0.5">Board-Certified Psychiatrist</p>
+                <p className="text-[#E8D5BE]/60 text-[9px] tracking-[0.2em] uppercase mt-0.5">Founder & CEO · Psychiatry & Wellness</p>
               </div>
             </div>
           </div>
+          {/* 🔄 Photo 11 — both doctors outdoor */}
           <div className="bg-[#FDFAF6]/8 border border-[#E8D5BE]/15 px-5 py-4 w-full max-w-[320px]" style={{animation:"floatBadge 4s ease-in-out infinite"}}>
-            <p className="text-[9px] tracking-[0.2em] uppercase text-[#6B7C5E] font-semibold mb-1">Currently Available</p>
-            <p style={{fontFamily:"'Cormorant Garamond',serif"}} className="text-[#F0E8DA] text-lg font-light">Next-Day Appointments</p>
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full overflow-hidden border border-[#B8925A]/40">
+                <img src={IMAGES.DR_GONDARA_CARD} alt="Dr. Gondara" className="w-full h-full object-cover object-top"/>
+              </div>
+              <div>
+                <p className="text-[9px] tracking-[0.2em] uppercase text-[#6B7C5E] font-semibold">Also Available</p>
+                <p style={{fontFamily:"'Cormorant Garamond',serif"}} className="text-[#F0E8DA] text-base font-light">Dr. Gondara · Lead Psychiatrist</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -103,23 +97,21 @@ function Hero(){
   );
 }
 
-function Marquee(){
-  const items=["Anxiety Disorders","Major Depression","ADHD","PTSD & Trauma","Bipolar Disorder","OCD","Insomnia","Substance Abuse","Medication Management","Psychiatric Evaluations","Next-Day Appointments","Free 15-Min Consult"];
+function Mq(){
+  const items=["Anxiety Disorders","Major Depression","ADHD","PTSD & Trauma","Bipolar Disorder","OCD","Insomnia","Substance Abuse","Medication Management","Psychiatric Evaluations","Next-Day Appointments","Dr. Gill & Dr. Gondara","Free 15-Min Consult"];
   const rep=[...items,...items];
-  return(<div className="bg-[#2C1A0E] py-3.5 overflow-hidden"><div className="flex whitespace-nowrap" style={{animation:"marquee 36s linear infinite",width:"max-content"}}>{rep.map((t,i)=><span key={i} className="inline-flex items-center gap-3 text-[#E8D5BE]/60 text-[10px] tracking-[0.22em] uppercase font-medium px-3">{t}<Dm/></span>)}</div></div>);
+  return(<div className="bg-[#2C1A0E] py-3.5 overflow-hidden"><div className="flex whitespace-nowrap" style={{animation:"marquee 38s linear infinite",width:"max-content"}}>{rep.map((t,i)=><span key={i} className="inline-flex items-center gap-3 text-[#E8D5BE]/60 text-[10px] tracking-[0.22em] uppercase font-medium px-3">{t}<Dm/></span>)}</div></div>);
 }
 
-function ConditionsSection(){
+function CondSection(){
   const[ref,v]=useReveal();
   return(
     <section id="conditions" className="py-24 px-5 md:px-10 bg-[#FDFAF6]">
       <div className="mx-auto max-w-7xl">
         <div ref={ref} className="text-center mb-14">
           <div className={`flex items-center justify-center gap-3 mb-5 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-12 h-px bg-[#B8925A]/50"/><Dm size={7}/><span className="w-12 h-px bg-[#B8925A]/50"/></div>
-          <h2 className={`text-5xl md:text-6xl text-[#2C1A0E] mb-4 transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>
-            Conditions We <em className="italic text-[#B8925A]">Treat</em>
-          </h2>
-          <p className={`text-[#7A6556] text-lg font-light max-w-xl mx-auto transition-all duration-700 delay-200 ${v?"opacity-100":"opacity-0"}`}>Every condition listed below is treated with a personalized approach — thorough evaluation first, treatment second.</p>
+          <h2 className={`text-5xl md:text-6xl text-[#2C1A0E] mb-4 transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>Conditions We <em className="italic text-[#B8925A]">Treat</em></h2>
+          <p className={`text-[#7A6556] text-lg font-light max-w-xl mx-auto transition-all duration-700 delay-200 ${v?"opacity-100":"opacity-0"}`}>Every condition is treated with a personalized approach — thorough evaluation first, treatment second.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {CONDITIONS.map((c,i)=>(
@@ -132,7 +124,18 @@ function ConditionsSection(){
             </div>
           ))}
         </div>
-        <div className={`mt-12 text-center transition-all duration-700 delay-800 ${v?"opacity-100":"opacity-0"}`}>
+        {/* SAMHSA Resource — per Website Fixes doc */}
+        <div className={`mt-10 border border-[#E8D5BE] bg-[#F5EEE4] p-6 flex flex-col md:flex-row items-center justify-between gap-5 transition-all duration-700 delay-800 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
+          <div>
+            <p className="text-sm font-medium text-[#2C1A0E] mb-1">Mental Health Crisis Resources</p>
+            <p className="text-[#7A6556] text-sm font-light">If you are experiencing a mental health emergency or considering self-harm or suicide, call 911 immediately.</p>
+          </div>
+          <a href="https://www.samhsa.gov/mental-health/suicidal-behavior/resources" target="_blank" rel="noopener noreferrer"
+            className="flex-shrink-0 flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-6 py-3 text-[10px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300 whitespace-nowrap">
+            SAMHSA Resources →
+          </a>
+        </div>
+        <div className={`mt-4 text-center transition-all duration-700 delay-900 ${v?"opacity-100":"opacity-0"}`}>
           <p className="text-[#7A6556] text-sm font-light mb-4">Don't see your condition? Call us — we treat many more.</p>
           <a href="tel:5105984921" className="inline-flex items-center gap-3 border border-[#B8925A]/50 text-[#B8925A] px-8 py-3.5 text-[10px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300"><Ph/> Call Dr. Gill's Office</a>
         </div>
@@ -144,10 +147,10 @@ function ConditionsSection(){
 function ProcessSection(){
   const[ref,v]=useReveal();
   const steps=[
-    {n:"01",title:"Free Consultation",      desc:"A complimentary 15-minute call to discuss your needs, answer questions, and confirm Tri-Valley Clinic is the right fit."},
-    {n:"02",title:"Comprehensive Evaluation",desc:"Your first full appointment with Dr. Gill — a thorough psychiatric assessment covering history, symptoms, lifestyle, and goals."},
-    {n:"03",title:"Personalized Treatment",  desc:"A treatment plan built specifically for you — medication management, monitoring schedule, and ongoing adjustments as needed."},
-    {n:"04",title:"Ongoing Partnership",     desc:"Regular follow-ups to assess progress, refine treatment, and ensure you feel genuinely supported throughout your care."},
+    {n:"01",title:"Free Consultation",       desc:"A complimentary 15-minute call with Dr. Gill or Dr. Gondara to discuss your needs and confirm Tri-Valley Clinic is the right fit."},
+    {n:"02",title:"Comprehensive Evaluation", desc:"Your first full appointment — a thorough psychiatric assessment covering history, symptoms, lifestyle, and goals."},
+    {n:"03",title:"Personalized Treatment",   desc:"A treatment plan built specifically for you — medication management, monitoring schedule, and adjustments as needed."},
+    {n:"04",title:"Ongoing Partnership",      desc:"Regular follow-ups to assess progress, refine treatment, and ensure you feel genuinely supported throughout your care."},
   ];
   return(
     <section className="py-24 px-5 md:px-10" style={{background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)"}}>
@@ -175,7 +178,7 @@ function ProcessSection(){
   );
 }
 
-function DrGillSplit(){
+function DrSection(){
   const[ref,v]=useReveal();
   return(
     <section className="py-24 px-5 md:px-10 bg-[#F5EEE4]">
@@ -185,22 +188,30 @@ function DrGillSplit(){
             <div className="absolute top-8 -left-4 right-8 bottom-0 bg-[#E8D5BE]/50 -z-10"/>
             <div className="absolute top-0 left-0 w-[3px] h-24 bg-[#B8925A]"/>
             <div className="overflow-hidden" style={{height:"460px"}}>
-              <img src={P.consult2} alt="Dr. Gill consultation" className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.04]"/>
+              {/* ✅ Approved inside clinic photo */}
+              <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Gill consultation" className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.04]"/>
             </div>
+            {/* 🔄 Photo 11 — both doctors floating */}
             <div className="absolute -bottom-6 -right-4 md:-right-6 w-[170px] overflow-hidden border-[3px] border-[#FDFAF6] shadow-xl z-10" style={{height:"200px",animation:"floatBadge 5s ease-in-out infinite"}}>
-              <img src={P.inside} alt="Clinic" className="w-full h-full object-cover"/>
+              <img src={IMAGES.BOTH_OUTDOOR} alt="Dr. Gill and Dr. Gondara" className="w-full h-full object-cover"/>
               <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/60 to-transparent"/>
-              <div className="absolute bottom-0 left-0 right-0 p-3"><p className="text-[8px] tracking-[0.18em] uppercase text-[#E8D5BE]/80">Tri-Valley Clinic</p></div>
+              <div className="absolute bottom-0 left-0 right-0 p-3"><p className="text-[8px] tracking-[0.18em] uppercase text-[#E8D5BE]/80">Dr. Gill & Dr. Gondara</p></div>
             </div>
           </div>
           <div className={`transition-all duration-1000 delay-200 ${v?"opacity-100 translate-x-0":"opacity-0 translate-x-12"}`}>
-            <div className="flex items-center gap-3 mb-5"><span className="w-8 h-px bg-[#B8925A]"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Why Dr. Gill</span></div>
+            <div className="flex items-center gap-3 mb-5"><span className="w-8 h-px bg-[#B8925A]"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Why Our Team</span></div>
             <h2 className="text-5xl md:text-6xl text-[#2C1A0E] mb-6" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:1.1}}>Psychiatry That <em className="italic text-[#B8925A]">Listens First</em></h2>
-            <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-5">Dr. Gill's approach begins with one commitment: listening completely before prescribing anything. Her initial evaluations are longer than the industry standard precisely because she believes understanding you fully is the first act of treatment.</p>
-            <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-8">Her patients consistently describe feeling genuinely heard — a rarity in modern psychiatry. Board-certified with 15+ years of experience, Dr. Gill blends clinical precision with personal warmth in every appointment.</p>
-            <ul className="space-y-3 mb-10">{["No double-booking — your time is yours alone","Free 15-minute consultation for all new patients","Next-day appointments after insurance verification","Telehealth available statewide in California","Most major insurance plans accepted"].map(t=>(
-              <li key={t} className="flex items-start gap-3 text-sm text-[#7A6556]"><span className="w-1.5 h-1.5 rounded-full bg-[#B8925A] flex-shrink-0 mt-2"/>{t}</li>
-            ))}</ul>
+            <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-5">
+              At Tri-Valley Clinic, Dr. Gill and Dr. Gondara share one commitment: listening completely before prescribing anything. Initial evaluations are longer than the industry standard — because understanding you fully is the first act of treatment.
+            </p>
+            <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-8">
+              Our patients consistently describe feeling genuinely heard. Dr. Gill (Founder & CEO) and Dr. Gondara (Lead Psychiatrist) combine clinical precision with personal warmth in every appointment.
+            </p>
+            <ul className="space-y-3 mb-10">
+              {["No double-booking — your time is yours alone","Free 15-minute consultation for all new patients","Next-day appointments after insurance verification","Telehealth available statewide in California","Most major insurance plans accepted"].map(t=>(
+                <li key={t} className="flex items-start gap-3 text-sm text-[#7A6556]"><span className="w-1.5 h-1.5 rounded-full bg-[#B8925A] flex-shrink-0 mt-2"/>{t}</li>
+              ))}
+            </ul>
             <a href="tel:5105984921" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300"><Ph/> Book an Evaluation <span className="group-hover:translate-x-1 transition-transform duration-300">→</span></a>
           </div>
         </div>
@@ -209,12 +220,12 @@ function DrGillSplit(){
   );
 }
 
-function TestimonialsStrip(){
+function TestSection(){
   const[ref,v]=useReveal();
   const revs=[
-    {name:"Sarah M.",role:"Fremont",  q:"Dr. Gill finally gave me an ADHD diagnosis after years of being dismissed. She didn't just prescribe — she explained everything."},
+    {name:"Sarah M.",role:"Fremont",   q:"Dr. Gill finally gave me an ADHD diagnosis after years of being dismissed. She didn't just prescribe — she explained everything."},
     {name:"James T.",role:"Union City",q:"I've seen many psychiatrists. Dr. Gill is the first who made me feel like a person, not a chart."},
-    {name:"Priya K.",role:"Newark",   q:"The clinic environment alone made a difference. I actually looked forward to my appointments."},
+    {name:"Priya K.",role:"Newark",    q:"The clinic environment alone made a difference. I actually looked forward to my appointments."},
   ];
   return(
     <section className="py-24 px-5 md:px-10 bg-[#FDFAF6]">
@@ -243,29 +254,24 @@ function TestimonialsStrip(){
 function FAQSection(){
   const[ref,v]=useReveal();const[open,sOpen]=useState(null);
   const faqs=[
-    {q:"Do I need a referral to see Dr. Gill?",           a:"Most insurance plans do not require a referral for psychiatric care. When you call to verify your insurance, our staff will confirm whether your plan requires one."},
-    {q:"How long is the first psychiatric evaluation?",    a:"Initial evaluations with Dr. Gill are typically 45–60 minutes. This longer appointment allows for a thorough assessment before any treatment decisions are made."},
-    {q:"Will I definitely be prescribed medication?",      a:"Not necessarily. Dr. Gill evaluates each patient individually. Medication management is one tool — and only recommended when clinically appropriate for your specific situation."},
-    {q:"Can you treat children or teenagers?",            a:"Tri-Valley Clinic currently specializes in adult psychiatry (18+). For minors, we recommend contacting a child and adolescent psychiatrist."},
-    {q:"What if my condition isn't listed on this page?", a:"Call us — we treat many conditions beyond the ones listed here. Dr. Gill will discuss your specific needs during your free consultation."},
+    {q:"Do I need a referral to see Dr. Gill or Dr. Gondara?", a:"Most insurance plans do not require a referral for psychiatric care. When you call to verify your insurance, our staff will confirm whether your plan requires one."},
+    {q:"How long is the first psychiatric evaluation?",         a:"Initial evaluations are typically 45–60 minutes. This longer appointment allows for a thorough assessment before any treatment decisions are made."},
+    {q:"Will I definitely be prescribed medication?",           a:"Not necessarily. Our physicians evaluate each patient individually. Medication management is only recommended when clinically appropriate for your specific situation."},
+    {q:"Can you treat children or teenagers?",                 a:"Tri-Valley Clinic currently specializes in adult psychiatry (18+). For minors, we recommend contacting a child and adolescent psychiatrist."},
+    {q:"What if my condition isn't listed on this page?",      a:"Call us — we treat many conditions beyond the ones listed here. Dr. Gill or Dr. Gondara will discuss your specific needs during your free consultation."},
+    {q:"Is there a crisis resource if I need immediate help?",  a:"If you are experiencing a mental health emergency or considering self-harm or suicide, call 911 for emergency assistance. You can also visit SAMHSA's Suicidal Behavior Resources at samhsa.gov."},
   ];
   return(
     <section className="py-24 px-5 md:px-10 bg-[#F5EEE4]">
       <div className="mx-auto max-w-4xl">
-        <div ref={ref} className={`text-center mb-12 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
-          <h2 className="text-5xl md:text-6xl text-[#2C1A0E]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>Frequently <em className="italic text-[#B8925A]">Asked</em></h2>
-        </div>
+        <div ref={ref} className={`text-center mb-12 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><h2 className="text-5xl md:text-6xl text-[#2C1A0E]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>Frequently <em className="italic text-[#B8925A]">Asked</em></h2></div>
         <div className="space-y-3">{faqs.map((f,i)=>(
           <div key={f.q} className={`border transition-all duration-500 ${open===i?"border-[#B8925A]/50 bg-[#FDFAF6]":"border-[#E8D5BE] bg-[#FDFAF6]/70 hover:border-[#B8925A]/30"} ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:`${i*55}ms`,transitionDuration:"600ms"}}>
             <button className="w-full flex items-center justify-between px-6 py-5 text-left gap-4" onClick={()=>sOpen(open===i?null:i)}>
               <span className="text-[15px] font-medium text-[#2C1A0E]">{f.q}</span>
-              <span className={`flex-shrink-0 w-7 h-7 border flex items-center justify-center transition-all duration-300 ${open===i?"border-[#B8925A] bg-[#B8925A] text-[#FDFAF6] rotate-45":"border-[#E8D5BE] text-[#B8925A]"}`}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              </span>
+              <span className={`flex-shrink-0 w-7 h-7 border flex items-center justify-center transition-all duration-300 ${open===i?"border-[#B8925A] bg-[#B8925A] text-[#FDFAF6] rotate-45":"border-[#E8D5BE] text-[#B8925A]"}`}><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
             </button>
-            <div className={`overflow-hidden transition-all duration-400 ${open===i?"max-h-48 pb-6":"max-h-0"}`}>
-              <p className="px-6 text-[#7A6556] text-sm leading-relaxed font-light">{f.a}</p>
-            </div>
+            <div className={`overflow-hidden transition-all duration-400 ${open===i?"max-h-48 pb-6":"max-h-0"}`}><p className="px-6 text-[#7A6556] text-sm leading-relaxed font-light">{f.a}</p></div>
           </div>
         ))}</div>
       </div>
@@ -277,22 +283,25 @@ function CTA(){
   const[ref,v]=useReveal();
   return(
     <section className="py-28 px-5 md:px-10 relative overflow-hidden text-center" style={{background:"linear-gradient(160deg,#FDFAF6 0%,#F5EEE4 50%,#EDE5D6 100%)"}}>
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-80 h-80 rounded-full pointer-events-none" style={{background:"radial-gradient(circle,rgba(184,146,90,0.14) 0%,transparent 70%)"}}/>
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-80 h-80 rounded-full pointer-events-none" style={{background:"radial-gradient(circle,rgba(184,146,90,0.14) 0%,transparent 70%)"}} />
       <div ref={ref} className="relative mx-auto max-w-2xl">
-        <div className={`flex justify-center mb-8 transition-all duration-700 ${v?"opacity-100 scale-100":"opacity-0 scale-90"}`}>
-          <div className="relative"><div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#B8925A]/60 shadow-[0_8px_32px_rgba(184,146,90,0.2)]"><img src={P.drGill} alt="Dr. Gill" className="w-full h-full object-cover object-top"/></div><span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#6B7C5E] border-2 border-[#F5EEE4]"/></div>
+        {/* BOTH DOCTORS — 50/50 partners, every page */}
+        <div className={`transition-all duration-700 ${v?"opacity-100 scale-100":"opacity-0 scale-90"}`}>
+          <DoctorAvatars className="mb-10"/>
         </div>
-        <div className={`flex items-center justify-center gap-3 mb-6 transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-16 h-px bg-[#B8925A]/40"/><Dm/><span className="w-16 h-px bg-[#B8925A]/40"/></div>
-        <h2 className={`text-5xl md:text-[64px] text-[#2C1A0E] mb-5 transition-all duration-700 delay-150 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:1.05}}>
+        <div className={`flex items-center justify-center gap-3 mb-6 transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
+          <span className="w-16 h-px bg-[#B8925A]/40"/><Dm/><span className="w-16 h-px bg-[#B8925A]/40"/>
+        </div>
+        <h2 className={`text-5xl md:text-[64px] text-[#2C1A0E] mb-5 transition-all duration-700 delay-150 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}
+          style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:1.05}}>
           Take the First<br/><em className="italic text-[#B8925A]">Step Today.</em>
         </h2>
-        <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
-          Dr. Gill's free 15-minute consultation is a genuine conversation — not a sales call. Call us and let's talk about how we can help.
-        </p>
+        <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>Dr. Gill and Dr. Gondara offer a free 15-minute consultation — a genuine conversation about how we can help.</p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400"><Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
           <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
         </div>
+        <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${v?"opacity-100":"opacity-0"}`}>Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA</p>
       </div>
     </section>
   );
@@ -301,5 +310,4 @@ function CTA(){
 function Ph(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;}
 function Dm({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10" fill="#B8925A"><polygon points="5,0 10,5 5,10 0,5"/></svg>;}
 function St(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="#B8925A"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>;}
-
 const CSS=`*{cursor:none !important;}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;

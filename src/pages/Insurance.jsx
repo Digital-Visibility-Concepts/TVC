@@ -1,15 +1,17 @@
 /* eslint-disable no-unused-vars */
+import IMAGES from "../constants/images";
+import DoctorAvatars from "../components/DoctorAvatars";
 import { useEffect, useRef, useState } from "react";
 
 /* ── PHOTOS ── */
 const P = {
-  clinicInside   : "/assets/inside clinic1.jpg",
-  office         : "/assets/office.jpg",
-  receptionist   : "/assets/reciptent.jpg",
-  drGillInside   : "/assets/dr J gill-inside.jpg",
-  drGillPortrait : "/assets/Gill_Japsharan.jpg",
-  consulting1    : "/assets/counsalting.jpg",
-  clinicInterior : "/assets/inetrioir clinic.jpg",
+  clinicInside   : "/src/assets/inside clinic1.jpg",
+  office         : "/src/assets/office.jpg",
+  receptionist   : "/src/assets/reciptent.jpg",
+  drGillInside   : "/src/assets/dr J gill-inside.jpg",
+  drGillPortrait : "/src/assets/Gill_Japsharan.jpg",
+  consulting1    : "/src/assets/counsalting.jpg",
+  clinicInterior : "/src/assets/inetrioir clinic.jpg",
 };
 
 /* ── INSURANCE PLANS ── */
@@ -675,49 +677,31 @@ function CTASection() {
   return (
     <section className="py-28 px-5 md:px-10 relative overflow-hidden text-center"
       style={{ background: "linear-gradient(160deg,#FDFAF6 0%,#F5EEE4 50%,#EDE5D6 100%)" }}>
-
-      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-96 h-96 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle,rgba(184,146,90,0.16) 0%,transparent 70%)" }} />
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-64 h-64 rounded-full pointer-events-none"
-        style={{ background: "radial-gradient(circle,rgba(184,146,90,0.10) 0%,transparent 70%)" }} />
-
-      <div ref={ref} className="relative mx-auto max-w-3xl">
-        {/* Dr. Gill avatar */}
-        <div className={`flex justify-center mb-8 transition-all duration-700 ${vis ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
-          <div className="relative">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#B8925A]/60 shadow-[0_8px_32px_rgba(184,146,90,0.2)]">
-              <img src={P.drGillPortrait} alt="Dr. Gill" className="w-full h-full object-cover object-top" />
-            </div>
-            <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#6B7C5E] border-2 border-[#F5EEE4]" />
-          </div>
+      <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-80 h-80 rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle,rgba(184,146,90,0.14) 0%,transparent 70%)" }} />
+      <div ref={ref} className="relative mx-auto max-w-2xl">
+        {/* BOTH DOCTORS — 50/50 partners, shown on every page */}
+        <div className={`transition-all duration-700 ${vis ? "opacity-100 scale-100" : "opacity-0 scale-90"}`}>
+          <DoctorAvatars className="mb-10" />
         </div>
-
         <div className={`flex items-center justify-center gap-3 mb-6 transition-all duration-700 delay-100 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <span className="w-16 h-px bg-[#B8925A]/40" /><DiamondSvg /><span className="w-16 h-px bg-[#B8925A]/40" />
         </div>
-
-        <h2 className={`text-5xl md:text-[68px] text-[#2C1A0E] mb-6 transition-all duration-700 delay-150 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-          style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300, lineHeight: 1.05 }}>
-          Let Us Verify Your<br />
-          <em className="italic text-[#B8925A]">Coverage Today.</em>
+        <h2 className={`text-5xl md:text-[64px] text-[#2C1A0E] mb-5 transition-all duration-700 delay-150 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+          style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.05 }}>
+          Let's Verify Your<br /><em className="italic text-[#B8925A]">Coverage Today.</em>
         </h2>
-        <p className={`text-[#7A6556] text-lg font-light max-w-xl mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          Call us and our team will confirm your insurance benefits before your first appointment — completely free, no commitment required.
-        </p>
-
-        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 transition-all duration-700 delay-300 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
-          <a href="tel:5105984921"
-            className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400">
+        <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>Call us and we will check your insurance in minutes — at no cost, no commitment required.</p>
+        <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}>
+          <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400">
             <PhoneIcon /> Call (510) 598-4921
             <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
-          <a href="/contact"
-            className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">
+          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">
             Send a Message
           </a>
         </div>
-
-        <p className={`text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${vis ? "opacity-100" : "opacity-0"}`}>
+        <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${vis ? "opacity-100" : "opacity-0"}`}>
           Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA
         </p>
       </div>
