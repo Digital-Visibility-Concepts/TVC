@@ -1,7 +1,7 @@
 import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
 import { useEffect, useRef, useState } from "react";
-const P={drGill:"/assets/Gill_Japsharan.jpg",drGillIn:"/assets/dr J gill-inside.jpg",interior:"/assets/inetrioir clinic.jpg",inside:"/assets/inside clinic1.jpg",office:"/assets/office.jpg"};
+const P={interior:"/assets/inetrioir clinic.jpg",inside:"/assets/inside clinic1.jpg"};
 function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
 function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 export default function TMS(){
@@ -54,7 +54,7 @@ function WhatIsTMS(){
     </div>
     <div className={`relative transition-all duration-800 delay-200 ${v?"opacity-100 translate-x-0":"opacity-0 translate-x-10"}`}>
       <div className="absolute top-8 -right-4 left-8 bottom-0 bg-[#F0E8DA] -z-10"/><div className="absolute top-0 right-0 w-[3px] h-24 bg-[#B8925A]"/>
-      <div className="overflow-hidden" style={{height:"460px"}}><img src={P.drGillIn} alt="Dr. Gill" className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-[1.04]"/></div>
+      <div className="overflow-hidden" style={{height:"460px"}}><img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill, MD" className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-[1.04]" style={{objectPosition:"center 12%"}}/></div>
       <div className="absolute -bottom-6 -left-4 bg-[#B8925A] text-[#FDFAF6] px-6 py-5 shadow-xl" style={{animation:"floatBadge 5s ease-in-out infinite"}}><p className="text-2xl font-light mb-0.5" style={{fontFamily:"'Cormorant Garamond',serif"}}>FDA-Cleared</p><p className="text-[9px] tracking-[0.2em] uppercase opacity-80">Since 2008 for MDD</p></div>
     </div>
   </div></section>);

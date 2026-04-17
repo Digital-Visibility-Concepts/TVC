@@ -172,8 +172,8 @@ function HeroSection() {
               className="w-full h-full object-cover object-top"/>
             <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/60 to-transparent"/>
             <div className="absolute bottom-0 left-0 right-0 p-3">
-              <p className="text-[8px] tracking-[0.18em] uppercase text-[#E8D5BE]/80">Dr. Gill & Dr. Gondara</p>
-              <p className="text-[10px] text-[#C9A46A]/80" style={{ fontFamily:"'Cormorant Garamond',serif" }}>Fremont, CA</p>
+              <p className="text-[8px] tracking-[0.18em] uppercase text-[#C9A46A] font-semibold">Founders · Tri-Valley Clinic</p>
+              <p className="text-[10px] text-[#E8D5BE]/80" style={{ fontFamily:"'Cormorant Garamond',serif" }}>Dr. Gill & Dr. Gondara, MD</p>
             </div>
           </div>
 
@@ -225,48 +225,125 @@ function StatsSection() {
 function ExperienceSection() {
   const [ref,vis]=useReveal();
   return(
-    <section className="py-24 px-5 md:px-10 bg-[#FDFAF6]">
+    <section className="py-24 px-5 md:px-10 bg-[#FDFAF6] overflow-hidden">
       <div className="mx-auto max-w-7xl">
-        <div ref={ref} className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-          {/* BIG left — clinic interior */}
-          <div className={`lg:col-span-2 relative overflow-hidden group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{ height:"520px",transitionDelay:"0ms" }}>
-            {/* 🔄 REPLACE with: /assets/both-doctors-clinic.jpg (Photo 15 — both in clinic) */}
-            <img src={IMAGES.BOTH_CLINIC} alt="Tri-Valley Clinic"
-              className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"/>
-            {/* Gradient from bottom — text at bottom so faces stay clear */}
-            <div className="absolute inset-0" style={{ background:"linear-gradient(to top,rgba(44,26,14,0.90) 0%,rgba(44,26,14,0.55) 35%,rgba(44,26,14,0.10) 65%,transparent 100%)" }}/>
+
+        {/* Section label */}
+        <div ref={ref} className={`flex items-center gap-4 mb-8 transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
+          <span className="w-12 h-px bg-[#B8925A]/50"/>
+          <span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">The Tri-Valley Experience</span>
+          <span className="flex-1 h-px bg-[#E8D5BE]/60"/>
+        </div>
+
+        {/* ── ROW 1 ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3">
+
+          {/* 1. BIG clinic interior — luxury space hero */}
+          <div className={`lg:col-span-7 relative overflow-hidden group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
+            style={{height:"540px",transitionDelay:"0ms"}}>
+            <img src={IMAGES.CLINIC_INSIDE} alt="Tri-Valley Clinic Interior"
+              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.04]"/>
+            <div className="absolute inset-0" style={{background:"linear-gradient(to top,rgba(44,26,14,0.88) 0%,rgba(44,26,14,0.22) 45%,transparent 100%)"}}/>
+            <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#B8925A] via-[#C9A46A] to-transparent"/>
+            <span className="absolute top-5 right-5 w-8 h-8 border-t border-r border-[#B8925A]/60"/>
             <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
-              <span className="text-[9px] tracking-[0.28em] uppercase text-[#C9A46A] font-semibold block mb-3">The Tri-Valley Experience</span>
-              <h2 className="text-[#F0E8DA] text-4xl md:text-5xl leading-[1.05] mb-3" style={{ fontFamily:"'Cormorant Garamond',serif",fontWeight:300 }}>
+              <p className="text-[9px] tracking-[0.3em] uppercase text-[#C9A46A] font-semibold mb-3">A Space Designed for Healing</p>
+              <h2 className="text-[#F0E8DA] text-4xl md:text-[44px] leading-[1.08] mb-3"
+                style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>
                 Luxury Care<br/><em className="italic text-[#C9A46A]">Reimagined</em>
               </h2>
-              <p className="text-[#A89880] text-sm leading-relaxed max-w-sm font-light">A clinic designed like a sanctuary — where the environment is part of the healing.</p>
+              <p className="text-[#A89880] text-sm leading-relaxed max-w-[340px] font-light">
+                A clinic designed like a sanctuary — where the environment itself is part of the healing.
+              </p>
             </div>
-            <span className="absolute top-5 right-5 w-8 h-8 border-t border-r border-[#B8925A]/60"/>
           </div>
 
-          <div className="flex flex-col gap-6">
-            {[
-              /* 🔄 Photo 11 — both doctors outdoor */
-              { src: IMAGES.BOTH_OUTDOOR,  label: "Dr. Gill & Dr. Gondara",       note:"🔄 → both-doctors-outdoor.jpg (Photo 11)",  delay:"150ms" },
-              /* ✅ Approved inside clinic shot */
-              { src: IMAGES.DR_GILL_INSIDE,label: "Dr. Gill · Your Physician",    note:"✅ dr J gill-inside.jpg",                    delay:"280ms" },
-            ].map((b)=>(
-              <div key={b.label} className={`relative overflow-hidden flex-1 group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
-                style={{ height:"245px",transitionDelay:b.delay }}>
-                <img src={b.src} alt={b.label} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-[#2C1A0E]/10 to-transparent"/>
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-[9px] tracking-[0.2em] uppercase text-[#E8D5BE]/80 font-medium">{b.label}</p>
-                </div>
-                <span className="absolute top-4 left-4 w-6 h-6 border-t border-l border-[#B8925A]/0 group-hover:border-[#B8925A] transition-colors duration-400"/>
+          {/* 2. RIGHT COLUMN — stats block + Dr. Gill portrait */}
+          <div className={`lg:col-span-5 flex flex-col gap-3 transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
+            style={{transitionDelay:"120ms"}}>
+
+            {/* Stats dark card */}
+            <div className="bg-[#2C1A0E] p-8 flex flex-col justify-between" style={{flex:"0 0 220px"}}>
+              <p className="text-[9px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold mb-5">By the Numbers</p>
+              <div className="grid grid-cols-2 gap-5">
+                {[
+                  {n:"15+",  l:"Years of Practice"},
+                  {n:"2",    l:"Physicians on Staff"},
+                  {n:"Free", l:"First Consultation"},
+                  {n:"CA",   l:"Telehealth Statewide"},
+                ].map((s)=>(
+                  <div key={s.l}>
+                    <p className="text-3xl text-[#C9A46A] leading-none mb-1"
+                      style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>{s.n}</p>
+                    <p className="text-[9px] tracking-[0.16em] uppercase text-[#7A6556] leading-tight">{s.l}</p>
+                  </div>
+                ))}
               </div>
-            ))}
+              <div className="mt-6 pt-5 border-t border-[#E8D5BE]/12 flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse"/>
+                <span className="text-[9px] tracking-[0.2em] uppercase text-[#6B7C5E]">Accepting New Patients</span>
+              </div>
+            </div>
+
+            {/* Dr. Gill outdoor portrait */}
+            <div className="relative overflow-hidden group flex-1" style={{minHeight:"305px"}}>
+              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill, MD"
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"/>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/75 via-transparent to-transparent"/>
+              <div className="absolute bottom-0 left-0 right-0 p-5">
+                <p className="text-[8px] tracking-[0.22em] uppercase text-[#C9A46A] font-semibold">Dr. Japsharan Gill, MD</p>
+                <p className="text-[#E8D5BE]/55 text-[8px] tracking-wider mt-0.5">Founder & CEO · Psychiatry & Wellness</p>
+              </div>
+              <span className="absolute top-3 right-3 w-6 h-6 border-t border-r border-[#B8925A]/0 group-hover:border-[#B8925A] transition-colors duration-400"/>
+            </div>
           </div>
         </div>
-        <div className={`flex items-center gap-4 transition-all duration-700 delay-500 ${vis?"opacity-100":"opacity-0"}`}>
-          <span className="w-8 h-px bg-[#B8925A]/50"/>
-          <p className="text-[10px] tracking-[0.22em] uppercase text-[#7A6556]">680 Mowry Ave, Fremont · Mon–Fri 9:30 AM – 5:30 PM</p>
+
+        {/* ── ROW 2 — three equal cards ── */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+
+          {/* Dr. Gondara consulting */}
+          <div className={`relative overflow-hidden group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
+            style={{height:"290px",transitionDelay:"220ms"}}>
+            <img src={IMAGES.DR_GONDARA_WORKING} alt="Dr. Gondara"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+              style={{objectPosition:"center 20%"}}/>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-transparent to-transparent"/>
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#B8925A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"/>
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-[8px] tracking-[0.22em] uppercase text-[#C9A46A] font-semibold">Dr. Gondara, MD</p>
+              <p className="text-[#E8D5BE]/55 text-[8px] tracking-wider mt-0.5">Lead Psychiatrist</p>
+            </div>
+            <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-[#B8925A]/0 group-hover:border-[#B8925A] transition-colors duration-400"/>
+          </div>
+
+          {/* Clean reception — different angle from main hero */}
+          <div className={`relative overflow-hidden group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
+            style={{height:"290px",transitionDelay:"320ms"}}>
+            <img src={IMAGES.CLINIC_INDOOR} alt="Tri-Valley Clinic Reception"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+              style={{objectPosition:"center 30%"}}/>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-transparent to-transparent"/>
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#B8925A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"/>
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-[8px] tracking-[0.22em] uppercase text-[#C9A46A] font-semibold">Tri-Valley Clinic</p>
+              <p className="text-[#E8D5BE]/55 text-[8px] tracking-wider mt-0.5">680 Mowry Ave · Fremont, CA</p>
+            </div>
+          </div>
+
+          {/* Clinic exterior */}
+          <div className={`relative overflow-hidden group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
+            style={{height:"290px",transitionDelay:"420ms"}}>
+            <img src={IMAGES.CLINIC_EXTERIOR} alt="680 Mowry Ave, Fremont"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"/>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-transparent to-transparent"/>
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#B8925A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"/>
+            <div className="absolute bottom-0 left-0 right-0 p-5">
+              <p className="text-[8px] tracking-[0.22em] uppercase text-[#C9A46A] font-semibold">Our Location</p>
+              <p className="text-[#E8D5BE]/55 text-[8px] tracking-wider mt-0.5">680 Mowry Ave · Fremont, CA 94536</p>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -276,7 +353,7 @@ function ExperienceSection() {
 function ServicesSection() {
   const [ref,vis]=useReveal();
   const svcs=[
-    { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_INSIDE,   tag:"Core",         href:"/psychiatric",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
+    { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_CARD,     tag:"Core",         href:"/psychiatric",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
     { title:"Medical Weight Loss",     sub:"GLP-1 / Semaglutide Programs",      img:IMAGES.DR_GILL_HERO_2,   tag:"Now Available", href:"/weight-loss",  desc:"Physician-supervised weight loss with FDA-approved GLP-1 medications, monitored by Dr. Gill personally.", accent:"#B8925A" },
     { title:"IV Hydration Therapy",    sub:"Restore · Revive · Rehydrate",      img:IMAGES.CLINIC_TABLE,     tag:"Unique",        href:"/iv-hydration", desc:"Premium IV nutrient therapy in a spa-like setting — tailored formulas for energy, immunity, and wellness.", accent:"#A8C59A" },
     { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_INTERIOR,  tag:"Coming Soon",   href:"/tms",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression. Launching soon.",          accent:"#C9A46A" },
@@ -341,7 +418,7 @@ function DrGillSection() {
 
               <div className="overflow-hidden" style={{ height:"500px",maxWidth:"380px" }}>
                 {/* ✅ Approved inside clinic photo — not red face */}
-                <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Japsharan Gill"
+                <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill"
                   className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-[1.04]"/>
               </div>
             </div>
@@ -398,14 +475,14 @@ function ClinicStripSection() {
   const [ref,vis]=useReveal();
   const photos=[
     /* ❌ reciptent.jpg REMOVED per Dr. Gill */
-    
+   
     { src:IMAGES.CLINIC_INSIDE,    label:"Reception & Waiting"     },
-  
+    
     { src:IMAGES.CLINIC_INTERIOR,  label:"Clinic Interior"         },
-      { src:IMAGES.CLINIC_TABLE,     label:"Consultation Room"       },
+     { src:IMAGES.CLINIC_INDOOR,    label:"Front Office"            },
     { src:IMAGES.CLINIC_MAGAZINES, label:"Waiting Lounge"          },
-    { src:IMAGES.CLINIC_INDOOR,    label:"Front Office"            },
     /* 🔄 Photo 15 — both doctors inside clinic */
+    { src:IMAGES.BOTH_CLINIC,      label:"Our Physicians"          },
     /* 🔄 Photo 11 — both doctors outdoor */
     { src:IMAGES.BOTH_OUTDOOR,     label:"Dr. Gill & Dr. Gondara"  },
     { src:IMAGES.CLINIC_EXTERIOR,  label:"680 Mowry Ave · Fremont" },

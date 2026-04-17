@@ -8,7 +8,8 @@ const IMAGES = {
   DR_GILL_CARD:      "/assets/dr-gill-white.jpg",         // white bg solo (new shoot)
   DR_GILL_HERO:      "/assets/dr-gill-outdoor.jpg",        // outdoor solo hero (new shoot)
   DR_GILL_HERO_2:    "/assets/dr-gill-outdoor.jpg",        // same, secondary use
-  DR_GILL_INSIDE:    "/assets/dr J gill-inside.jpg",       // inside clinic — approved, keep
+  // ❌ DR_GILL_INSIDE BANNED — this is Michelle (former receptionist), NOT Dr. Gill. Background/shadow use only.
+  // DR_GILL_INSIDE:    "/assets/dr J gill-inside.jpg",
 
   // ── DR. GONDARA ───────────────────────────────────────────────────
   DR_GONDARA_CARD:    "/assets/dr-gondara-white.jpg",      // white bg solo (new shoot)
@@ -42,11 +43,12 @@ const IMAGES = {
   BLOG_TMS:         "/assets/inetrioir clinic.jpg",        // interior — TMS posts
   BLOG_WELLNESS:    "/assets/dr-gill-outdoor.jpg",         // Dr. Gill outdoor — wellness posts
 
-  // ── RED-FACE — BACKGROUND/SHADOW USE ONLY ────────────────────────
+  // ── BANNED AS FRONT PHOTOS — BACKGROUND/SHADOW USE ONLY ─────────────
   // Use ONLY as dark overlaid backgrounds — never as visible doctor photos
   BG_SHADOW_1: "/assets/Counsalting 2.jpg",
   BG_SHADOW_2: "/assets/dr j gill 2.jpg",
   BG_SHADOW_3: "/assets/counsalting.jpg",
+  BG_MICHELLE: "/assets/dr J gill-inside.jpg", // Michelle — former receptionist, bg shadow only
 
   // ── LOGO ──────────────────────────────────────────────────────────
   LOGO: "/assets/tri-valley-logo-header.png",

@@ -2,16 +2,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-/* ─── PALETTE ────────────────────────────────────────────────
-   Ivory       #FDFAF6   main navbar background
-   Linen       #F5EEE4   announcement bar / hover bg
-   Espresso    #2C1A0E   primary text
-   Warm Taupe  #7A6556   secondary / muted text
-   Gold        #B8925A   accent, active, CTA
-   Gold Warm   #C9A46A   hover gold
-   Border      #E8D5BE   soft dividers
-──────────────────────────────────────────────────────────────*/
-
 const NAV_LINKS = [
   {
     label: "Services",
@@ -94,11 +84,11 @@ export default function Navbar() {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group">
             <img
-  src="/assets/tri-valley-logo-header.png"
-  alt="Tri-Valley Clinic"
-  className="h-12 w-auto object-contain"
-  style={{ mixBlendMode: "multiply" }}  
-/>
+              src="/assets/tri-valley-logo-header.png"
+              alt="Tri-Valley Clinic"
+              className="h-12 w-auto object-contain"
+              style={{ mixBlendMode: "multiply" }}
+            />
           </Link>
 
           {/* Desktop links */}
@@ -127,19 +117,13 @@ export default function Navbar() {
             >
               <PhoneIcon /> (510) 598-4921
             </a>
-            <a
-              href="tel:5105984921"
-              className="
-                group relative overflow-hidden
-                px-6 py-[11px] border border-[#B8925A]
-                text-[10px] font-bold tracking-[0.2em] uppercase
-                bg-[#B8925A] text-[#FDFAF6]
-                transition-all duration-300
-                hover:bg-transparent hover:text-[#B8925A]
-              "
+            {/* ✅ Free Consultation → /contact */}
+            <Link
+              to="/contact"
+              className="group relative overflow-hidden px-6 py-[11px] border border-[#B8925A] text-[10px] font-bold tracking-[0.2em] uppercase bg-[#B8925A] text-[#FDFAF6] transition-all duration-300 hover:bg-transparent hover:text-[#B8925A]"
             >
               Free Consultation
-            </a>
+            </Link>
           </div>
 
           {/* Mobile hamburger */}
@@ -165,17 +149,10 @@ export default function Navbar() {
           onClick={() => setMenuOpen(false)}
         />
         <div
-          className={`
-            absolute top-0 right-0 h-full w-[min(340px,90vw)]
-            bg-[#FDFAF6] border-l border-[#E8D5BE]
-            shadow-[−20px_0_60px_rgba(44,26,14,0.15)]
-            flex flex-col
-            transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]
-            ${menuOpen ? "translate-x-0" : "translate-x-full"}
-          `}
+          className={`absolute top-0 right-0 h-full w-[min(340px,90vw)] bg-[#FDFAF6] border-l border-[#E8D5BE] shadow-[−20px_0_60px_rgba(44,26,14,0.15)] flex flex-col transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${menuOpen ? "translate-x-0" : "translate-x-full"}`}
         >
           <div className="flex items-center justify-between px-6 py-5 border-b border-[#E8D5BE]">
-            <img src="/assets/tri-valley-logo-header.jpeg" alt="Tri-Valley Clinic" className="h-10 w-auto" />
+            <img src="/assets/tri-valley-logo-header.png" alt="Tri-Valley Clinic" className="h-10 w-auto" style={{ mixBlendMode: "multiply" }} />
             <button onClick={() => setMenuOpen(false)} className="text-[#7A6556] hover:text-[#B8925A] transition-colors p-1">
               <CloseIcon />
             </button>
@@ -226,12 +203,13 @@ export default function Navbar() {
             >
               <PhoneIcon /> (510) 598-4921
             </a>
-            <a
-              href="tel:5105984921"
+            {/* ✅ Mobile Free Consultation → /contact */}
+            <Link
+              to="/contact"
               className="flex items-center justify-center w-full py-3.5 bg-[#B8925A] text-[#FDFAF6] text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-200"
             >
               Free Consultation
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -246,15 +224,7 @@ function NavItem({ link }) {
     <li>
       <Link
         to={link.to}
-        className={`
-          relative px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold block
-          transition-colors duration-200
-          after:absolute after:bottom-[-1px] after:left-3 after:right-3 after:h-[1.5px]
-          after:bg-[#B8925A] after:scale-x-0 after:origin-left
-          after:transition-transform after:duration-300
-          hover:text-[#B8925A] hover:after:scale-x-100
-          ${active ? "text-[#B8925A] after:scale-x-100" : "text-[#7A6556]"}
-        `}
+        className={`relative px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold block transition-colors duration-200 after:absolute after:bottom-[-1px] after:left-3 after:right-3 after:h-[1.5px] after:bg-[#B8925A] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:text-[#B8925A] hover:after:scale-x-100 ${active ? "text-[#B8925A] after:scale-x-100" : "text-[#7A6556]"}`}
       >
         {link.label}
       </Link>
@@ -267,22 +237,13 @@ function DropdownItem({ link, isOpen, onToggle }) {
     <li className="relative">
       <button
         onClick={onToggle}
-        className={`flex items-center gap-1.5 px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold transition-colors duration-200 ${
-          isOpen ? "text-[#B8925A]" : "text-[#7A6556] hover:text-[#B8925A]"
-        }`}
+        className={`flex items-center gap-1.5 px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold transition-colors duration-200 ${isOpen ? "text-[#B8925A]" : "text-[#7A6556] hover:text-[#B8925A]"}`}
       >
         {link.label}
         <ChevronIcon className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
       </button>
-
       <div
-        className={`
-          absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[260px]
-          bg-[#FDFAF6] border border-[#E8D5BE]
-          shadow-[0_16px_48px_rgba(44,26,14,0.12)]
-          transition-all duration-300 origin-top
-          ${isOpen ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}
-        `}
+        className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[260px] bg-[#FDFAF6] border border-[#E8D5BE] shadow-[0_16px_48px_rgba(44,26,14,0.12)] transition-all duration-300 origin-top ${isOpen ? "opacity-100 scale-100 translate-y-0 pointer-events-auto" : "opacity-0 scale-95 -translate-y-2 pointer-events-none"}`}
       >
         <div className="h-[2px] bg-gradient-to-r from-[#B8925A]/20 via-[#B8925A] to-[#B8925A]/20" />
         <ul className="py-2">
@@ -303,27 +264,7 @@ function DropdownItem({ link, isOpen, onToggle }) {
   );
 }
 
-function Pip() {
-  return <span className="w-px h-3 bg-[#E8D5BE]" />;
-}
-function PhoneIcon() {
-  return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z" />
-    </svg>
-  );
-}
-function ChevronIcon({ className = "" }) {
-  return (
-    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  );
-}
-function CloseIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}    
+function Pip() { return <span className="w-px h-3 bg-[#E8D5BE]" />; }
+function PhoneIcon() { return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>; }
+function ChevronIcon({ className = "" }) { return <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="6 9 12 15 18 9"/></svg>; }
+function CloseIcon() { return <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>; }

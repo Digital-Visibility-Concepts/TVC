@@ -19,7 +19,7 @@ function Hero(){
       {/* BG — use both-doctors-clinic NOT receptionist */}
       <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] overflow-hidden">
         {/* 🔄 Photo 15 → both-doctors-clinic.jpg (NOT receptionist) */}
-        <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Japsharan Gill" className="w-full h-full object-cover opacity-30" style={{filter:"saturate(0.70)", objectPosition:"center 15%"}}/>
+        <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill" className="w-full h-full object-cover opacity-35" style={{filter:"saturate(0.70)", objectPosition:"center 12%"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to right,#2C1A0E 0%,#2C1A0E 12%,transparent 58%)"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to top,#2C1A0E 0%,transparent 50%)"}}/>
       </div>
@@ -51,22 +51,6 @@ function Hero(){
                 <div><p className="text-[8px] tracking-[0.18em] uppercase text-[#A89880]/60">{i.lab}</p><p className="text-[#E8D5BE] text-xs font-medium truncate">{i.val}</p></div>
               </a>
             ))}
-          </div>
-        </div>
-        {/* Dr. Gill portrait card (approved photo, not red face) */}
-        <div className={`hidden lg:block transition-all duration-1000 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{transitionDelay:"380ms"}}>
-          <div className="relative">
-            <div className="absolute inset-0 translate-x-4 translate-y-4 bg-[#B8925A]/15 -z-10"/>
-            <span className="absolute -top-3 -left-3 w-9 h-9 border-t-2 border-l-2 border-[#B8925A] z-10"/>
-            <span className="absolute -bottom-3 -right-3 w-9 h-9 border-b-2 border-r-2 border-[#B8925A] z-10"/>
-            <div className="overflow-hidden" style={{height:"380px",maxWidth:"340px"}}>
-              {/* 🔄 Photo 1 → dr-gill-outdoor.jpg */}
-              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Gill" className="w-full h-full object-cover object-top"/>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2C1A0E]/80 to-transparent px-6 py-5 z-10">
-                <p style={{fontFamily:"'Cormorant Garamond',serif"}} className="text-[#C9A46A] text-xl font-light italic">Dr. Japsharan Gill, MD</p>
-                <p className="text-[#E8D5BE]/60 text-[9px] tracking-[0.2em] uppercase mt-0.5">Founder & CEO · Free Consultation Available</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

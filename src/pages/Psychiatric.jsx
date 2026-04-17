@@ -161,7 +161,7 @@ function DrSection(){
             <div className="absolute top-0 left-0 w-[3px] h-24 bg-[#B8925A]"/>
             <div className="overflow-hidden" style={{height:"460px"}}>
               {/* ✅ Approved inside clinic photo */}
-              <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Gill consultation" className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.04]"/>
+              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Gill consultation" className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.04]"/>
             </div>
             {/* 🔄 Photo 11 — both doctors floating */}
             <div className="absolute -bottom-6 -right-4 md:-right-6 w-[170px] overflow-hidden border-[3px] border-[#FDFAF6] shadow-xl z-10" style={{height:"200px",animation:"floatBadge 5s ease-in-out infinite"}}>

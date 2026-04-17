@@ -144,7 +144,7 @@ function HeroSection() {
           <div className={`inline-flex items-center gap-2.5 border border-[#B8925A]/40 bg-[#B8925A]/5 px-4 py-2 mb-8 transition-all duration-700 ${on ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
             style={{ transitionDelay: "100ms" }}>
             <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" />
-            <span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">50/50 Partners · Tri-Valley Clinic · Fremont, CA</span>
+            <span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Tri-Valley Clinic · Fremont, CA</span>
           </div>
 
           <h1 className={`text-[52px] md:text-[68px] xl:text-[80px] text-[#2C1A0E] leading-[0.97] mb-6 transition-all duration-900 ${on ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
@@ -236,7 +236,7 @@ function HeroSection() {
             style={{ animation: "floatBadge 4s ease-in-out infinite" }}>
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2 h-2 rounded-full bg-[#6B7C5E] animate-pulse" />
-              <span className="text-[9px] tracking-[0.2em] uppercase text-[#6B7C5E] font-semibold">50/50 Partners</span>
+              <span className="text-[9px] tracking-[0.2em] uppercase text-[#6B7C5E] font-semibold">Founders · Tri-Valley Clinic</span>
             </div>
             <p style={{ fontFamily: "'Cormorant Garamond',serif" }} className="text-[#2C1A0E] text-base font-normal">Two Physicians · One Mission</p>
           </div>
@@ -258,7 +258,7 @@ function HeroSection() {
 
 /* ══ 2. MARQUEE ══ */
 function MarqueeStrip() {
-  const items = ["Dr. Japsharan Gill · Founder & CEO", "Dr. Gondara · Lead Psychiatrist", "50/50 Partners", "Psychiatry & Wellness", "15+ Years Experience", "Fremont, CA", "Free Consultation", "Next-Day Appointments", "Telehealth · Statewide CA", "GLP-1 Weight Loss", "IV Hydration", "TMS Therapy · Coming Soon"];
+  const items = ["Dr. Japsharan Gill · Founder & CEO", "Dr. Gondara · Lead Psychiatrist", "Psychiatry & Wellness", "15+ Years Experience", "Fremont, CA", "Free Consultation", "Next-Day Appointments", "Telehealth · Statewide CA", "GLP-1 Weight Loss", "IV Hydration", "TMS Therapy · Coming Soon"];
   const rep = [...items, ...items];
   return (
     <div className="bg-[#2C1A0E] py-3.5 overflow-hidden">
@@ -393,7 +393,7 @@ function DrGillBioSection() {
             </ul>
 
             <div className="flex flex-wrap gap-4">
-              <a href="tel:5105984921"
+              <a href="/contact"
                 className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300">
                 <Ph /> Book with Dr. Gill
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -464,7 +464,7 @@ function DrGondaraBioSection() {
               ))}
             </ul>
 
-            <a href="tel:5105984921"
+            <a href="/contact"
               className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300 self-start inline-flex">
               <Ph /> Book with Dr. Gondara
               <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -508,7 +508,7 @@ function ClinicGallerySection() {
       pos: "object-top" },
     { src: IMAGES.DR_GONDARA_WORKING,  label: "Patient Consultation",      span: "",
       pos: "object-center" },
-    { src: IMAGES.DR_GILL_INSIDE,      label: "Dr. Japsharan Gill, MD",    span: "",
+    { src: IMAGES.DR_GILL_HERO,        label: "Dr. Japsharan Gill, MD",    span: "",
       pos: "object-top" },
     { src: IMAGES.CLINIC_EXTERIOR,     label: "680 Mowry Ave · Fremont",   span: "",
       pos: "object-center" },
@@ -626,7 +626,7 @@ function WhySection() {
     { n: "02", title: "Whole-Body Approach",            text: "Psychiatry, weight management, IV hydration, and TMS — deeply connected and treated together, not in isolation." },
     { n: "03", title: "Free First Consultation",        text: "A complimentary 15-minute call to discuss your needs. No pressure, no obligation." },
     { n: "04", title: "No Double-Booking",              text: "Your time is yours. We never overbook or rush. Personalized care is our practice, not just a promise." },
-    { n: "05", title: "Two Physicians · One Mission",   text: "Dr. Gill and Dr. Gondara are 50/50 partners committed to the same standard of care — precision, compassion, and excellence." },
+    { n: "05", title: "Two Physicians · One Mission",   text: "Dr. Gill and Dr. Gondara share one mission — delivering the highest standard of psychiatric care with precision, compassion, and clinical excellence." },
     { n: "06", title: "Statewide Telehealth",           text: "Available to all California residents via secure video — same expert care, anywhere in the state." },
   ];
   return (
