@@ -71,8 +71,8 @@ function Hero() {
 
       {/* Background photo */}
       <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] overflow-hidden">
-        <img src={IMAGES.BOTH_CLINIC} alt="Tri-Valley Clinic"
-          className="w-full h-full object-cover opacity-28" style={{ filter: "saturate(0.65)" }} />
+        <img src={IMAGES.CLINIC_INDOOR} alt="Tri-Valley Clinic Interior"
+          className="w-full h-full object-cover opacity-35" style={{ filter: "saturate(0.75)" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to right,#2C1A0E 0%,#2C1A0E 12%,transparent 58%)" }} />
         <div className="absolute inset-0" style={{ background: "linear-gradient(to top,#2C1A0E 0%,transparent 55%)" }} />
       </div>

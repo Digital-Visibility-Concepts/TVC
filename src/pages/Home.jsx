@@ -1,4 +1,4 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState, useCallback } from "react";
 import IMAGES from "../constants/images";
 
@@ -165,15 +165,14 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* PHOTO 2 — Both doctors inside clinic (Photo 15 of 19) */}
-          <div className="absolute -bottom-8 -right-2 md:-right-8 w-[155px] md:w-[185px] overflow-hidden border-[3px] border-[#FDFAF6] shadow-[0_20px_60px_rgba(44,26,14,0.25)]"
-            style={{ height:"215px",animation:"floatBadge 5s ease-in-out infinite",zIndex:15 }}>
-            {/* 🔄 REPLACE src with: /assets/both-doctors-clinic.jpg (Photo 15 of 19) */}
-            <img src={IMAGES.BOTH_CLINIC} alt="Tri-Valley Clinic Team"
-              className="w-full h-full object-cover object-center"/>
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/65 to-transparent"/>
+          {/* PHOTO 2 — Both doctors arms crossed (white bg — both fully visible in small card) */}
+          <div className="absolute -bottom-8 -right-2 md:-right-8 w-[175px] md:w-[210px] overflow-hidden border-[3px] border-[#FDFAF6] shadow-[0_20px_60px_rgba(44,26,14,0.25)]"
+            style={{ height:"220px",animation:"floatBadge 5s ease-in-out infinite",zIndex:15 }}>
+            <img src={IMAGES.BOTH_ARMS_CROSSED} alt="Dr. Gill and Dr. Gondara"
+              className="w-full h-full object-cover object-top"/>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/60 to-transparent"/>
             <div className="absolute bottom-0 left-0 right-0 p-3">
-              <p className="text-[8px] tracking-[0.18em] uppercase text-[#E8D5BE]/80">Our Team</p>
+              <p className="text-[8px] tracking-[0.18em] uppercase text-[#E8D5BE]/80">Dr. Gill & Dr. Gondara</p>
               <p className="text-[10px] text-[#C9A46A]/80" style={{ fontFamily:"'Cormorant Garamond',serif" }}>Fremont, CA</p>
             </div>
           </div>
@@ -233,16 +232,17 @@ function ExperienceSection() {
           <div className={`lg:col-span-2 relative overflow-hidden group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{ height:"520px",transitionDelay:"0ms" }}>
             {/* 🔄 REPLACE with: /assets/both-doctors-clinic.jpg (Photo 15 — both in clinic) */}
             <img src={IMAGES.BOTH_CLINIC} alt="Tri-Valley Clinic"
-              className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"/>
-            <div className="absolute inset-0" style={{ background:"linear-gradient(160deg,rgba(44,26,14,0.75) 0%,rgba(44,26,14,0.2) 60%,transparent 100%)" }}/>
-            <div className="absolute top-0 left-0 p-10">
-              <span className="text-[9px] tracking-[0.28em] uppercase text-[#C9A46A] font-semibold block mb-4">The Tri-Valley Experience</span>
-              <h2 className="text-[#F0E8DA] text-5xl md:text-6xl leading-[1.05] mb-4" style={{ fontFamily:"'Cormorant Garamond',serif",fontWeight:300 }}>
+              className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"/>
+            {/* Gradient from bottom — text at bottom so faces stay clear */}
+            <div className="absolute inset-0" style={{ background:"linear-gradient(to top,rgba(44,26,14,0.90) 0%,rgba(44,26,14,0.55) 35%,rgba(44,26,14,0.10) 65%,transparent 100%)" }}/>
+            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-10">
+              <span className="text-[9px] tracking-[0.28em] uppercase text-[#C9A46A] font-semibold block mb-3">The Tri-Valley Experience</span>
+              <h2 className="text-[#F0E8DA] text-4xl md:text-5xl leading-[1.05] mb-3" style={{ fontFamily:"'Cormorant Garamond',serif",fontWeight:300 }}>
                 Luxury Care<br/><em className="italic text-[#C9A46A]">Reimagined</em>
               </h2>
-              <p className="text-[#A89880] text-base leading-relaxed max-w-sm font-light">A clinic designed like a sanctuary — where the environment is part of the healing.</p>
+              <p className="text-[#A89880] text-sm leading-relaxed max-w-sm font-light">A clinic designed like a sanctuary — where the environment is part of the healing.</p>
             </div>
-            <span className="absolute bottom-5 right-5 w-8 h-8 border-b border-r border-[#B8925A]/60"/>
+            <span className="absolute top-5 right-5 w-8 h-8 border-t border-r border-[#B8925A]/60"/>
           </div>
 
           <div className="flex flex-col gap-6">
@@ -254,7 +254,7 @@ function ExperienceSection() {
             ].map((b)=>(
               <div key={b.label} className={`relative overflow-hidden flex-1 group transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`}
                 style={{ height:"245px",transitionDelay:b.delay }}>
-                <img src={b.src} alt={b.label} className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"/>
+                <img src={b.src} alt={b.label} className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"/>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-[#2C1A0E]/10 to-transparent"/>
                 <div className="absolute bottom-0 left-0 right-0 p-5">
                   <p className="text-[9px] tracking-[0.2em] uppercase text-[#E8D5BE]/80 font-medium">{b.label}</p>
@@ -305,7 +305,7 @@ function ServiceCard({ title,sub,img,tag,href,desc,accent,delay,vis }) {
   const [hov,setHov]=useState(false);
   return(
     <a href={href}
-      className={`group relative flex flex-col overflow-hidden border border-[#E8D5BE]/10 transition-all duration-700 hover:-translate-y-1.5 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-12"}`}
+      className={`group relative flex flex-col overflow-hidden border border-[#E8D5BE]/12 bg-[#F5EEE4]/5 transition-all duration-700 hover:-translate-y-1.5 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-12"}`}
       style={{ transitionDelay:`${delay}ms`,transitionDuration:"700ms",minHeight:"400px" }}
       onMouseEnter={()=>setHov(true)} onMouseLeave={()=>setHov(false)}>
       <div className="absolute inset-0 transition-opacity duration-600" style={{ opacity:hov?0.22:0 }}>
@@ -398,13 +398,14 @@ function ClinicStripSection() {
   const [ref,vis]=useReveal();
   const photos=[
     /* ❌ reciptent.jpg REMOVED per Dr. Gill */
-    { src:IMAGES.CLINIC_OFFICE,    label:"Front Office"            },
+    
     { src:IMAGES.CLINIC_INSIDE,    label:"Reception & Waiting"     },
-    { src:IMAGES.CLINIC_TABLE,     label:"Consultation Room"       },
+  
     { src:IMAGES.CLINIC_INTERIOR,  label:"Clinic Interior"         },
+      { src:IMAGES.CLINIC_TABLE,     label:"Consultation Room"       },
     { src:IMAGES.CLINIC_MAGAZINES, label:"Waiting Lounge"          },
+    { src:IMAGES.CLINIC_INDOOR,    label:"Front Office"            },
     /* 🔄 Photo 15 — both doctors inside clinic */
-    { src:IMAGES.BOTH_CLINIC,      label:"Our Physicians"          },
     /* 🔄 Photo 11 — both doctors outdoor */
     { src:IMAGES.BOTH_OUTDOOR,     label:"Dr. Gill & Dr. Gondara"  },
     { src:IMAGES.CLINIC_EXTERIOR,  label:"680 Mowry Ave · Fremont" },

@@ -19,7 +19,7 @@ function Hero(){
       {/* BG — use both-doctors-clinic NOT receptionist */}
       <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] overflow-hidden">
         {/* 🔄 Photo 15 → both-doctors-clinic.jpg (NOT receptionist) */}
-        <img src={IMAGES.BOTH_CLINIC} alt="Tri-Valley Clinic Team" className="w-full h-full object-cover opacity-28" style={{filter:"saturate(0.65)"}}/>
+        <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Japsharan Gill" className="w-full h-full object-cover opacity-30" style={{filter:"saturate(0.70)", objectPosition:"center 15%"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to right,#2C1A0E 0%,#2C1A0E 12%,transparent 58%)"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to top,#2C1A0E 0%,transparent 50%)"}}/>
       </div>
@@ -137,7 +137,6 @@ function MainSection(){
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                         <Field label="Full Name *" error={errors.name}><input type="text" placeholder="Your name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className={`${ic} ${errors.name?"border-red-400":""}`}/></Field>
-                        // eslint-disable-next-line react-hooks/static-components
                         <Field label="Phone Number *" error={errors.phone}><input type="tel" placeholder="(510) 000-0000" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className={`${ic} ${errors.phone?"border-red-400":""}`}/></Field>
                       </div>
                       <Field label="Email Address *" error={errors.email}><input type="email" placeholder="your@email.com" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} className={`${ic} ${errors.email?"border-red-400":""}`}/></Field>
@@ -186,10 +185,10 @@ function PhotoRow(){
   const[ref,v]=useReveal();
   /* ❌ reciptent.jpg REMOVED */
   const photos=[
-    {src:IMAGES.CLINIC_INSIDE,   label:"Reception & Waiting"},
-    {src:IMAGES.CLINIC_OFFICE,   label:"Front Office"},
-    {src:IMAGES.BOTH_CLINIC,     label:"Our Physicians"},         // 🔄 Photo 15
-    {src:IMAGES.CLINIC_EXTERIOR, label:"680 Mowry Ave · Fremont"},
+    {src:IMAGES.CLINIC_INSIDE,       label:"Reception & Waiting"},
+    {src:IMAGES.DR_GONDARA_WORKING,  label:"Patient Consultation"},
+    {src:IMAGES.BOTH_CLINIC,         label:"Dr. Gill & Dr. Gondara"},
+    {src:IMAGES.CLINIC_EXTERIOR,     label:"680 Mowry Ave · Fremont"},
   ];
   return(
     <section className="py-16 px-5 md:px-10 bg-[#F5EEE4]">

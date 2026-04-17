@@ -27,8 +27,8 @@ function Hero(){
     <section className="relative min-h-[88vh] flex items-end overflow-hidden" style={{background:"linear-gradient(140deg,#2C1A0E 0%,#3D2B1F 55%,#4E3525 100%)"}}>
       <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,backgroundSize:"180px"}}/>
       <div className="absolute right-0 top-0 bottom-0 w-full lg:w-[52%] overflow-hidden">
-        {/* ✅ Approved inside clinic — not red face */}
-        <img src={IMAGES.DR_GILL_INSIDE} alt="Dr. Gill" className="w-full h-full object-cover object-top opacity-30" style={{filter:"saturate(0.7)"}}/>
+        {/* ✅ dr-gill-outdoor.jpg — clean background, matches WeightLoss style */}
+        <img src={IMAGES.DR_GILL_HERO} alt="Dr. Gill" className="w-full h-full object-cover opacity-35" style={{filter:"saturate(0.70)", objectPosition:"center 12%"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to right,#2C1A0E 0%,#2C1A0E 12%,transparent 58%)"}}/>
         <div className="absolute inset-0" style={{background:"linear-gradient(to top,#2C1A0E 0%,transparent 55%)"}}/>
       </div>
@@ -57,34 +57,6 @@ function Hero(){
             {["Free First Consult","Next-Day Available","All Major Insurance","Telehealth CA-Wide"].map(t=>(
               <span key={t} className="text-[9px] tracking-[0.18em] uppercase border border-[#B8925A]/25 text-[#C9A46A]/60 px-3 py-1.5">{t}</span>
             ))}
-          </div>
-        </div>
-        {/* Right — Dr. Gill + floating second photo */}
-        <div className={`hidden lg:flex flex-col gap-4 items-end transition-all duration-1000 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{transitionDelay:"380ms"}}>
-          <div className="relative">
-            <div className="absolute inset-0 translate-x-4 translate-y-4 bg-[#B8925A]/20 -z-10"/>
-            <span className="absolute -top-3 -left-3 w-9 h-9 border-t-2 border-l-2 border-[#B8925A] z-10"/><span className="absolute -top-3 -right-3 w-9 h-9 border-t-2 border-r-2 border-[#B8925A] z-10"/>
-            <span className="absolute -bottom-3 -left-3 w-9 h-9 border-b-2 border-l-2 border-[#B8925A] z-10"/><span className="absolute -bottom-3 -right-3 w-9 h-9 border-b-2 border-r-2 border-[#B8925A] z-10"/>
-            <div className="w-[320px] overflow-hidden" style={{height:"400px"}}>
-              {/* 🔄 Photo 1 → dr-gill-outdoor.jpg */}
-              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill" className="w-full h-full object-cover object-top"/>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2C1A0E]/80 to-transparent px-5 py-4 z-10">
-                <p style={{fontFamily:"'Cormorant Garamond',serif"}} className="text-[#C9A46A] text-xl font-light italic">Dr. Japsharan Gill, MD</p>
-                <p className="text-[#E8D5BE]/60 text-[9px] tracking-[0.2em] uppercase mt-0.5">Founder & CEO · Psychiatry & Wellness</p>
-              </div>
-            </div>
-          </div>
-          {/* 🔄 Photo 11 — both doctors outdoor */}
-          <div className="bg-[#FDFAF6]/8 border border-[#E8D5BE]/15 px-5 py-4 w-full max-w-[320px]" style={{animation:"floatBadge 4s ease-in-out infinite"}}>
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full overflow-hidden border border-[#B8925A]/40">
-                <img src={IMAGES.DR_GONDARA_CARD} alt="Dr. Gondara" className="w-full h-full object-cover object-top"/>
-              </div>
-              <div>
-                <p className="text-[9px] tracking-[0.2em] uppercase text-[#6B7C5E] font-semibold">Also Available</p>
-                <p style={{fontFamily:"'Cormorant Garamond',serif"}} className="text-[#F0E8DA] text-base font-light">Dr. Gondara · Lead Psychiatrist</p>
-              </div>
-            </div>
           </div>
         </div>
       </div>

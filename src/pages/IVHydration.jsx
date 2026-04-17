@@ -1,7 +1,7 @@
 import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
 import { useEffect, useRef, useState } from "react";
-const P={hero:"/src/assets/emptytabel.jpg",drGill:"/src/assets/Gill_Japsharan.jpg",inside:"/src/assets/inside clinic1.jpg",interior:"/src/assets/inetrioir clinic.jpg",office:"/src/assets/office.jpg"};
+const P={hero:"/assets/emptytabel.jpg",drGill:"/assets/Gill_Japsharan.jpg",inside:"/assets/inside clinic1.jpg",interior:"/assets/inetrioir clinic.jpg",office:"/assets/office.jpg"};
 function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
 function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 const DRIPS=[

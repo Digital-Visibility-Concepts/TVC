@@ -1,103 +1,55 @@
-/* ═══════════════════════════════════════════════════════════════════
-   src/constants/images.js
-   MASTER PHOTO REGISTRY — Tri-Valley Clinic
-   
-   HOW TO UPDATE WHEN NEW PHOTOS ARRIVE:
-   1. Download from shop.imagequix.com (Japsharan.gill@gmail.com)
-   2. Rename files as shown in the comments below
-   3. Drop into public/assets/
-   4. Update the path strings in this file ONLY
-   5. Every page updates automatically — no other file needs touching
-═══════════════════════════════════════════════════════════════════ */
- 
+// src/constants/images.js
+// MASTER PHOTO REGISTRY — update paths here only, every page updates automatically
+// ❌ NEVER USE: reciptent.jpg | Counsalting 2.jpg | counsalting.jpg | dr j gill 2.jpg | Gill_Japsharan.jpg | dr j gill.jpg
+
 const IMAGES = {
- 
-  /* ─────────────────────────────────────────────────────────────
-     DR. GILL — APPROVED PHOTOS
-     ✅ KEEP: Gill_Japsharan.jpg + dr j gill.jpg (existing)
-     🔄 REPLACE when new shoot arrives (photo numbers from imagequix)
-  ───────────────────────────────────────────────────────────────*/
- 
-  // Photo 18 of 19 — Dr. Gill WHITE BACKGROUND solo
-  // → Used for: Doctor card in Meet the Team, About page card
-  // → File to add: dr-gill-white.jpg
-  DR_GILL_CARD: "/assets/Gill_Japsharan.jpg",           // 🔄 → /assets/dr-gill-white.jpg
- 
-  // Photo 1 of 19 — Dr. Gill OUTDOOR solo (green bokeh bg)
-  // → Used for: Hero sections, biography sticky photo
-  // → File to add: dr-gill-outdoor.jpg
-  DR_GILL_HERO: "/assets/Gill_Japsharan.jpg",           // 🔄 → /assets/dr-gill-outdoor.jpg
- 
-  // Photo 7 of 19 — Dr. Gill OUTDOOR closer crop, brighter smile
-  // → Used for: CTA sections, secondary bio photo
-  // → File to add: dr-gill-outdoor2.jpg
-  DR_GILL_HERO_2: "/assets/dr j gill.jpg",              // 🔄 → /assets/dr-gill-outdoor2.jpg
- 
-  // Existing inside clinic shot — NOT red face, approved
-  // → Used for: biography section secondary sticky photo
-  DR_GILL_INSIDE: "/assets/dr J gill-inside.jpg",       // ✅ Keep as-is
- 
-  /* ─────────────────────────────────────────────────────────────
-     DR. GONDARA — APPROVED PHOTOS
-     🔄 REPLACE when new shoot arrives
-  ───────────────────────────────────────────────────────────────*/
- 
-  // Photo 19 of 19 — Dr. Gondara WHITE BACKGROUND solo
-  // → Used for: Doctor card in Meet the Team
-  // → File to add: dr-gondara-white.jpg
-  DR_GONDARA_CARD: "/assets/dr G ap.jpg",               // 🔄 → /assets/dr-gondara-white.jpg
- 
-  // Existing Dr. Gondara working photo
-  // → Used for: About biography secondary photo
-  DR_GONDARA_WORKING: "/assets/dr G working.jpg",       // ✅ Keep as-is
- 
-  /* ─────────────────────────────────────────────────────────────
-     BOTH DOCTORS TOGETHER
-     🔄 REPLACE when new shoot arrives
-  ───────────────────────────────────────────────────────────────*/
- 
-  // Photo 11 of 19 — Both doctors OUTDOOR, natural light
-  // → Used for: About team section, homepage Meet Dr. Gill floating card
-  // → File to add: both-doctors-outdoor.jpg
-  BOTH_OUTDOOR: "/assets/dr G ap.jpg",                  // 🔄 → /assets/both-doctors-outdoor.jpg
- 
-  // Photo 15 of 19 — Both doctors INSIDE CLINIC (Tri-Valley sign bg)
-  // → Used for: Homepage hero background shadow, About hero floating card
-  // → File to add: both-doctors-clinic.jpg
-  BOTH_CLINIC: "/assets/inside clinic1.jpg",            // 🔄 → /assets/both-doctors-clinic.jpg
- 
-  /* ─────────────────────────────────────────────────────────────
-     CLINIC PHOTOS — approved, no changes needed
-     ❌ REMOVED: reciptent.jpg (receptionist) — per Dr. Gill
-     ❌ REMOVED: red-face photos from cards
-  ───────────────────────────────────────────────────────────────*/
- 
-  CLINIC_INSIDE:    "/assets/inside clinic1.jpg",       // ✅ Reception/waiting area
-  CLINIC_INTERIOR:  "/assets/inetrioir clinic.jpg",     // ✅ Interior hallway
-  CLINIC_EXTERIOR:  "/assets/clinic1.jpg",              // ✅ Outside building
-  CLINIC_OFFICE:    "/assets/office.jpg",               // ✅ Front office
-  CLINIC_TABLE:     "/assets/emptytabel.jpg",           // ✅ Consultation room
-  CLINIC_MAGAZINES: "/assets/magzize.jpg",              // ✅ Waiting lounge
-  CLINIC_WASHROOM:  "/assets/washroom.jpg",             // ✅ Washroom (if needed)
- 
-  // ❌ NEVER USE THESE IN DOCTOR CARDS:
-  // "/assets/reciptent.jpg"         → REMOVED per Dr. Gill
-  // "/assets/Counsalting 2.jpg"     → Red face — bg/shadow use ONLY
-  // "/assets/dr j gill 2.jpg"       → Red face — bg/shadow use ONLY
-  // "/assets/counsalting.jpg"       → Red face — bg/shadow use ONLY
- 
-  /* ─────────────────────────────────────────────────────────────
-     RED-FACE PHOTOS — BACKGROUND / SHADOW USE ONLY
-     Per Dr. Gill: "I like my red face pics used as shadow pics for background"
-  ───────────────────────────────────────────────────────────────*/
-  BG_SHADOW_1: "/assets/Counsalting 2.jpg",             // ✅ Shadow/bg tint only
-  BG_SHADOW_2: "/assets/dr j gill 2.jpg",               // ✅ Shadow/bg tint only
-  BG_SHADOW_3: "/assets/counsalting.jpg",               // ✅ Shadow/bg tint only
- 
-  /* ─────────────────────────────────────────────────────────────
-     LOGO
-  ───────────────────────────────────────────────────────────────*/
-  LOGO: "/assets/tri-valley-logo-header.png",           // ✅ PNG with transparent bg
+
+  // ── DR. GILL ──────────────────────────────────────────────────────
+  DR_GILL_CARD:      "/assets/dr-gill-white.jpg",         // white bg solo (new shoot)
+  DR_GILL_HERO:      "/assets/dr-gill-outdoor.jpg",        // outdoor solo hero (new shoot)
+  DR_GILL_HERO_2:    "/assets/dr-gill-outdoor.jpg",        // same, secondary use
+  DR_GILL_INSIDE:    "/assets/dr J gill-inside.jpg",       // inside clinic — approved, keep
+
+  // ── DR. GONDARA ───────────────────────────────────────────────────
+  DR_GONDARA_CARD:    "/assets/dr-gondara-white.jpg",      // white bg solo (new shoot)
+  DR_GONDARA_WORKING: "/assets/dr2-consulting.jpg",        // Dr. Gondara with patient (new)
+
+  // ── BOTH DOCTORS ──────────────────────────────────────────────────
+  BOTH_OUTDOOR:       "/assets/both-doctors-outdoor.jpg",  // outdoor trees (new shoot)
+  BOTH_CLINIC:        "/assets/both-doctors-clinic.jpg",   // inside clinic together (new shoot)
+  BOTH_ARMS_CROSSED:  "/assets/both-doctors-arms-crossed.jpg", // white bg arms crossed (new)
+  BOTH_RECEPTION:     "/assets/both1.jpg",                 // both at reception desk
+
+  // ── CLINIC SPACES — clean, approved ──────────────────────────────
+  // ❌ reciptent.jpg — PERMANENTLY BANNED (per Dr. Gill)
+  CLINIC_INSIDE:    "/assets/inside clinic1.jpg",          // waiting area (no receptionist)
+  CLINIC_INTERIOR:  "/assets/inetrioir clinic.jpg",        // ⚠️  has old people — use CLINIC_CHAIRS instead
+  CLINIC_EXTERIOR:  "/assets/outdoor1.jpg",                // new exterior shot
+  CLINIC_OFFICE:    "/assets/indoor1.jpg",                 // front office (indoor1 — office.jpg may not exist)
+  CLINIC_TABLE:     "/assets/emptytabel.jpg",              // consultation room
+  CLINIC_MAGAZINES: "/assets/magzize.jpg",                 // waiting lounge
+  CLINIC_CHAIRS:    "/assets/chairs1.jpg",                 // ✅ clean waiting area — preferred over CLINIC_INTERIOR
+  CLINIC_INDOOR:    "/assets/indoor1.jpg",                 // modern indoor — new clean shot
+  CLINIC_CONSULT:   "/assets/dr2-consulting.jpg",          // Dr. Gondara consulting
+
+  // ── BLOG POST THUMBNAILS (no red-face, no receptionist) ───────────
+  BLOG_PSYCHIATRY:  "/assets/dr-gill-outdoor.jpg",         // Dr. Gill outdoor — psychiatry posts
+  BLOG_WEIGHT:      "/assets/dr-gill-white.jpg",           // Dr. Gill white — weight loss posts
+  BLOG_ADHD:        "/assets/dr2-consulting.jpg",          // consulting — ADHD posts
+  BLOG_TELEHEALTH:  "/assets/indoor1.jpg",                 // clean indoor — telehealth posts
+  BLOG_IV:          "/assets/chairs1.jpg",                 // chairs — IV hydration posts
+  BLOG_MEDICATION:  "/assets/indoor1.jpg",                 // clean indoor — medication posts
+  BLOG_TMS:         "/assets/inetrioir clinic.jpg",        // interior — TMS posts
+  BLOG_WELLNESS:    "/assets/dr-gill-outdoor.jpg",         // Dr. Gill outdoor — wellness posts
+
+  // ── RED-FACE — BACKGROUND/SHADOW USE ONLY ────────────────────────
+  // Use ONLY as dark overlaid backgrounds — never as visible doctor photos
+  BG_SHADOW_1: "/assets/Counsalting 2.jpg",
+  BG_SHADOW_2: "/assets/dr j gill 2.jpg",
+  BG_SHADOW_3: "/assets/counsalting.jpg",
+
+  // ── LOGO ──────────────────────────────────────────────────────────
+  LOGO: "/assets/tri-valley-logo-header.png",
 };
- 
+
 export default IMAGES;

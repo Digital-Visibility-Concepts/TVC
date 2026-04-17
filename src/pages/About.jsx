@@ -67,7 +67,7 @@ function DoctorAvatars() {
         <div key={d.name} className="flex flex-col items-center gap-2">
           <div className="relative">
             <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-[#B8925A]/60 shadow-[0_8px_32px_rgba(184,146,90,0.2)]">
-              <img src={d.img} alt={d.alt} className="w-full h-full object-cover object-top" />
+              <img src={d.img} alt={d.alt} className="w-full h-full object-cover" style={{ objectPosition: "center 8%" }} />
             </div>
             <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#6B7C5E] border-2 border-[#F5EEE4]" />
           </div>
@@ -204,7 +204,7 @@ function HeroSection() {
             <div className="absolute inset-0 translate-x-3 translate-y-3 bg-[#B8925A]/20 -z-10" />
             <span className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-[#B8925A] z-20" />
             <span className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-[#B8925A] z-20" />
-            <div className="w-[200px] md:w-[240px] overflow-hidden" style={{ height: "420px" }}>
+            <div className="w-[200px] md:w-[240px] overflow-hidden bg-white" style={{ height: "420px" }}>
               {/* 🔄 Photo 1 → dr-gill-outdoor.jpg */}
               <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill"
                 className="w-full h-full object-cover object-top" />
@@ -220,10 +220,10 @@ function HeroSection() {
             <div className="absolute inset-0 translate-x-3 translate-y-3 bg-[#B8925A]/15 -z-10" />
             <span className="absolute -top-3 -right-3 w-8 h-8 border-t-2 border-r-2 border-[#B8925A] z-20" />
             <span className="absolute -bottom-3 -left-3 w-8 h-8 border-b-2 border-l-2 border-[#B8925A] z-20" />
-            <div className="w-[200px] md:w-[240px] overflow-hidden" style={{ height: "420px" }}>
+            <div className="w-[200px] md:w-[240px] overflow-hidden bg-white" style={{ height: "420px" }}>
               {/* 🔄 Photo 19 → dr-gondara-white.jpg */}
               <img src={IMAGES.DR_GONDARA_CARD} alt="Dr. Gondara"
-                className="w-full h-full object-cover object-top" />
+                className="w-full h-full" style={{ objectFit: "contain", objectPosition: "center top", background: "white" }} />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2C1A0E]/80 to-transparent px-4 py-4 z-10">
                 <p style={{ fontFamily: "'Cormorant Garamond',serif" }} className="text-[#C9A46A] text-base font-light italic">Dr. Gondara</p>
                 <p className="text-[#E8D5BE]/60 text-[8px] tracking-[0.2em] uppercase mt-0.5">Lead Psychiatrist</p>
@@ -334,7 +334,7 @@ function DrGillBioSection() {
                 <div className="overflow-hidden" style={{ height: "400px" }}>
                   {/* 🔄 Photo 1 → dr-gill-outdoor.jpg */}
                   <img src={IMAGES.DR_GILL_HERO} alt="Dr. Japsharan Gill"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-[1.04]" />
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.04]" style={{ objectPosition: "50% 10%" }} />
                 </div>
                 <div className="bg-[#2C1A0E] px-5 py-4">
                   <p style={{ fontFamily: "'Cormorant Garamond',serif" }} className="text-[#C9A46A] text-lg font-light italic">Dr. Japsharan Gill, MD</p>
@@ -477,26 +477,18 @@ function DrGondaraBioSection() {
               <div className="relative">
                 <div className="absolute top-5 -right-5 left-5 bottom-0 bg-[#E8D5BE]/50 -z-10" />
                 <div className="absolute top-0 right-0 w-[3px] h-24 bg-[#B8925A]" />
-                <div className="overflow-hidden" style={{ height: "400px" }}>
-                  {/* 🔄 Photo 19 → dr-gondara-white.jpg */}
+                <div className="overflow-hidden bg-white" style={{ height: "540px" }}>
+                  {/* dr-gondara-white.jpg — full body, white bg, no cropping with contain */}
                   <img src={IMAGES.DR_GONDARA_CARD} alt="Dr. Gondara"
-                    className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-[1.04]" />
+                    className="w-full h-full transition-transform duration-700 hover:scale-[1.02]"
+                    style={{ objectFit: "contain", objectPosition: "center top" }} />
                 </div>
                 <div className="bg-[#2C1A0E] px-5 py-4">
                   <p style={{ fontFamily: "'Cormorant Garamond',serif" }} className="text-[#C9A46A] text-lg font-light italic">Dr. Gondara, MD</p>
                   <p className="text-[9px] tracking-[0.2em] uppercase text-[#8A7E78] mt-0.5">Lead Psychiatrist · Tri-Valley Clinic</p>
                 </div>
               </div>
-              {/* Second photo — both doctors together */}
-              <div className="relative overflow-hidden border border-[#E8D5BE]" style={{ height: "200px" }}>
-                {/* 🔄 Photo 11 → both-doctors-outdoor.jpg */}
-                <img src={IMAGES.BOTH_OUTDOOR} alt="Dr. Gill and Dr. Gondara"
-                  className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.05]" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/55 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <p className="text-[9px] tracking-[0.2em] uppercase text-[#E8D5BE]/80">Dr. Gill & Dr. Gondara · Partners</p>
-                </div>
-              </div>
+
             </div>
           </div>
         </div>
@@ -510,11 +502,16 @@ function ClinicGallerySection() {
   const [ref, vis] = useReveal();
   /* ❌ reciptent.jpg REMOVED */
   const photos = [
-    { src: IMAGES.CLINIC_INSIDE,    label: "Reception & Waiting Area",  span: "lg:col-span-2 lg:row-span-2" },
-    { src: IMAGES.CLINIC_OFFICE,    label: "Front Office",               span: "" },
-    { src: IMAGES.CLINIC_TABLE,     label: "Private Consultation Room",  span: "" },
-    { src: IMAGES.CLINIC_INTERIOR,  label: "Clinic Interior",            span: "" },
-    { src: IMAGES.CLINIC_MAGAZINES, label: "Comfortable Waiting Lounge", span: "" },
+    { src: IMAGES.CLINIC_INSIDE,       label: "Reception & Waiting Area",  span: "lg:col-span-2 lg:row-span-2",
+      pos: "object-top" },
+    { src: IMAGES.BOTH_CLINIC,         label: "Dr. Gill & Dr. Gondara",    span: "",
+      pos: "object-top" },
+    { src: IMAGES.DR_GONDARA_WORKING,  label: "Patient Consultation",      span: "",
+      pos: "object-center" },
+    { src: IMAGES.DR_GILL_INSIDE,      label: "Dr. Japsharan Gill, MD",    span: "",
+      pos: "object-top" },
+    { src: IMAGES.CLINIC_EXTERIOR,     label: "680 Mowry Ave · Fremont",   span: "",
+      pos: "object-center" },
   ];
   return (
     <section className="py-20 px-5 md:px-10 bg-[#F5EEE4]">
@@ -534,7 +531,7 @@ function ClinicGallerySection() {
               className={`relative overflow-hidden group cursor-default ${p.span} ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
               style={{ transition: "all 700ms ease", transitionDelay: `${i * 100}ms` }}>
               <img src={p.src} alt={p.label}
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                className={`w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 ${p.pos || "object-center"}`} />
               <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400" />
               <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#B8925A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">

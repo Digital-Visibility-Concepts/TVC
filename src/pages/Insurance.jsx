@@ -5,13 +5,13 @@ import { useEffect, useRef, useState } from "react";
 
 /* ── PHOTOS ── */
 const P = {
-  clinicInside   : "/src/assets/inside clinic1.jpg",
-  office         : "/src/assets/office.jpg",
-  receptionist   : "/src/assets/reciptent.jpg",
-  drGillInside   : "/src/assets/dr J gill-inside.jpg",
-  drGillPortrait : "/src/assets/Gill_Japsharan.jpg",
-  consulting1    : "/src/assets/counsalting.jpg",
-  clinicInterior : "/src/assets/inetrioir clinic.jpg",
+  clinicInside   : "/assets/inside clinic1.jpg",
+  office         : "/assets/office.jpg",
+  receptionist   : "/assets/indoor1.jpg"     /* ❌ reciptent BANNED → indoor1 */,
+  drGillInside   : "/assets/dr J gill-inside.jpg",
+  drGillPortrait : "/assets/dr-gill-outdoor.jpg",
+  consulting1    : "/assets/dr2-consulting.jpg"  /* ✅ Dr. Gondara consulting */,
+  clinicInterior : "/assets/inetrioir clinic.jpg",
 };
 
 /* ── INSURANCE PLANS ── */
