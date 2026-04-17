@@ -69,6 +69,13 @@ function Marquee(){
   return(<div className="bg-[#2C1A0E] py-3.5 overflow-hidden"><div className="flex whitespace-nowrap" style={{animation:"marquee 36s linear infinite",width:"max-content"}}>{rep.map((t,i)=><span key={i} className="inline-flex items-center gap-3 text-[#E8D5BE]/60 text-[10px] tracking-[0.22em] uppercase font-medium px-3">{t}<Dm/></span>)}</div></div>);
 }
 
+// ── Field and input class defined OUTSIDE MainSection ──
+// If defined inside, React recreates them on every keystroke → input loses focus
+function Field({label,error,children}){
+  return(<div><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/80 font-semibold block mb-2">{label}</label>{children}{error&&<p className="text-red-400 text-[10px] mt-1">{error}</p>}</div>);
+}
+const ic=`w-full bg-[#FDFAF6] border border-[#E8D5BE] px-4 py-3.5 text-sm text-[#2C1A0E] placeholder-[#7A6556]/40 focus:outline-none focus:border-[#B8925A] transition-colors duration-300 rounded-none`;
+
 function MainSection(){
   const[ref,v]=useReveal();
   const[form,setForm]=useState({name:"",phone:"",email:"",reason:"",message:""});
@@ -108,8 +115,6 @@ function MainSection(){
       setSending(false);
     }
   };
-  const Field=({label,error,children})=>(<div><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/80 font-semibold block mb-2">{label}</label>{children}{error&&<p className="text-red-400 text-[10px] mt-1">{error}</p>}</div>);
-  const ic=`w-full bg-[#FDFAF6] border border-[#E8D5BE] px-4 py-3.5 text-sm text-[#2C1A0E] placeholder-[#7A6556]/40 focus:outline-none focus:border-[#B8925A] transition-colors duration-300 rounded-none`;
   return(
     <section className="py-24 px-5 md:px-10 bg-[#FDFAF6]">
       <div className="mx-auto max-w-7xl">
