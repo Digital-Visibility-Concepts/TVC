@@ -312,7 +312,7 @@ function ExperienceSection() {
             <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#B8925A] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"/>
             <div className="absolute bottom-0 left-0 right-0 p-5">
               <p className="text-[8px] tracking-[0.22em] uppercase text-[#C9A46A] font-semibold">Dr. Gondara, MD</p>
-              <p className="text-[#E8D5BE]/55 text-[8px] tracking-wider mt-0.5">Lead Psychiatrist</p>
+              <p className="text-[#E8D5BE]/55 text-[8px] tracking-wider mt-0.5">President</p>
             </div>
             <span className="absolute top-3 left-3 w-6 h-6 border-t border-l border-[#B8925A]/0 group-hover:border-[#B8925A] transition-colors duration-400"/>
           </div>
@@ -449,7 +449,7 @@ function DrGillSection() {
               Dr. Japsharan<br/><em className="italic text-[#B8925A]">Gill, MD</em>
             </h2>
             <p className="text-[11px] tracking-[0.24em] uppercase text-[#7A6556] mb-1 font-medium">Founder & CEO</p>
-            <p className="text-[11px] tracking-[0.24em] uppercase text-[#7A6556]/60 mb-8 font-medium">& Dr. Gondara · Lead Psychiatrist</p>
+            <p className="text-[11px] tracking-[0.24em] uppercase text-[#7A6556]/60 mb-8 font-medium">& Dr. Gondara · President</p>
             <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-4">
               I built Tri-Valley Clinic for people who wanted more than a quick appointment and a prescription — for people who wanted a physician who actually listens.
             </p>
@@ -457,7 +457,7 @@ function DrGillSection() {
               I specialize in psychiatry, medical weight management, and advanced wellness. These areas are deeply connected — your mental health, your weight, your energy, and your sense of self. Most practices treat them separately. We don't.
             </p>
             <ul className="space-y-3 mb-10">
-              {["Board-Eligible Psychiatry & Wellness","Founder & CEO, Tri-Valley Clinic","Dr. Gondara — Lead Psychiatrist","GLP-1 · IV Hydration · TMS Launching Soon","Telehealth — Statewide California","Free 15-Min Consultation for all new patients"].map((c)=>(
+              {["Board-Eligible Psychiatry & Wellness","Founder & CEO, Tri-Valley Clinic","Dr. Gondara — President","GLP-1 · IV Hydration · TMS Launching Soon","Telehealth — Statewide California","Free 15-Min Consultation for all new patients"].map((c)=>(
                 <li key={c} className="flex items-start gap-3 text-sm text-[#7A6556]"><span className="w-1.5 h-1.5 rounded-full bg-[#B8925A] flex-shrink-0 mt-2"/>{c}</li>
               ))}
             </ul>

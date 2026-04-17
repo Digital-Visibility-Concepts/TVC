@@ -62,7 +62,7 @@ function DoctorAvatars() {
     <div className="flex justify-center gap-8 mb-10">
       {[
         { img: IMAGES.DR_GILL_CARD,    alt: "Dr. Japsharan Gill", name: "Dr. Gill",    role: "Founder & CEO"      },
-        { img: IMAGES.DR_GONDARA_CARD, alt: "Dr. Gondara",         name: "Dr. Gondara", role: "Lead Psychiatrist"  },
+        { img: IMAGES.DR_GONDARA_CARD, alt: "Dr. Gondara",         name: "Dr. Gondara", role: "President"  },
       ].map((d) => (
         <div key={d.name} className="flex flex-col items-center gap-2">
           <div className="relative">
@@ -156,7 +156,7 @@ function HeroSection() {
           <div className={`flex items-center gap-4 mb-6 transition-all duration-700 ${on ? "opacity-100" : "opacity-0"}`}
             style={{ transitionDelay: "400ms" }}>
             <span className="w-12 h-px bg-[#B8925A]/50" />
-            <span className="text-[10px] tracking-[0.24em] uppercase text-[#7A6556] font-medium">Dr. Japsharan Gill · Founder & CEO &nbsp;|&nbsp; Dr. Gondara · Lead Psychiatrist</span>
+            <span className="text-[10px] tracking-[0.24em] uppercase text-[#7A6556] font-medium">Dr. Japsharan Gill · Founder & CEO &nbsp;|&nbsp; Dr. Gondara · President</span>
           </div>
 
           <p className={`text-[#7A6556] text-[17px] leading-relaxed max-w-[440px] font-light mb-10 transition-all duration-700 ${on ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
@@ -226,7 +226,7 @@ function HeroSection() {
                 className="w-full h-full" style={{ objectFit: "contain", objectPosition: "center top", background: "white" }} />
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[#2C1A0E]/80 to-transparent px-4 py-4 z-10">
                 <p style={{ fontFamily: "'Cormorant Garamond',serif" }} className="text-[#C9A46A] text-base font-light italic">Dr. Gondara</p>
-                <p className="text-[#E8D5BE]/60 text-[8px] tracking-[0.2em] uppercase mt-0.5">Lead Psychiatrist</p>
+                <p className="text-[#E8D5BE]/60 text-[8px] tracking-[0.2em] uppercase mt-0.5">President</p>
               </div>
             </div>
           </div>
@@ -258,7 +258,7 @@ function HeroSection() {
 
 /* ══ 2. MARQUEE ══ */
 function MarqueeStrip() {
-  const items = ["Dr. Japsharan Gill · Founder & CEO", "Dr. Gondara · Lead Psychiatrist", "Psychiatry & Wellness", "15+ Years Experience", "Fremont, CA", "Free Consultation", "Next-Day Appointments", "Telehealth · Statewide CA", "GLP-1 Weight Loss", "IV Hydration", "TMS Therapy · Coming Soon"];
+  const items = ["Dr. Japsharan Gill · Founder & CEO", "Dr. Gondara · President", "Psychiatry & Wellness", "15+ Years Experience", "Fremont, CA", "Free Consultation", "Next-Day Appointments", "Telehealth · Statewide CA", "GLP-1 Weight Loss", "IV Hydration", "TMS Therapy · Coming Soon"];
   const rep = [...items, ...items];
   return (
     <div className="bg-[#2C1A0E] py-3.5 overflow-hidden">
@@ -423,13 +423,13 @@ function DrGondaraBioSection() {
           <div ref={ref} className={`transition-all duration-1000 ${vis ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-12"}`}>
             <div className="flex items-center gap-3 mb-3">
               <span className="w-8 h-px bg-[#B8925A]" />
-              <span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Lead Psychiatrist</span>
+              <span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">President</span>
             </div>
             <h2 className="text-5xl md:text-6xl text-[#2C1A0E] mb-2"
               style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300, lineHeight: 1.1 }}>
               Dr.<br /><em className="italic text-[#B8925A]">Gondara, MD</em>
             </h2>
-            <p className="text-[11px] tracking-[0.28em] uppercase text-[#B8925A] font-bold mb-10">Lead Psychiatrist</p>
+            <p className="text-[11px] tracking-[0.28em] uppercase text-[#B8925A] font-bold mb-10">President</p>
 
             <div className="space-y-5 text-[#7A6556] text-[15px] leading-[1.95] font-light">
               <p>
@@ -485,7 +485,7 @@ function DrGondaraBioSection() {
                 </div>
                 <div className="bg-[#2C1A0E] px-5 py-4">
                   <p style={{ fontFamily: "'Cormorant Garamond',serif" }} className="text-[#C9A46A] text-lg font-light italic">Dr. Gondara, MD</p>
-                  <p className="text-[9px] tracking-[0.2em] uppercase text-[#8A7E78] mt-0.5">Lead Psychiatrist · Tri-Valley Clinic</p>
+                  <p className="text-[9px] tracking-[0.2em] uppercase text-[#8A7E78] mt-0.5">President · Tri-Valley Clinic</p>
                 </div>
               </div>
 
@@ -550,7 +550,7 @@ function CredentialsSection() {
   const [ref, vis] = useReveal();
   const cols = [
     { cat: "Dr. Gill",    items: ["Board-Eligible — Psychiatry & Wellness", "Founder & CEO, Tri-Valley Clinic", "Medical Degree — Ross University School of Medicine", "Licensed Physician — State of California", "GLP-1 · IV Hydration · TMS Programs"] },
-    { cat: "Dr. Gondara", items: ["Lead Psychiatrist, Tri-Valley Clinic", "Comprehensive Psychiatric Evaluations", "Medication Management — Adult Psychiatry", "Patient-Centered Evidence-Based Treatment", "Telehealth — Available Statewide CA"] },
+    { cat: "Dr. Gondara", items: ["President, Tri-Valley Clinic", "Comprehensive Psychiatric Evaluations", "Medication Management — Adult Psychiatry", "Patient-Centered Evidence-Based Treatment", "Telehealth — Available Statewide CA"] },
     { cat: "Conditions",  items: ["Anxiety Disorders (GAD, Social, Panic)", "Major Depressive Disorder", "ADHD — Adult Diagnosis & Management", "PTSD & Trauma-Related Disorders", "Bipolar I & II · OCD · Insomnia · Substance Abuse"] },
     { cat: "Telehealth",  items: ["HIPAA-Compliant Secure Video Visits", "Available Statewide — All of California", "Same-Day & Next-Day Scheduling", "Prescription Management Included"] },
   ];

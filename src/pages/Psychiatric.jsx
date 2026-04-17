@@ -50,7 +50,7 @@ function Hero(){
             Comprehensive adult psychiatric evaluations, precise diagnosis, and personalized medication management — delivered by Dr. Gill and Dr. Gondara with warmth and clinical excellence.
           </p>
           <div className={`flex flex-wrap gap-4 mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"540ms"}}>
-            <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+            <a href="/contact" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
             <a href="#conditions" className="flex items-center gap-3 border border-[#B8925A]/50 text-[#C9A46A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">View Conditions ↓</a>
           </div>
           <div className={`flex flex-wrap gap-3 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"640ms"}}>
@@ -161,7 +161,7 @@ function DrSection(){
             <div className="absolute top-0 left-0 w-[3px] h-24 bg-[#B8925A]"/>
             <div className="overflow-hidden" style={{height:"460px"}}>
               {/* ✅ Approved inside clinic photo */}
-              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Gill consultation" className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-[1.04]"/>
+              <img src={IMAGES.DR_GILL_HERO} alt="Dr. Gill consultation" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.04]" style={{objectPosition:"center 25%"}}/>
             </div>
             {/* 🔄 Photo 11 — both doctors floating */}
             <div className="absolute -bottom-6 -right-4 md:-right-6 w-[170px] overflow-hidden border-[3px] border-[#FDFAF6] shadow-xl z-10" style={{height:"200px",animation:"floatBadge 5s ease-in-out infinite"}}>
