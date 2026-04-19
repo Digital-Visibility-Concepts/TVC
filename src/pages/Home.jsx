@@ -356,7 +356,7 @@ function ServicesSection() {
     { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_CARD,     tag:"Core",         href:"/psychiatric",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
     { title:"Medical Weight Loss",     sub:"GLP-1 / Semaglutide Programs",      img:IMAGES.DR_GILL_HERO_2,   tag:"Now Available", href:"/weight-loss",  desc:"Physician-supervised weight loss with FDA-approved GLP-1 medications, monitored by Dr. Gill or Dr. Gondara personally.", accent:"#B8925A" },
     { title:"IV Hydration Therapy",    sub:"Restore · Revive · Rehydrate",      img:IMAGES.CLINIC_TABLE,     tag:"Unique",        href:"/iv-hydration", desc:"Premium IV nutrient therapy in a spa-like setting — tailored formulas for energy, immunity, and wellness.", accent:"#A8C59A" },
-    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_INTERIOR,  tag:"Coming Soon",   href:"/tms",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression. Launching soon.",          accent:"#C9A46A" },
+    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Coming Soon",   href:"/tms",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression. Launching soon.",          accent:"#C9A46A" },
   ];
   return(
     <section className="py-24 px-5 md:px-10" style={{ background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)" }}>
@@ -478,13 +478,13 @@ function ClinicStripSection() {
    
     { src:IMAGES.CLINIC_INSIDE,    label:"Reception & Waiting"     },
     
-    { src:IMAGES.CLINIC_INTERIOR,  label:"Clinic Interior"         },
+    { src:IMAGES.BOTH_ARMS_CROSSED, label:"Dr. Gill & Dr. Gondara"  },
      { src:IMAGES.CLINIC_INDOOR,    label:"Front Office"            },
     { src:IMAGES.CLINIC_MAGAZINES, label:"Waiting Lounge"          },
     /* 🔄 Photo 15 — both doctors inside clinic */
-    { src:IMAGES.BOTH_CLINIC,      label:"Our Physicians"          },
+    // { src:IMAGES.BOTH_CLINIC,      label:"Our Physicians",  pos:"center 15%"  },
     /* 🔄 Photo 11 — both doctors outdoor */
-    { src:IMAGES.BOTH_OUTDOOR,     label:"Dr. Gill & Dr. Gondara"  },
+    { src:IMAGES.BOTH_OUTDOOR,     label:"Dr. Gill & Dr. Gondara", pos:"center 12%" },
     { src:IMAGES.CLINIC_EXTERIOR,  label:"680 Mowry Ave · Fremont" },
   ];
   return(
@@ -505,7 +505,7 @@ function ClinicStripSection() {
           <div key={p.label}
             className={`group relative flex-shrink-0 overflow-hidden cursor-pointer transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}
             style={{ width:"280px",height:"360px",scrollSnapAlign:"start",transitionDelay:`${i*80}ms` }}>
-            <img src={p.src} alt={p.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+            <img src={p.src} alt={p.label} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" style={{objectPosition: p.pos || "center center"}}/>
             <div className="absolute inset-0 bg-gradient-to-t from-[#2C1A0E]/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400"/>
             <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-3 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
               <p className="text-[9px] tracking-[0.2em] uppercase text-[#E8D5BE] font-medium">{p.label}</p>
@@ -711,7 +711,7 @@ function FinalCTA() {
           <div className="relative">
             {/* 🔄 REPLACE with: /assets/dr-gondara-white.jpg (Photo 19 white bg) */}
             <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-[#B8925A]/40 shadow-lg">
-              <img src={IMAGES.DR_GONDARA_CARD} alt="Dr. Gondara" className="w-full h-full object-cover object-top"/>
+              <img src="/assets/dr-gondara-white.jpg" alt="Dr. Gondara" className="w-full h-full object-cover" style={{objectPosition:"center 15%"}}/>
             </div>
             <span className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#6B7C5E] border-2 border-[#F5EEE4]"/>
           </div>

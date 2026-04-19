@@ -62,7 +62,7 @@ function DoctorAvatars() {
     <div className="flex justify-center gap-8 mb-10">
       {[
         { img: IMAGES.DR_GILL_CARD,    alt: "Dr. Japsharan Gill", name: "Dr. Gill",    role: "Founder & CEO"      },
-        { img: IMAGES.DR_GONDARA_CARD, alt: "Dr. Gondara",         name: "Dr. Gondara", role: "President"  },
+        { img: "/assets/dr-gondara-white.jpg", alt: "Dr. Gondara", name: "Dr. Gondara", role: "President"  },
       ].map((d) => (
         <div key={d.name} className="flex flex-col items-center gap-2">
           <div className="relative">

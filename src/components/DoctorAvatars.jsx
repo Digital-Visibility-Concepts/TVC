@@ -1,16 +1,24 @@
 // src/components/DoctorAvatars.jsx
-// DR_GILL_CARD    → white bg solo  (small circle avatar)
-// DR_GONDARA_WHITE → white bg solo  (small circle avatar)
-// DR_GONDARA_CARD  → outdoor green  (About page large portrait only)
-
 import IMAGES from "../constants/images";
 
 export default function DoctorAvatars({ className = "" }) {
   return (
     <div className={`flex justify-center gap-8 ${className}`}>
       {[
-        { img: IMAGES.DR_GILL_CARD,     alt: "Dr. Japsharan Gill", name: "Dr. Gill",    role: "Founder & CEO" },
-        { img: IMAGES.DR_GONDARA_WHITE, alt: "Dr. Gondara",         name: "Dr. Gondara", role: "President"     },
+        {
+          img: IMAGES.DR_GILL_CARD || "/assets/dr-gill-white.jpg",
+          alt: "Dr. Japsharan Gill",
+          name: "Dr. Gill",
+          role: "Founder & CEO",
+          pos: "center 15%",
+        },
+        {
+          img: "/assets/dr-gondara-white.jpg",
+          alt: "Dr. Gondara",
+          name: "Dr. Gondara",
+          role: "President",
+          pos: "center 15%",
+        },
       ].map((d) => (
         <div key={d.name} className="flex flex-col items-center gap-2">
           <div className="relative">
@@ -18,7 +26,8 @@ export default function DoctorAvatars({ className = "" }) {
               <img
                 src={d.img}
                 alt={d.alt}
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover"
+                style={{ objectPosition: d.pos }}
               />
             </div>
             <span className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#6B7C5E] border-2 border-[#F5EEE4]" />
