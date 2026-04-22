@@ -1,0 +1,9 @@
+---
+deployment:
+  tasks:
+    - cd /home/trivalleyclinic/repositories/tvc
+    - npm install
+    - npm run build
+    - rm -rf /home/trivalleyclinic/public_html/*
+    - /bin/cp -R dist/* /home/trivalleyclinic/public_html/
+    - /bin/cp dist/.htaccess /home/trivalleyclinic/public_html/ 2>/dev/null; true
