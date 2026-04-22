@@ -24,8 +24,8 @@ jobs:
       - name: Upload to cPanel
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
+          server: 148.135.62.11
+          username: trivalleyclinic
+          password: hidjo4-qojwec-wYcjyv
           server-dir: /public_html/
           local-dir: ./dist/
