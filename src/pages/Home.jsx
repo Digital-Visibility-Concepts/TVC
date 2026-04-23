@@ -94,20 +94,25 @@ export default function Home() {
 function HeroSection() {
   const canvasRef = useRef(null);
   const [phase, setPhase] = useState(0);
-  // phase 0=black, 1=scanline, 2=photo reveal, 3=text, 4=full
+  const [scrollY, setScrollY] = useState(0);
 
-  // ── Cinematic reveal sequence ──
   useEffect(() => {
-    const timers = [
-      setTimeout(() => setPhase(1), 200),   // scan line sweeps
-      setTimeout(() => setPhase(2), 700),   // photo wipes in
-      setTimeout(() => setPhase(3), 1300),  // text reveals
-      setTimeout(() => setPhase(4), 2200),  // everything settled
+    const t = [
+      setTimeout(() => setPhase(1), 150),
+      setTimeout(() => setPhase(2), 600),
+      setTimeout(() => setPhase(3), 1200),
+      setTimeout(() => setPhase(4), 2100),
     ];
-    return () => timers.forEach(clearTimeout);
+    return () => t.forEach(clearTimeout);
   }, []);
 
-  // ── Gold particle canvas ──
+  useEffect(() => {
+    const fn = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", fn, { passive: true });
+    return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  // Gold particle canvas
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -116,115 +121,197 @@ function HeroSection() {
     const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
     resize();
     window.addEventListener("resize", resize);
-
-    const GOLD = [[184,146,90],[201,164,106],[232,213,190],[139,105,60]];
-    const particles = Array.from({length:90}, () => ({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 1.8 + 0.4,
-      a: Math.random() * 0.7 + 0.1,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: -(Math.random() * 0.6 + 0.15),
-      pulse: Math.random() * Math.PI * 2,
-      col: GOLD[Math.floor(Math.random()*4)],
+    const GOLD = [[184,146,90],[201,164,106],[232,213,190]];
+    const N = window.innerWidth < 768 ? 45 : 90;
+    const P = Array.from({length:N}, () => ({
+      x:Math.random()*(canvas.width||400), y:Math.random()*(canvas.height||700),
+      r:Math.random()*1.6+0.3, a:Math.random()*0.55+0.08,
+      vx:(Math.random()-0.5)*0.22, vy:-(Math.random()*0.45+0.1),
+      ph:Math.random()*Math.PI*2, col:GOLD[Math.floor(Math.random()*3)],
     }));
-
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => {
-        p.pulse += 0.025;
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.y < -4) { p.y = canvas.height + 4; p.x = Math.random() * canvas.width; }
-        if (p.x < -4) p.x = canvas.width + 4;
-        if (p.x > canvas.width + 4) p.x = -4;
-        const pulsedA = p.a * (0.6 + 0.4 * Math.sin(p.pulse));
-        const pulsedR = p.r * (0.85 + 0.15 * Math.sin(p.pulse * 1.3));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, pulsedR, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${p.col[0]},${p.col[1]},${p.col[2]},${pulsedA})`;
+      const w=canvas.width, h=canvas.height;
+      ctx.clearRect(0,0,w,h);
+      P.forEach(p=>{
+        p.ph+=0.022; p.x+=p.vx; p.y+=p.vy;
+        if(p.y<-4){p.y=h+4;p.x=Math.random()*w;}
+        if(p.x<-4) p.x=w+4; if(p.x>w+4) p.x=-4;
+        const a=p.a*(0.6+0.4*Math.sin(p.ph));
+        const r=p.r*(0.85+0.15*Math.sin(p.ph*1.3));
+        ctx.beginPath(); ctx.arc(p.x,p.y,r,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${p.col[0]},${p.col[1]},${p.col[2]},${a})`;
         ctx.fill();
       });
-      raf = requestAnimationFrame(draw);
+      raf=requestAnimationFrame(draw);
     };
     draw();
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", resize); };
+    return ()=>{cancelAnimationFrame(raf);window.removeEventListener("resize",resize);};
   }, []);
 
-  // ── Scroll parallax ──
-  const [scrollY, setScrollY] = useState(0);
-  useEffect(() => {
-    const fn = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", fn, { passive: true });
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  const words = ["Where", "Healing", "Meets", "Luxury."];
+  const words = ["Where","Healing","Meets","Luxury."];
 
   return (
-    <section className="relative overflow-hidden" style={{height:"100vh",minHeight:720}}>
+    <section className="relative overflow-hidden" style={{height:"100svh",minHeight:620}}>
 
-      {/* ── BLACK CURTAIN — fades out at phase 2 ── */}
+      {/* ── BLACK CURTAIN ── */}
       <div className="absolute inset-0 z-30 pointer-events-none transition-opacity duration-700"
         style={{background:"#0A0604",opacity:phase>=2?0:1}}/>
 
       {/* ── GOLD SCAN LINE ── */}
-      <div className="absolute left-0 right-0 z-40 pointer-events-none overflow-hidden" style={{top:0,bottom:0}}>
+      <div className="absolute inset-0 z-40 pointer-events-none overflow-hidden">
         <div style={{
           position:"absolute",left:0,right:0,height:2,
           background:"linear-gradient(to right,transparent,#C9A46A,#F0E8DA,#C9A46A,transparent)",
-          top:0,
-          transform: phase===1?"translateY(100vh)":"translateY(-8px)",
-          transition: phase===1?"transform 0.55s cubic-bezier(0.4,0,0.6,1)":"none",
-          opacity: phase>=2?0:1,
+          top:0,opacity:phase>=2?0:1,
+          transform:phase===1?"translateY(100vh)":"translateY(-8px)",
+          transition:phase===1?"transform 0.5s cubic-bezier(0.4,0,0.6,1)":"none",
         }}/>
       </div>
 
-      {/* ── SPLIT LAYOUT ── */}
-      <div className="absolute inset-0 flex flex-col lg:flex-row">
+      {/* ══════════════════════════════
+          MOBILE  (< lg)
+          Full-screen photo hero — luxury magazine cover style
+          Text anchored at BOTTOM over heavy gradient
+      ══════════════════════════════ */}
+      <div className="lg:hidden absolute inset-0">
 
-        {/* LEFT PANEL — dark luxury text side */}
-        <div className="relative z-10 flex flex-col justify-end lg:justify-center w-full lg:w-[48%]"
+        {/* Full bleed photo */}
+        <div className="absolute inset-0">
+          <img src={IMAGES.BOTH_OUTDOOR}
+            alt="Dr. Japsharan Gill & Dr. Shabeg Gondara"
+            className="w-full h-full object-cover"
+            style={{objectPosition:"center 12%"}}/>
+        </div>
+
+        {/* Wipe-in reveal — slides up */}
+        <div className="absolute inset-0 bg-[#0A0604] z-10 pointer-events-none"
           style={{
-            background:"linear-gradient(135deg,#1A0F08 0%,#2C1A0E 60%,#3D2B1F 100%)",
-            padding:"clamp(32px,5vw,80px)",
-          }}>
+            transform:phase>=2?"translateY(-100%)":"translateY(0)",
+            transition:"transform 0.9s cubic-bezier(0.77,0,0.18,1)",
+          }}/>
 
-          {/* Grain on dark panel */}
-          <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
-            style={{backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,backgroundSize:"180px"}}/>
+        {/* Canvas particles */}
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-20 pointer-events-none"
+          style={{opacity:phase>=3?0.45:0,transition:"opacity 1.2s ease"}}/>
 
-          {/* Vertical gold line accent */}
-          <div className="absolute left-0 top-12 bottom-12 w-[2px]"
-            style={{background:"linear-gradient(to bottom,transparent,#B8925A 30%,#B8925A 70%,transparent)"}}/>
+        {/* GRADIENT — heavy at bottom, light at top so faces are clear */}
+        <div className="absolute inset-0 z-20 pointer-events-none"
+          style={{background:"linear-gradient(to top, rgba(26,15,8,0.98) 0%, rgba(26,15,8,0.82) 28%, rgba(26,15,8,0.3) 52%, rgba(26,15,8,0.08) 75%, transparent 100%)"}}/>
+        {/* Subtle side vignettes */}
+        <div className="absolute inset-0 z-20 pointer-events-none"
+          style={{background:"linear-gradient(to right,rgba(26,15,8,0.35) 0%,transparent 25%,transparent 75%,rgba(26,15,8,0.35) 100%)"}}/>
+
+        {/* CONTENT — pinned to bottom */}
+        <div className="absolute bottom-0 left-0 right-0 z-30 px-6 pb-8">
 
           {/* Accepting badge */}
-          <div className={`inline-flex items-center gap-2 mb-8 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}
+          <div className={`flex items-center gap-2 mb-4 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-3"}`}
             style={{transitionDelay:"0ms"}}>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse flex-shrink-0"/>
+            <span className="text-[7px] tracking-[0.28em] uppercase text-[#6B7C5E] font-semibold">Accepting New Patients · Fremont, CA</span>
+          </div>
+
+          {/* Headline — word by word drop */}
+          <h1 className="mb-2" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:0.97}}>
+            {words.map((word,i)=>(
+              <span key={word} className="block overflow-hidden">
+                <span className="block transition-all duration-600"
+                  style={{
+                    transitionDelay:`${90+i*90}ms`,
+                    transform:phase>=3?"translateY(0)":"translateY(110%)",
+                    opacity:phase>=3?1:0,
+                    fontSize:"clamp(46px,12vw,68px)",
+                    color:i===1?"#C9A46A":"#F0E8DA",
+                    fontStyle:i===1?"italic":"normal",
+                  }}>{word}</span>
+              </span>
+            ))}
+          </h1>
+
+          {/* Gold divider */}
+          <div className={`flex items-center gap-3 mb-4 transition-all duration-700 ${phase>=3?"opacity-100":"opacity-0"}`}
+            style={{transitionDelay:"480ms"}}>
+            <div className="h-px bg-[#B8925A]" style={{width:phase>=4?40:0,transition:"width 0.7s ease 0.5s"}}/>
+            <Dm size={5}/>
+            <div className="h-px bg-[#B8925A]/20" style={{width:80}}/>
+          </div>
+
+          {/* Sub */}
+          <p className={`text-[#A89880] text-sm font-light leading-relaxed mb-5 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-3"}`}
+            style={{transitionDelay:"560ms",maxWidth:300}}>
+            Psychiatry · Weight Loss · IV Hydration · TMS · Telehealth
+          </p>
+
+          {/* CTAs */}
+          <div className={`flex gap-2.5 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}
+            style={{transitionDelay:"680ms"}}>
+            <a href="tel:5105984921"
+              className="flex items-center gap-2 bg-[#B8925A] text-[#1A0F08] px-5 py-3.5 text-[9px] font-bold tracking-[0.22em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 flex-1 justify-center">
+              <Ph/> Call Now
+            </a>
+            <a href="/contact"
+              className="flex items-center justify-center gap-2 border border-[#B8925A]/50 text-[#C9A46A] px-5 py-3.5 text-[9px] font-bold tracking-[0.22em] uppercase hover:border-[#B8925A] transition-colors duration-300 flex-1">
+              Free Consult
+            </a>
+          </div>
+
+          {/* Trust row */}
+          <div className={`flex gap-5 mt-4 pt-4 border-t border-[#B8925A]/15 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
+            style={{transitionDelay:"850ms"}}>
+            {[{n:"15+",l:"Yrs"},{n:"Free",l:"Consult"},{n:"5★",l:"Rating"},{n:"CA",l:"Telehealth"}].map(t=>(
+              <div key={t.l} className="flex items-baseline gap-1">
+                <span className="text-base text-[#B8925A]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:500}}>{t.n}</span>
+                <span className="text-[7px] tracking-[0.14em] uppercase text-[#7A6556]">{t.l}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Next-day pill — top right corner */}
+        <div className={`absolute top-16 right-4 z-30 transition-all duration-700 ${phase>=4?"opacity-100 translate-x-0":"opacity-0 translate-x-4"}`}
+          style={{transitionDelay:"1000ms",animation:phase>=4?"floatBadge 4s ease-in-out infinite":undefined}}>
+          <div className="bg-[#FDFAF6]/95 shadow-lg px-4 py-2.5 border-l-2 border-[#B8925A]">
+            <p className="text-[7px] tracking-[0.2em] uppercase text-[#B8925A] font-bold mb-0.5">Next-Day Available</p>
+            <p className="text-[#2C1A0E] text-xs" style={{fontFamily:"'Cormorant Garamond',serif"}}>Book Appointment</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ══════════════════════════════
+          DESKTOP  (≥ lg)
+          Split: dark text left / photo right
+      ══════════════════════════════ */}
+      <div className="hidden lg:flex absolute inset-0">
+
+        {/* LEFT dark panel */}
+        <div className="relative flex flex-col justify-center w-[46%]"
+          style={{background:"linear-gradient(135deg,#1A0F08 0%,#2C1A0E 65%,#3D2B1F 100%)",padding:"clamp(40px,5vw,80px)"}}>
+          <div className="absolute inset-0 opacity-[0.05] pointer-events-none"
+            style={{backgroundImage:`url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")`,backgroundSize:"180px"}}/>
+          <div className="absolute left-0 top-16 bottom-16 w-[2px]"
+            style={{background:"linear-gradient(to bottom,transparent,#B8925A 30%,#B8925A 70%,transparent)"}}/>
+
+          <div className={`inline-flex items-center gap-2 mb-8 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}>
             <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse"/>
             <span className="text-[8px] tracking-[0.32em] uppercase text-[#6B7C5E] font-semibold">Accepting New Patients · Fremont, CA</span>
           </div>
 
-          {/* HEADLINE — word by word reveal */}
           <h1 style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:0.97,letterSpacing:"-0.01em"}}>
             {words.map((word,i)=>(
               <span key={word} className="block overflow-hidden">
                 <span className="block transition-all duration-700"
                   style={{
                     transitionDelay:`${i*120}ms`,
-                    transform: phase>=3?"translateY(0) rotate(0deg)":"translateY(110%) rotate(2deg)",
-                    opacity: phase>=3?1:0,
-                    fontSize:"clamp(44px,5.8vw,88px)",
-                    color: i===1?"#C9A46A":"#F0E8DA",
-                    fontStyle: i===1?"italic":"normal",
-                  }}>
-                  {word}
-                </span>
+                    transform:phase>=3?"translateY(0) rotate(0deg)":"translateY(110%) rotate(2deg)",
+                    opacity:phase>=3?1:0,
+                    fontSize:"clamp(52px,5.6vw,92px)",
+                    color:i===1?"#C9A46A":"#F0E8DA",
+                    fontStyle:i===1?"italic":"normal",
+                  }}>{word}</span>
               </span>
             ))}
           </h1>
 
-          {/* Gold rule */}
           <div className={`flex items-center gap-3 my-6 transition-all duration-700 ${phase>=3?"opacity-100":"opacity-0"}`}
             style={{transitionDelay:"580ms"}}>
             <div className="h-px bg-[#B8925A]" style={{width:phase>=4?56:0,transition:"width 0.8s ease 0.6s"}}/>
@@ -232,19 +319,16 @@ function HeroSection() {
             <div className="h-px bg-[#B8925A]/25 flex-1" style={{maxWidth:160}}/>
           </div>
 
-          {/* Sub */}
           <p className={`text-[#A89880] font-light leading-relaxed mb-8 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}
-            style={{transitionDelay:"700ms",fontSize:"clamp(13px,1.5vw,17px)",maxWidth:380}}>
+            style={{transitionDelay:"700ms",fontSize:"clamp(13px,1.4vw,17px)",maxWidth:380}}>
             Psychiatry, weight management, IV hydration, TMS, and longevity-focused wellness — in one beautifully designed clinic.
           </p>
 
-          {/* CTAs */}
           <div className={`flex flex-wrap gap-3 mb-8 transition-all duration-700 ${phase>=3?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}
             style={{transitionDelay:"850ms"}}>
             <a href="tel:5105984921"
               className="group flex items-center gap-2.5 bg-[#B8925A] text-[#1A0F08] px-7 py-3.5 text-[10px] font-bold tracking-[0.22em] uppercase hover:bg-[#C9A46A] transition-all duration-300">
-              <Ph/> Call (510) 598-4921
-              <span className="group-hover:translate-x-1.5 transition-transform">→</span>
+              <Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform">→</span>
             </a>
             <a href="/contact"
               className="flex items-center gap-2 border border-[#B8925A]/40 text-[#C9A46A] px-7 py-3.5 text-[10px] font-bold tracking-[0.22em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/8 transition-all duration-300">
@@ -252,62 +336,47 @@ function HeroSection() {
             </a>
           </div>
 
-          {/* Trust strip */}
           <div className={`flex flex-wrap gap-5 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
             style={{transitionDelay:"1000ms"}}>
             {[{n:"15+",l:"Yrs Exp"},{n:"Free",l:"Consult"},{n:"5★",l:"Rating"},{n:"CA",l:"Telehealth"}].map(t=>(
               <div key={t.l} className="flex items-baseline gap-1.5">
                 <p className="text-xl text-[#B8925A]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:500}}>{t.n}</p>
-                <p className="text-[8px] tracking-[0.16em] uppercase text-[#7A6556] leading-none">{t.l}</p>
+                <p className="text-[8px] tracking-[0.16em] uppercase text-[#7A6556]">{t.l}</p>
               </div>
             ))}
           </div>
 
-          {/* Bottom left doctor names */}
           <div className={`absolute bottom-8 left-8 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
             style={{transitionDelay:"1100ms"}}>
-            <p className="text-[8px] tracking-[0.24em] uppercase text-[#B8925A]/50">
-              Dr. Japsharan Gill, MD · Dr. Shabeg Gondara, MD
-            </p>
+            <p className="text-[8px] tracking-[0.22em] uppercase text-[#B8925A]/40">Dr. Japsharan Gill, MD · Dr. Shabeg Gondara, MD</p>
           </div>
         </div>
 
-        {/* RIGHT PANEL — photo, NEVER covered by text */}
+        {/* RIGHT photo panel */}
         <div className="relative flex-1 overflow-hidden">
-
-          {/* Clip-path reveal wipe — left to right */}
           <div className="absolute inset-0 z-10 pointer-events-none"
             style={{
-              clipPath: phase>=2?"inset(0 0% 0 0)":"inset(0 100% 0 0)",
+              clipPath:phase>=2?"inset(0 0% 0 0)":"inset(0 100% 0 0)",
               transition:"clip-path 0.9s cubic-bezier(0.77,0,0.18,1)",
             }}>
-            {/* Parallax photo */}
-            <div style={{
-              position:"absolute",inset:"0",
-              transform:`translateY(${scrollY*0.25}px)`,
-              willChange:"transform",
-            }}>
+            <div style={{position:"absolute",inset:0,transform:`translateY(${scrollY*0.22}px)`,willChange:"transform"}}>
               <img src={IMAGES.BOTH_OUTDOOR} alt="Dr. Japsharan Gill & Dr. Shabeg Gondara"
-                className="w-full h-full object-cover"
-                style={{objectPosition:"center 20%"}}/>
+                className="w-full h-full object-cover" style={{objectPosition:"center 20%"}}/>
             </div>
-            {/* Subtle left shadow to blend with dark panel */}
             <div className="absolute inset-0 pointer-events-none"
-              style={{background:"linear-gradient(to right,rgba(26,15,8,0.45) 0%,transparent 35%)"}}/>
+              style={{background:"linear-gradient(to right,rgba(26,15,8,0.35) 0%,transparent 30%)"}}/>
             <div className="absolute inset-0 pointer-events-none"
-              style={{background:"linear-gradient(to top,rgba(26,15,8,0.6) 0%,transparent 40%)"}}/>
+              style={{background:"linear-gradient(to top,rgba(26,15,8,0.55) 0%,transparent 40%)"}}/>
           </div>
 
-          {/* GOLD PARTICLE CANVAS — only on photo side */}
           <canvas ref={canvasRef} className="absolute inset-0 w-full h-full z-20 pointer-events-none"
-            style={{opacity: phase>=3?0.65:0,transition:"opacity 1s ease"}}/>
+            style={{opacity:phase>=3?0.6:0,transition:"opacity 1s ease"}}/>
 
-          {/* Floating card — both doctors ── */}
           <div className={`absolute bottom-10 right-6 z-30 transition-all duration-700 ${phase>=4?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}
             style={{transitionDelay:"1200ms",animation:phase>=4?"floatBadge 5s ease-in-out infinite":undefined}}>
             <div className="border-[3px] border-[#FDFAF6]/90 shadow-[0_20px_60px_rgba(0,0,0,0.4)] overflow-hidden"
-              style={{width:190,height:240}}>
-              <img src={IMAGES.BOTH_ARMS_CROSSED} alt="Dr. Japsharan Gill & Dr. Shabeg Gondara"
+              style={{width:190,height:230}}>
+              <img src={IMAGES.BOTH_ARMS_CROSSED} alt="Both doctors"
                 className="w-full h-full object-cover object-top"/>
               <div className="absolute inset-0" style={{background:"linear-gradient(to top,rgba(26,15,8,0.85) 0%,transparent 55%)"}}/>
               <div className="absolute bottom-0 left-0 right-0 p-4">
@@ -315,37 +384,27 @@ function HeroSection() {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse"/>
                   <span className="text-[8px] tracking-[0.18em] uppercase text-[#6B7C5E] font-semibold">Available Today</span>
                 </div>
-                <p className="text-[#F0E8DA] text-[11px] leading-tight" style={{fontFamily:"'Cormorant Garamond',serif"}}>Dr. Japsharan Gill</p>
-                <p className="text-[#F0E8DA] text-[11px] leading-tight" style={{fontFamily:"'Cormorant Garamond',serif"}}>& Dr. Shabeg Gondara</p>
+                <p className="text-[#F0E8DA] text-[11px]" style={{fontFamily:"'Cormorant Garamond',serif"}}>Dr. Japsharan Gill</p>
+                <p className="text-[#F0E8DA] text-[11px]" style={{fontFamily:"'Cormorant Garamond',serif"}}>&amp; Dr. Shabeg Gondara</p>
               </div>
             </div>
           </div>
 
-          {/* Floating pill — Next Day ── */}
-          <div className={`absolute top-16 right-8 z-30 transition-all duration-700 ${phase>=4?"opacity-100 translate-x-0":"opacity-0 translate-x-6"}`}
+          <div className={`absolute top-10 right-6 z-30 transition-all duration-700 ${phase>=4?"opacity-100 translate-x-0":"opacity-0 translate-x-6"}`}
             style={{transitionDelay:"1350ms",animation:phase>=4?"floatBadge 4.5s ease-in-out 1s infinite":undefined}}>
             <div className="bg-[#FDFAF6]/95 backdrop-blur-sm shadow-[0_8px_32px_rgba(26,15,8,0.3)] px-5 py-3.5 border-l-2 border-[#B8925A]">
               <p className="text-[8px] tracking-[0.22em] uppercase text-[#B8925A] font-bold mb-0.5">Next-Day Available</p>
               <p className="text-[#2C1A0E] text-sm" style={{fontFamily:"'Cormorant Garamond',serif"}}>Book Your Appointment</p>
             </div>
           </div>
-
-          {/* Vertical label — right edge ── */}
-          <div className={`hidden lg:flex absolute right-5 top-1/2 -translate-y-1/2 flex-col items-center gap-2 z-30 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
-            style={{transitionDelay:"1500ms"}}>
-            <span className="w-px h-14 bg-gradient-to-b from-transparent to-[#B8925A]/40"/>
-            <span className="text-[7px] tracking-[0.35em] uppercase text-[#B8925A]/40"
-              style={{writingMode:"vertical-rl"}}>Fremont · CA</span>
-            <span className="w-px h-14 bg-gradient-to-t from-transparent to-[#B8925A]/40"/>
-          </div>
         </div>
       </div>
 
-      {/* ── SCROLL CUE ── */}
-      <div className={`absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-30 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
+      {/* Scroll cue */}
+      <div className={`absolute bottom-5 left-1/2 -translate-x-1/2 z-30 lg:flex hidden flex-col items-center gap-2 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
         style={{transitionDelay:"1600ms"}}>
         <span className="text-[7px] tracking-[0.32em] uppercase text-[#B8925A]/40">Scroll</span>
-        <div className="w-px h-10 overflow-hidden">
+        <div className="w-px h-9 overflow-hidden">
           <div className="w-full h-full bg-gradient-to-b from-[#B8925A]/50 to-transparent"
             style={{animation:"scrollLine 2s ease-in-out infinite"}}/>
         </div>
