@@ -93,7 +93,7 @@ function WhatAreGLP1s(){
           <div ref={ref} className={`transition-all duration-800 ${v?"opacity-100 translate-x-0":"opacity-0 -translate-x-10"}`}>
             <div className="flex items-center gap-3 mb-5"><span className="w-8 h-px bg-[#B8925A]"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Physician-Guided. Personalized. Sustainable.</span></div>
             <h2 className="text-5xl md:text-6xl text-[#2C1A0E] mb-6" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:1.1}}>What Are <em className="italic text-[#B8925A]">GLP-1</em><br/>Medications?</h2>
-            <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-4">GLP-1 medications — including Semaglutide (the active ingredient in Ozempic® and Wegovy®) and Tirzepatide (the active ingredient in Mounjaro® and Zepbound®) — are a class of medications that work by mimicking natural gut hormones. These hormones help regulate appetite, slow digestion, and support blood sugar control, leading to reduced calorie intake and gradual, meaningful weight loss.</p>
+            <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-4">GLP-1 medications — including Semaglutide and Tirzepatide — are a class of medications that work by mimicking natural gut hormones. These hormones help regulate appetite, slow digestion, and support blood sugar control, leading to reduced calorie intake and gradual, meaningful weight loss.</p>
             <p className="text-[#7A6556] text-base leading-[1.95] font-light mb-6">At Tri-Valley Clinic, our program uses pharmacy-compounded GLP-1 medications prescribed and monitored by our physicians. Compounded versions allow for individualized dosing and are not the same as retail branded products. Our approach is physician-led from start to finish — no online questionnaires, no auto-shipments, just structured clinical care.</p>
 
             {/* GLP-1 How It Works accordion */}
@@ -130,8 +130,8 @@ function WhatAreGLP1s(){
               <img src="/assets/weightloss-bg.jpg" alt="Weight Loss Program at Tri-Valley Clinic" className="w-full h-full object-cover transition-transform duration-700 hover:scale-[1.04]" style={{objectPosition:"center 40%"}}/>
             </div>
             <div className="absolute -bottom-6 -left-4 bg-[#B8925A] text-[#FDFAF6] px-6 py-5 shadow-xl" style={{animation:"floatBadge 5s ease-in-out infinite"}}>
-              <p className="text-4xl font-light mb-0.5" style={{fontFamily:"'Cormorant Garamond',serif"}}>15–22%</p>
-              <p className="text-[9px] tracking-[0.2em] uppercase opacity-80">Avg. Weight Reduction</p>
+              <p className="text-4xl font-light mb-0.5" style={{fontFamily:"'Cormorant Garamond',serif"}}>GLP-1</p>
+              <p className="text-[9px] tracking-[0.2em] uppercase opacity-80">Physician-Supervised</p>
             </div>
           </div>
         </div>
@@ -353,7 +353,7 @@ function EligibilitySection(){
 function FAQSection(){
   const[ref,v]=useReveal();const[open,sOpen]=useState(null);
   const faqs=[
-    {q:"How much weight can I expect to lose?",a:"Clinical studies on GLP-1 medications have shown average weight reductions of 15–22% of body weight over 68 weeks in patients with obesity. Individual results vary based on starting weight, adherence, and other health factors. Our program is designed to support meaningful, sustained progress — not a quick fix."},
+    {q:"How much weight can I expect to lose?",a:"Results vary based on individual factors including starting weight, adherence, and overall health. Our program is designed to support meaningful, sustained progress — not a quick fix. Your provider will give you a realistic picture of what to expect at your consultation."},
     {q:"Does insurance cover this program?",a:"GLP-1 medications used in our program are compounded and are not covered by insurance. We can review all costs with you during your consultation. Cherry financing is available for this service."},
     {q:"What are the side effects?",a:"The most common side effects of GLP-1 medications are gastrointestinal, including nausea, reduced appetite, and occasional mild digestive discomfort. These effects are typically most noticeable when starting or increasing the dose and tend to improve over time. Your provider will discuss what to expect and how to manage symptoms at each stage of your treatment."},
     {q:"Why should I choose Tri-Valley Clinic for this program?",a:"Our GLP-1 program is offered within a licensed medical practice — not a med spa or online service. Every patient is seen by a physician, not a non-physician provider. We provide in-person care, structured monitoring, and the ability to coordinate treatment alongside any psychiatric or other health needs you may have."},
