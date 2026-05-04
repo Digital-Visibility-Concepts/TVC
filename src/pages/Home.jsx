@@ -793,13 +793,13 @@ function DrGillSection() {
                   className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-[1.04]"/>
               </div>
 
-              {/* Floating credential pills — left side */}
-              <div className="absolute -left-6 top-16 flex flex-col gap-2.5" style={{animation:"fadeUp 0.8s ease 0.6s both"}}>
+              
+              {/* <div className="absolute -left-6 top-16 flex flex-col gap-2.5" style={{animation:"fadeUp 0.8s ease 0.6s both"}}>
                 {["Board-Eligible","Psychiatry & Wellness","GLP-1 Certified"].map((t,i)=>(
                   <div key={t} className="bg-[#2C1A0E] text-[#C9A46A] text-[8px] tracking-[0.2em] uppercase font-semibold px-3 py-1.5 border-l-2 border-[#B8925A] shadow-lg whitespace-nowrap"
                     style={{animationDelay:`${i*0.1}s`}}>{t}</div>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Floating both-doctors card — bigger per client request */}
