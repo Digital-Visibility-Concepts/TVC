@@ -725,8 +725,7 @@ function CTASection() {
           Ready to Meet<br /><em className="italic text-[#B8925A]">the Team?</em>
         </h2>
         <p className={`text-[#7A6556] text-base sm:text-lg font-light max-w-xl mx-auto mb-8 sm:mb-10 leading-relaxed transition-all duration-700 delay-200 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          Reach out to our office by phone or send us a message. Our team is here to help guide you to the right next step.
-        </p>
+Our team is always here to assist you. We're just a call away to answer any questions or help you schedule your consultation, no pressure, just genuine care and support.        </p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 mb-8 transition-all duration-700 delay-300 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
           <a href="tel:5105984921"
             className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-8 sm:px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400 w-full sm:w-auto justify-center">
