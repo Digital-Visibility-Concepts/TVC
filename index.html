@@ -8,6 +8,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
     <title>Tri-Valley Clinic | Psychiatry & Wellness | Fremont, CA</title>
     <meta name="description" content="Board-certified psychiatric and wellness care in Fremont, CA. Accepting new patients. Free 15-minute consultation with Dr. Gill or Dr. Gondara." />
+     <style>
+ #veera-root {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    top: auto !important;
+    left: auto !important;
+    width: 300px !important;
+    height: auto !important;
+    z-index: 9999 !important;
+  }
+
+  #veera-window {
+    width: 380px !important;
+    max-height: 420px !important;
+    height: auto !important;
+    bottom: 70px !important;
+    right: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    overflow-y: auto !important;
+  }
+
+  /* Fix the scrollbar in textarea */
+   #veera-window textarea {
+    overflow: hidden !important;
+    resize: none !important;
+    height: 44px !important;
+    max-height: 44px !important;
+    min-height: 44px !important;
+    padding-top: 12px !important;
+    padding-bottom: 0 !important;
+    line-height: 1.2 !important;
+  }
+  #veera-root,
+#veera-root * {
+  cursor: url('/your-cursor.png'), auto !important;
+}
+</style>
   </head>
   <body>
     <div id="root"></div>
