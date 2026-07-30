@@ -94,7 +94,7 @@ export default function Psychiatric(){
     <SEO
   title="Psychiatry Services"
   description="Comprehensive psychiatric care for anxiety, depression, ADHD, PTSD, bipolar disorder, OCD, insomnia, and substance abuse. Board-certified psychiatrists in Fremont, CA. Accepting new patients."
-  path="/psychiatry"
+  path="/psychiatric"
 />
 <style>{CSS}</style><Cursor/><Hero/><Mq/><CondSection/><ProcessSection/><DrSection/><TestSection/><FAQSection/><CTA/></main>);
 }

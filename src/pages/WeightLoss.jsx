@@ -14,7 +14,7 @@ export default function WeightLoss(){
     <SEO
   title="Medical Weight Loss"
   description="Physician-supervised GLP-1 weight loss program with Semaglutide and Tirzepatide in Fremont, CA. Personalized treatment plans by Dr. Gill. Evidence-based, safe, and effective."
-  path="/medical-weight-loss"
+  path="/weight-loss"
 />
 <style>{CSS}</style><Cursor/><Hero/><Marquee/><WhatAreGLP1s/><HowProgramWorks/><OurProgram/><WhatSetsApartSection/><EligibilitySection/><FAQSection/><CTA/></main>);
 }

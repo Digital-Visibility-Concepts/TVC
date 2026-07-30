@@ -11,7 +11,7 @@ export default function TMS(){
     <SEO
   title="TMS Therapy"
   description="FDA-cleared Transcranial Magnetic Stimulation (TMS) therapy coming soon to Tri-Valley Clinic in Fremont, CA. Non-invasive treatment for depression. No medication, no side effects. Join the waitlist."
-  path="/tms-therapy"
+  path="/tms"
 />
 <style>{CSS}</style><Cursor/><Hero/><Mq/><WhatIsTMS/><HowWorks/><WaitlistSec/><FAQSec/><CTA/></main>);
 }
