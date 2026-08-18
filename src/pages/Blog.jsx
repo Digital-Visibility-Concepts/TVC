@@ -488,7 +488,7 @@ function SearchIcon(){return ic(<><circle cx="11" cy="11" r="8"/><line x1="21" y
 function DiamondSvg({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10" fill="#B8925A"><polygon points="5,0 10,5 5,10 0,5"/></svg>;}
 
 const CSS=`
-  * { cursor:none !important; }
+  @media (pointer: fine){ * { cursor:none !important; } }
   .line-clamp-2 { display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
   @keyframes fadeUp    {from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
   @keyframes floatOrb  {0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}

@@ -25,6 +25,7 @@ const PLANS = [
   { name: "Kaiser Permanente", type: "Commercial",  color: "#00857C" },
   { name: "Medicare",          type: "Government",  color: "#1F5C99" },
   { name: "Medi-Cal",          type: "Government",  color: "#2E7D32" },
+  { name: "Alameda Alliance",  type: "Government",  color: "#0B6E4F" },
   { name: "Magellan Health",   type: "Behavioral",  color: "#5C3566" },
   { name: "Optum / UBH",       type: "Behavioral",  color: "#FF6900" },
   { name: "Beacon Health",     type: "Behavioral",  color: "#1B4F72" },
@@ -86,7 +87,7 @@ export default function Insurance() {
     <main style={{ fontFamily: "'Jost', sans-serif", background: "#FDFAF6", cursor: "none", overflowX: "hidden" }}>
       <SEO
   title="Insurance"
-  description="Tri-Valley Clinic accepts most major insurance plans including Aetna, Blue Shield, United Healthcare, Cigna, Anthem, Kaiser, Medicare, and Medi-Cal. Verify your coverage today."
+  description="Tri-Valley Clinic accepts most major insurance plans including Aetna, Blue Shield, United Healthcare, Cigna, Kaiser, Medicare, Medi-Cal, and Alameda Alliance."
   path="/insurance"
 />
       <style>{CSS}</style>
@@ -234,7 +235,7 @@ function HeroSection() {
 
 /* ══════ 2. MARQUEE STRIP ══════ */
 function MarqueeStrip() {
-  const items = ["Aetna","Blue Shield","United Healthcare","Cigna","Medicare","Medi-Cal","Anthem","Kaiser","Magellan","Optum","Beacon Health","Tricare","MHN","Evernorth","Out-of-Pocket/Self-Pay"];
+  const items = ["Aetna","Blue Shield","United Healthcare","Cigna","Medicare","Medi-Cal","Alameda Alliance","Anthem","Kaiser","Magellan","Optum","Beacon Health","Tricare","MHN","Evernorth","Out-of-Pocket/Self-Pay"];
   const rep = [...items, ...items];
   return (
     <div className="bg-[#2C1A0E] py-3.5 overflow-hidden">
@@ -628,13 +629,13 @@ function FAQSection() {
   const [ref, vis] = useReveal();
   const [open, setOpen] = useState(null);
   const faqs = [
-    { q: "How do I know if my insurance is accepted?",            a: "Call us at (510) 598-4921 and our front desk team will verify your insurance within the same business day. We contact your provider directly and confirm your specific mental health benefits, copays, and deductibles — at no cost to you." },
+    { q: "How do I know if my insurance is accepted?",            a: <>We verify your insurance before your first visit as a courtesy to our patients. Otherwise insurance verification is the <strong className="font-semibold text-[#2C1A0E]">patient's responsibility</strong>. If you have any questions specifically regarding insurance please call the member services number on the back of your insurance card.</> },
     { q: "Do I need a referral to be seen?",                 a: "Most insurance plans do not require a referral for psychiatric care, but this varies by plan. When you call to verify your insurance, we'll confirm whether a referral is needed for your specific coverage." },
-    { q: "What is my copay or deductible for psychiatry?",        a: "Copays and deductibles vary widely by insurance plan. Our staff will provide you with a clear breakdown of your expected costs before your first appointment so there are no surprises." },
+    { q: "What is my copay or deductible for psychiatry?",        a: <>Copays and deductibles vary by insurance. We verify your insurance before your first visit as a courtesy to our patients. Otherwise insurance verification is the <strong className="font-semibold text-[#2C1A0E]">patient's responsibility</strong>. If you have any questions specifically regarding insurance please call the member services number on the back of your insurance card.</> },
     { q: "Is telehealth covered by my insurance?",                a: "Most major insurance plans now cover telehealth psychiatric visits in California at the same rate as in-person care. We verify telehealth benefits as part of our standard insurance check." },
     { q: "Is medical weight loss (GLP-1) covered by insurance?",  a: "GLP-1 medications used in our program are compounded and are not covered by insurance. We can review all costs with you during your consultation." },
-    { q: "What if I don't have insurance?",                       a: "We offer Cherry Financing — flexible payment plans with 0% interest options, instant approval, and no hard credit check. You can apply online or in-office. Call us to discuss your options." },
-    { q: "Do you offer a sliding-scale fee?",                     a: "We do not offer sliding-scale fees, but Cherry Financing allows you to break up any out-of-pocket costs into manageable monthly payments. Call us to learn more about your options." },
+    { q: "What if I don't have insurance?",                       a: <>We offer self-pay options for our psychiatric services. We do not accept insurance for our wellness services however we do offer financing options. Please visit our <a href="/financing" className="text-[#B8925A] hover:underline">Financing page</a> for more information.</> },
+    { q: "Do you offer a sliding-scale fee?",                     a: <>We do not offer sliding-scale fees at this time for any of our services. For our wellness services we offer financing options, please see our <a href="/financing" className="text-[#B8925A] hover:underline">Financing page</a> for more information on this.</> },
     { q: "Does my insurance cover IV Hydration Therapy?",         a: "Our IV Hydration services are not covered by insurance. We offer flexible financing options through Cherry to make treatment more accessible." },
   ];
   return (
@@ -667,7 +668,7 @@ function FAQSection() {
                   <PlusIcon />
                 </span>
               </button>
-              <div className={`overflow-hidden transition-all duration-400 ease-in-out ${open === i ? "max-h-48 pb-6" : "max-h-0"}`}>
+              <div className={`overflow-hidden transition-all duration-400 ease-in-out ${open === i ? "max-h-96 pb-6" : "max-h-0"}`}>
                 <p className="px-6 text-[#7A6556] text-sm leading-relaxed font-light">{f.a}</p>
               </div>
             </div>

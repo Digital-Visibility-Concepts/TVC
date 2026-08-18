@@ -7,16 +7,18 @@ import SEO from '../components/SEO';
 const P={hero:"/assets/weightloss-bg.jpg",drGill:"/assets/dr-gill-white.jpg",drGillIn:"/assets/dr J gill-inside.jpg",interior:"/assets/inetrioir clinic.jpg",inside:"/assets/inside clinic1.jpg",table:"/assets/emptytabel.jpg"};
 
 function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
-function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
+/* ⚠ z-9998/9999 is the top of the site. Nothing may render above it
+   or the pointer vanishes (see src/constants/zIndex.js). */
+function Cursor(){const[en,setEn]=useState(false);const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{setEn(window.matchMedia("(pointer: fine)").matches);},[]);useEffect(()=>{if(!en)return;const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[en]);if(!en)return null;return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 
 export default function WeightLoss(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
     <SEO
   title="Medical Weight Loss"
   description="Physician-supervised GLP-1 weight loss program with Semaglutide and Tirzepatide in Fremont, CA. Personalized treatment plans by Dr. Gill. Evidence-based, safe, and effective."
-  path="/weight-loss"
+  path="/medical-weight-loss"
 />
-<style>{CSS}</style><Cursor/><Hero/><Marquee/><WhatAreGLP1s/><HowProgramWorks/><OurProgram/><WhatSetsApartSection/><EligibilitySection/><FAQSection/><CTA/></main>);
+<style>{CSS}</style><Cursor/><Hero/><Marquee/><WhatAreGLP1s/><HowProgramWorks/><OurProgram/><WhatSetsApartSection/><EligibilitySection/><LeadCaptureSection/><FAQSection/><CTA/></main>);
 }
 
 function Hero(){
@@ -350,6 +352,126 @@ function EligibilitySection(){
   );
 }
 
+function LeadCaptureSection(){
+  const[ref,v]=useReveal();
+  const[form,setForm]=useState({name:"",phone:"",email:"",contact:""});
+  const[terms,setTerms]=useState(false);
+  const[marketing,setMarketing]=useState(false);
+  const[errors,setErrors]=useState({});
+  const[sent,setSent]=useState(false);
+  const[sending,setSending]=useState(false);
+
+  const validate=()=>{
+    const e={};
+    if(!form.name.trim())e.name="Full name is required";
+    if(!form.phone.trim())e.phone="Phone number is required";
+    if(!form.email.trim()||!/\S+@\S+\.\S+/.test(form.email))e.email="Valid email is required";
+    if(!form.contact)e.contact="Please select a contact method";
+    if(!terms)e.terms="You must accept the terms and conditions";
+    return e;
+  };
+
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+    const errs=validate();
+    if(Object.keys(errs).length){setErrors(errs);return;}
+    // TODO: pending Chirasha — Web3Forms key for the GLP-1 lead form. Form will not deliver until this is set.
+    const ACCESS_KEY="REPLACE_WITH_GLP1_ACCESS_KEY";
+    if(ACCESS_KEY==="REPLACE_WITH_GLP1_ACCESS_KEY")console.warn("GLP-1 lead form: Web3Forms access key is still a placeholder — submissions will not be delivered.");
+    setSending(true);
+    try{
+      const res=await fetch("https://api.web3forms.com/submit",{
+        method:"POST",
+        headers:{"Content-Type":"application/json","Accept":"application/json"},
+        body:JSON.stringify({
+          access_key:ACCESS_KEY,
+          name:form.name,
+          phone:form.phone,
+          email:form.email,
+          preferred_contact_method:form.contact,
+          terms_accepted:true,
+          marketing_opt_in:marketing,
+          consent_timestamp:new Date().toISOString(),
+          subject:`GLP-1 Enquiry — ${form.name} | Tri-Valley Clinic`,
+          _replyto:form.email,
+        }),
+      });
+      if(res.ok){setSent(true);}
+      else{alert("Something went wrong. Please call us at (510) 598-4921.");}
+    }catch{
+      alert("Network error. Please call us at (510) 598-4921.");
+    }finally{
+      setSending(false);
+    }
+  };
+
+  return(
+    <section id="glp1-form" className="py-24 px-5 md:px-10" style={{background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)"}}>
+      <div className="mx-auto max-w-2xl">
+        <div ref={ref} className="text-center mb-12">
+          <div className={`flex items-center justify-center gap-3 mb-5 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-12 h-px bg-[#B8925A]/50"/><Dm size={7}/><span className="w-12 h-px bg-[#B8925A]/50"/></div>
+          <h2 className={`text-5xl md:text-6xl text-[#F0E8DA] transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>See If You <em className="italic text-[#C9A46A]">Qualify</em></h2>
+          <p className={`text-[#A89880] text-base font-light mt-4 max-w-md mx-auto transition-all duration-700 delay-200 ${v?"opacity-100":"opacity-0"}`}>Share your contact details and our team will reach out to schedule your free consultation.</p>
+        </div>
+        <div className={`border border-[#E8D5BE]/15 bg-[#F5EEE4]/5 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
+          <div className="h-[3px] bg-gradient-to-r from-transparent via-[#B8925A] to-transparent"/>
+          <div className="p-8 md:p-10">
+            {sent?(
+              <div className="text-center py-10">
+                <div className="w-16 h-16 border border-[#B8925A]/40 flex items-center justify-center text-[#B8925A] mx-auto mb-5"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <h3 className="text-2xl text-[#F0E8DA] mb-2" style={{fontFamily:"'Cormorant Garamond',serif"}}>Request received</h3>
+                <p className="text-[#A89880] text-sm font-light">Thanks for reaching out — our team will contact you shortly. If you'd like to speak with someone sooner, call <a href="tel:5105984921" className="text-[#C9A46A] hover:text-[#B8925A] transition-colors">(510) 598-4921</a>.</p>
+              </div>
+            ):(
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div>
+                  <label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Full Name *</label>
+                  <input type="text" placeholder="Your name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} className={`w-full bg-[#FDFAF6]/8 border px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300 ${errors.name?"border-red-400":"border-[#E8D5BE]/20"}`}/>
+                  {errors.name&&<p className="text-red-400 text-[10px] mt-1">{errors.name}</p>}
+                </div>
+                <div>
+                  <label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Phone Number *</label>
+                  <input type="tel" placeholder="(510) 000-0000" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className={`w-full bg-[#FDFAF6]/8 border px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300 ${errors.phone?"border-red-400":"border-[#E8D5BE]/20"}`}/>
+                  {errors.phone&&<p className="text-red-400 text-[10px] mt-1">{errors.phone}</p>}
+                </div>
+                <div>
+                  <label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Email Address *</label>
+                  <input type="email" placeholder="your@email.com" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} className={`w-full bg-[#FDFAF6]/8 border px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300 ${errors.email?"border-red-400":"border-[#E8D5BE]/20"}`}/>
+                  {errors.email&&<p className="text-red-400 text-[10px] mt-1">{errors.email}</p>}
+                </div>
+                <div>
+                  <label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Preferred Contact Method *</label>
+                  <div className="relative">
+                    <select value={form.contact} onChange={e=>setForm({...form,contact:e.target.value})} className={`w-full bg-[#FDFAF6]/8 border px-4 py-3 text-[#F0E8DA] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300 appearance-none pr-10 ${errors.contact?"border-red-400":"border-[#E8D5BE]/20"} ${!form.contact?"text-[#7A6556]":""}`}>
+                      <option value="" disabled>Select an option...</option>
+                      <option value="Phone">Phone</option>
+                      <option value="Email">Email</option>
+                      <option value="Text">Text</option>
+                    </select>
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#B8925A]"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+                  </div>
+                  {errors.contact&&<p className="text-red-400 text-[10px] mt-1">{errors.contact}</p>}
+                </div>
+                <div className="flex items-start gap-3">
+                  <input type="checkbox" id="glp1-terms" checked={terms} onChange={e=>setTerms(e.target.checked)} className="mt-1 accent-[#B8925A]"/>
+                  <label htmlFor="glp1-terms" className="text-sm text-[#A89880] font-light cursor-pointer">I accept the <a href="/terms-of-use" className="text-[#B8925A] hover:underline">terms and conditions</a>. *</label>
+                </div>
+                {errors.terms&&<p className="text-red-400 text-[10px] -mt-3">{errors.terms}</p>}
+                <div className="flex items-start gap-3">
+                  <input type="checkbox" id="glp1-marketing" checked={marketing} onChange={e=>setMarketing(e.target.checked)} className="mt-1 accent-[#B8925A]"/>
+                  <label htmlFor="glp1-marketing" className="text-sm text-[#A89880] font-light cursor-pointer">Yes, I'd like to receive SMS/email promotions, upcoming promos, and updates.</label>
+                </div>
+                <button type="submit" disabled={sending} className="group w-full bg-[#B8925A] text-[#FDFAF6] py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed">{sending?"Submitting...":(<>See If I Qualify <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></>)}</button>
+                <p className="text-[10px] tracking-[0.16em] uppercase text-[#7A6556] text-center">Prefer to call? <a href="tel:5105984921" className="text-[#C9A46A] hover:text-[#B8925A] transition-colors">(510) 598-4921</a></p>
+              </form>
+            )}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function FAQSection(){
   const[ref,v]=useReveal();const[open,sOpen]=useState(null);
   const faqs=[
@@ -406,4 +528,4 @@ function CTA(){
 
 function Ph(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;}
 function Dm({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10" fill="#B8925A"><polygon points="5,0 10,5 5,10 0,5"/></svg>;}
-const CSS=`*{cursor:none !important;}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;
+const CSS=`@media (pointer: fine){*{cursor:none !important;}}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;

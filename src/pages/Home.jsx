@@ -1,7 +1,9 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState, useCallback } from "react";
 import IMAGES from "../constants/images";
 import SEO from '../components/SEO';
+import PatientReviews from "../components/PatientReviews";
 
 /* ─── IMAGE ASSIGNMENTS FOR THIS PAGE ─────────────────────
    Hero right portrait      → DR_GILL_HERO     (Photo 1 outdoor)
@@ -45,10 +47,15 @@ function Counter({ to, suffix = "", ms = 1800 }) {
   return <span ref={ref}>{v}{suffix}</span>;
 }
 
+/* ⚠ z-9998/9999 is the top of the site. Nothing may render above it
+   or the pointer vanishes (see src/constants/zIndex.js). */
 function Cursor() {
+  const [enabled, setEnabled] = useState(false);
   const dot = useRef(null), ring = useRef(null);
   const pos = useRef({ x: 0, y: 0 }), raf = useRef(null);
+  useEffect(() => { setEnabled(window.matchMedia("(pointer: fine)").matches); }, []);
   useEffect(() => {
+    if (!enabled) return;
     const mv = (e) => { pos.current = { x: e.clientX, y: e.clientY }; };
     const tk = () => {
       if (dot.current)  dot.current.style.transform  = `translate(${pos.current.x - 4}px,${pos.current.y - 4}px)`;
@@ -58,7 +65,8 @@ function Cursor() {
     window.addEventListener("mousemove", mv);
     raf.current = requestAnimationFrame(tk);
     return () => { window.removeEventListener("mousemove", mv); cancelAnimationFrame(raf.current); };
-  }, []);
+  }, [enabled]);
+  if (!enabled) return null;
   return (
     <>
       <div ref={dot}  className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{ transition: "none" }} />
@@ -88,12 +96,96 @@ export default function Home() {
       <DoctorSpotlight />
       <ConsultBand />
       <ServiceMiniSpotlight />
-      <TestimonialsSection />
+      <PatientReviews />
       <InsuranceSection />
       <TelehealthSection />
       <FinalCTA />
+      <HomePopups />
     </main>
   );
+}
+
+function HomePopup({ titleId, onClose, children }) {
+  const closeRef = useRef(null);
+  const boxRef = useRef(null);
+  const [show, setShow] = useState(false);
+  const [reduceMotion] = useState(() => window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setShow(true));
+    closeRef.current?.focus();
+    const onKey = (e) => {
+      if (e.key === "Escape") { onClose(); return; }
+      if (e.key === "Tab" && boxRef.current) {
+        const focusables = boxRef.current.querySelectorAll('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (!focusables.length) return;
+        const first = focusables[0], last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => { cancelAnimationFrame(raf); document.removeEventListener("keydown", onKey); };
+  }, [onClose]);
+
+  return (
+    <div className="fixed inset-0 z-[9000] flex items-center justify-center p-5">
+      <div className="absolute inset-0 bg-[#1A0F08]/70" onClick={onClose} />
+      <div ref={boxRef} role="dialog" aria-modal="true" aria-labelledby={titleId}
+        className={`relative z-[9001] w-full max-w-md bg-[#FDFAF6] border border-[#E8D5BE] shadow-2xl ${reduceMotion ? "" : "transition-all duration-400"} ${show || reduceMotion ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-4 scale-95"}`}>
+        <div className="h-[3px] bg-gradient-to-r from-transparent via-[#B8925A] to-transparent" />
+        <button ref={closeRef} onClick={onClose} aria-label="Close"
+          className="absolute top-1 right-1 w-11 h-11 flex items-center justify-center text-[#7A6556] hover:text-[#B8925A] transition-colors">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+        </button>
+        <div className="p-8 md:p-10">{children}</div>
+      </div>
+    </div>
+  );
+}
+
+function HomePopups() {
+  const [which, setWhich] = useState(null);
+
+  useEffect(() => {
+    let shownTMS = false, shownGLP1 = false;
+    try {
+      shownTMS = sessionStorage.getItem("tvc_popup_tms") === "1";
+      shownGLP1 = sessionStorage.getItem("tvc_popup_glp1") === "1";
+    } catch { /* sessionStorage unavailable (e.g. private browsing) */ }
+    if (shownTMS && shownGLP1) return;
+    const target = !shownTMS ? "tms" : "glp1";
+    const t = setTimeout(() => setWhich(target), 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  const close = () => {
+    if (which) {
+      try { sessionStorage.setItem(which === "tms" ? "tvc_popup_tms" : "tvc_popup_glp1", "1"); } catch { /* sessionStorage unavailable */ }
+    }
+    setWhich(null);
+  };
+
+  if (which === "tms") {
+    return (
+      <HomePopup titleId="tms-popup-heading" onClose={close}>
+        <div className="flex items-center gap-2 mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" /><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Now Available</span></div>
+        <h2 id="tms-popup-heading" className="text-3xl md:text-4xl text-[#2C1A0E] mb-4" style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>TMS Therapy Is Now <em className="italic text-[#B8925A]">Available.</em></h2>
+        <p className="text-[#7A6556] text-sm leading-relaxed font-light mb-7">TMS Therapy is now available at Tri-Valley Clinic. A non-invasive, FDA-approved treatment for depression. Schedule your consultation today.</p>
+        <a href="/tms-therapy#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+      </HomePopup>
+    );
+  }
+  if (which === "glp1") {
+    return (
+      <HomePopup titleId="glp1-popup-heading" onClose={close}>
+        <div className="flex items-center gap-2 mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" /><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Limited-Time Offer</span></div>
+        <h2 id="glp1-popup-heading" className="text-3xl md:text-4xl text-[#2C1A0E] mb-7" style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>15% Off <em className="italic text-[#B8925A]">GLP-1 Treatment.</em></h2>
+        <a href="/medical-weight-loss#glp1-form" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">See If I Qualify <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+      </HomePopup>
+    );
+  }
+  return null;
 }
 
 function HeroSection() {
@@ -577,7 +669,7 @@ function ServicesSection() {
     { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_CARD,     tag:"Core",         href:"/psychiatry",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
     { title:"Medical Weight Loss",     sub:"GLP-1 / Semaglutide Programs",      img:"/assets/weightloss-bg.jpg", tag:"Now Available", href:"/medical-weight-loss",  desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based care with medical oversight.", accent:"#B8925A" },
     { title:"IV Hydration Therapy",    sub:"Restore · Revive · Rehydrate",      img:IMAGES.CLINIC_TABLE,     tag:"Unique",        href:"/iv-hydration", desc:"First psychiatric clinic in Fremont offering premium IV nutrient therapy supervised by our trusted team of licensed clinicians.", accent:"#A8C59A" },
-    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Coming Soon",   href:"/tms-therapy",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression. Launching soon.",          accent:"#C9A46A" },
+    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Now Available",   href:"/tms-therapy",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression.",          accent:"#C9A46A" },
   ];
   return(
     <section className="py-24 px-5 md:px-10" style={{ background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)" }}>
@@ -636,7 +728,7 @@ function SpotlightSection() {
     { n:"01", title:"Psychiatric Care",    tag:"Mental Health",     sub:"Anxiety · Depression · ADHD · PTSD · Bipolar · OCD",           stat:"Accepting New Patients", href:"/psychiatry",  img: IMAGES.DR_GONDARA_WORKING, imgPos:"center 15%", color:"#C9A46A" },
     { n:"02", title:"Medical Weight Loss", tag:"GLP-1 Therapy",     sub:"Physician-Supervised · Semaglutide & Tirzepatide",              stat:"Now Available",   href:"/medical-weight-loss",  img: IMAGES.BOTH_OUTDOOR,       imgPos:"center 10%", color:"#B8925A", desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based GLP-1 care with medical oversight." },
     { n:"03", title:"IV Hydration",        tag:"Wellness Infusion", sub:"12 Custom Drip Formulas · Energy · Immunity · Glow · Recovery", stat:"Walk-In Welcome", href:"/iv-hydration", img: "/assets/iv-img.jpg",      imgPos:"center 30%", color:"#A8C59A" },
-    { n:"04", title:"TMS Therapy",         tag:"Brain Stimulation", sub:"FDA-Cleared · Non-Invasive · No Medication · No Side Effects",  stat:"Join Waitlist",   href:"/tms-therapy",          img: "/assets/tms-img.jpg",     imgPos:"center 40%", color:"#C9A46A" },
+    { n:"04", title:"TMS Therapy",         tag:"Brain Stimulation", sub:"FDA-Cleared · Non-Invasive · No Medication · No Side Effects",  stat:"Now Available",   href:"/tms-therapy",          img: "/assets/tms-img.jpg",     imgPos:"center 40%", color:"#C9A46A" },
     { n:"05", title:"Telehealth",          tag:"Virtual Care",      sub:"Secure HIPAA Video · All Psychiatric Services · All of CA",    stat:"Statewide CA", href:"/telehealth",   img: IMAGES.BOTH_ARMS_CROSSED,  imgPos:"center top",  color:"#B8925A" },
   ];
 
@@ -1173,12 +1265,12 @@ function ServiceMiniSpotlight() {
       title:"TMS Therapy",
       headline:"No Medication.|No Side Effects.",
       sub:"FDA-Cleared · Non-Invasive · Treatment-Resistant Depression",
-      badge:"Launching Soon",
+      badge:"Now Available",
       img:"/assets/tms-img.jpg",
       imgPos:"center 40%",
       color:"#B8925A",
       href:"/tms-therapy",
-      detail:"Transcranial Magnetic Stimulation — the most advanced non-medication treatment for depression. Join the waitlist today.",
+      detail:"Transcranial Magnetic Stimulation — the most advanced non-medication treatment for depression. Schedule a consultation today.",
     },
   ];
 
@@ -1271,115 +1363,17 @@ function ServiceMiniSpotlight() {
 
 
 
-function TestimonialsSection() {
-  const [ref,vis]=useReveal();
-  const [idx,setIdx]=useState(0);
-  const revs=[
-    { name:"Sarah M.", role:"Fremont",    stars:5, text:"Dr. Japsharan Gill is genuinely one of the most caring physicians I have ever met. She takes her time, listens completely, and the office is absolutely beautiful. I've never felt so comfortable at a medical appointment." },
-    { name:"James T.", role:"Union City", stars:5, text:"I've been struggling with ADHD for years and couldn't find a psychiatrist who truly understood. Dr. Japsharan Gill was different from my very first visit — she created a plan that actually works for my life." },
-    { name:"Priya K.", role:"Newark",     stars:5, text:"The GLP-1 weight loss program has been life-changing. Dr. Japsharan Gill supervises every step personally. The clinic feels like a luxury spa — nothing like your typical doctor's office." },
-    { name:"Marcus D.", role:"Hayward",   stars:5, text:"After trying multiple psychiatrists with no real improvement, Dr. Shabeg Gondara took a completely different approach. Within 6 weeks I felt like myself again. This clinic is exceptional." },
-    { name:"Anita R.", role:"Fremont",    stars:5, text:"The IV hydration therapy here is a completely different experience. The space is calm, the staff are professional, and I feel the difference for days. I come back every two weeks now." },
-  ];
-  const prev=()=>setIdx(i=>(i-1+revs.length)%revs.length);
-  const next=()=>setIdx(i=>(i+1)%revs.length);
 
-  return(
-    <section className="py-24 px-5 md:px-10 bg-[#FDFAF6]">
-      <div className="mx-auto max-w-7xl">
-        <div ref={ref} className={`grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-14 items-start transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
-
-          {/* LEFT — rating summary */}
-          <div>
-            <div className="flex items-center gap-3 mb-4"><span className="w-8 h-px bg-[#B8925A]"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Patient Reviews</span></div>
-            <h2 className="text-5xl md:text-6xl text-[#2C1A0E] mb-8" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>
-              Real Patients,<br/><em className="italic text-[#B8925A]">Real Results</em>
-            </h2>
-
-            {/* Big rating display */}
-            <div className="border border-[#E8D5BE] bg-[#F5EEE4] p-8 mb-6">
-              <div className="flex items-end gap-3 mb-3">
-                <span className="text-7xl text-[#B8925A] leading-none" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>5.0</span>
-                <div className="pb-2">
-                  <div className="flex gap-1 mb-1">{Array(5).fill(0).map((_,i)=><St key={i}/>)}</div>
-                  <p className="text-[9px] tracking-[0.18em] uppercase text-[#7A6556]">Google Rating</p>
-                </div>
-              </div>
-              {/* Rating bars */}
-              {[[5,100],[4,0],[3,0],[2,0],[1,0]].map(([stars,pct])=>(
-                <div key={stars} className="flex items-center gap-3 mb-1.5">
-                  <span className="text-[10px] text-[#7A6556] w-4 text-right">{stars}</span>
-                  <St/>
-                  <div className="flex-1 h-1.5 bg-[#E8D5BE] overflow-hidden">
-                    <div className="h-full bg-[#B8925A] transition-all duration-1000" style={{width:`${vis?pct:0}%`}}/>
-                  </div>
-                  <span className="text-[10px] text-[#7A6556] w-8">{pct}%</span>
-                </div>
-              ))}
-              <p className="text-[9px] text-[#7A6556]/60 mt-3 text-center">Based on verified Google reviews</p>
-            </div>
-
-            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer"
-              className="flex items-center justify-center gap-3 border border-[#E8D5BE] bg-[#F5EEE4] px-6 py-3.5 text-[10px] tracking-widest uppercase text-[#7A6556] hover:border-[#B8925A]/40 hover:text-[#B8925A] transition-all duration-300 w-full">
-              <span className="flex gap-0.5">{Array(5).fill(0).map((_,j)=><St key={j}/>)}</span>
-              Read All Reviews →
-            </a>
-          </div>
-
-          {/* RIGHT — testimonial carousel */}
-          <div>
-            {/* Navigation */}
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-[10px] tracking-[0.2em] uppercase text-[#7A6556]">{idx+1} of {revs.length}</p>
-              <div className="flex gap-2">
-                <button onClick={prev} className="w-10 h-10 border border-[#E8D5BE] flex items-center justify-center text-[#7A6556] hover:border-[#B8925A] hover:text-[#B8925A] transition-all duration-200">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="15 18 9 12 15 6"/></svg>
-                </button>
-                <button onClick={next} className="w-10 h-10 border border-[#E8D5BE] flex items-center justify-center text-[#7A6556] hover:border-[#B8925A] hover:text-[#B8925A] transition-all duration-200">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6"/></svg>
-                </button>
-              </div>
-            </div>
-
-            {/* Active review */}
-            <div key={idx} className="border border-[#E8D5BE] bg-[#F5EEE4] p-8 md:p-10 mb-4" style={{animation:"fadeSlideIn 0.4s ease both"}}>
-              <div className="text-[100px] text-[#B8925A]/10 leading-none -mt-4 -ml-2 mb-2 pointer-events-none select-none"
-                style={{fontFamily:"'Cormorant Garamond',serif"}}>"</div>
-              <div className="flex gap-0.5 mb-5">{Array(revs[idx].stars).fill(0).map((_,j)=><St key={j}/>)}</div>
-              <p className="text-[#3D2B1F] text-[17px] leading-relaxed font-light mb-6 relative z-10" style={{fontFamily:"'Cormorant Garamond',serif"}}>
-                "{revs[idx].text}"
-              </p>
-              <div className="border-t border-[#E8D5BE] pt-5 flex items-center justify-between">
-                <div>
-                  <p className="text-[#2C1A0E] text-lg" style={{fontFamily:"'Cormorant Garamond',serif"}}>{revs[idx].name}</p>
-                  <p className="text-[9px] tracking-[0.18em] uppercase text-[#B8925A]/60 mt-0.5">Verified Patient · {revs[idx].role}</p>
-                </div>
-                <div className="flex gap-0.5">{Array(revs[idx].stars).fill(0).map((_,j)=><St key={j}/>)}</div>
-              </div>
-            </div>
-
-            {/* Dot strip */}
-            <div className="flex gap-2">
-              {revs.map((_,i)=>(
-                <button key={i} onClick={()=>setIdx(i)}
-                  className="rounded-full transition-all duration-300"
-                  style={{width:idx===i?24:6,height:6,background:idx===i?"#B8925A":"#E8D5BE"}}/>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 function InsuranceSection() {
   const [ref,vis]=useReveal();
   const plans=[
     {name:"Aetna",tier:"top"},{name:"Blue Shield",tier:"top"},{name:"United Healthcare",tier:"top"},
     {name:"Cigna",tier:"top"},{name:"Medicare",tier:"top"},{name:"Medi-Cal",tier:"top"},
+    {name:"Alameda Alliance",tier:"top"},
     {name:"Anthem",tier:""},{name:"Kaiser",tier:""},{name:"Magellan",tier:""},
     {name:"Optum",tier:""},{name:"Beacon Health",tier:""},{name:"Tricare",tier:""},
+    {name:"Evernorth",tier:""},
   ];
   return(
     <section className="py-20 px-5 md:px-10" style={{background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)"}}>
@@ -1564,7 +1558,7 @@ function Dm({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10"
 function St(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="#B8925A"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>;}
 
 const CSS=`
-  *{cursor:none !important;}
+  @media (pointer: fine){*{cursor:none !important;}}
   .hide-scrollbar::-webkit-scrollbar{display:none;}
   .hide-scrollbar{-ms-overflow-style:none;scrollbar-width:none;}
   @keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}

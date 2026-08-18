@@ -27,3 +27,4 @@ dist/
 .env
 .DS_Store
 *.local" > .gitignore*.zip
+*.zip

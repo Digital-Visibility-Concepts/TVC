@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
 import { useEffect, useRef, useState } from "react";
@@ -5,15 +6,17 @@ import SEO from '../components/SEO';
 
 const P={drGill:"/assets/Gill_Japsharan.jpg",drGillIn:"/assets/dr J gill-inside.jpg",interior:"/assets/inetrioir clinic.jpg",inside:"/assets/inside clinic1.jpg",office:"/assets/office.jpg"};
 function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
-function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
+/* ⚠ z-9998/9999 is the top of the site. Nothing may render above it
+   or the pointer vanishes (see src/constants/zIndex.js). */
+function Cursor(){const[en,setEn]=useState(false);const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{setEn(window.matchMedia("(pointer: fine)").matches);},[]);useEffect(()=>{if(!en)return;const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[en]);if(!en)return null;return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 export default function TMS(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
     <SEO
   title="TMS Therapy"
-  description="FDA-cleared Transcranial Magnetic Stimulation (TMS) therapy coming soon to Tri-Valley Clinic in Fremont, CA. Non-invasive treatment for depression. No medication, no side effects. Join the waitlist."
-  path="/tms"
+  description="FDA-cleared Transcranial Magnetic Stimulation (TMS) therapy now available at Tri-Valley Clinic in Fremont, CA. A non-invasive treatment for depression — no medication, no systemic side effects. Covered by many insurance plans. Call (510) 598-4921."
+  path="/tms-therapy"
 />
-<style>{CSS}</style><Cursor/><Hero/><Mq/><WhatIsTMS/><HowWorks/><WaitlistSec/><FAQSec/><CTA/></main>);
+<style>{CSS}</style><Cursor/><Hero/><Mq/><WhatIsTMS/><HowWorks/><ConsultSec/><FAQSec/><CTA/></main>);
 }
 function Hero(){
   const[on,sOn]=useState(false);useEffect(()=>{setTimeout(()=>sOn(true),80);},[]);
@@ -24,15 +27,15 @@ function Hero(){
       {[{t:"10%",l:"52%",s:400,o:0.12,d:"0s"},{t:"60%",l:"5%",s:260,o:0.08,d:"5s"}].map((o,i)=>(<div key={i} className="absolute rounded-full pointer-events-none" style={{width:o.s,height:o.s,top:o.t,left:o.l,background:`radial-gradient(circle,rgba(184,146,90,${o.o}) 0%,transparent 70%)`,animation:`floatOrb ${11+i*4}s ease-in-out infinite ${o.d}`}}/>))}
       <div className="relative mx-auto max-w-7xl w-full px-5 md:px-10 xl:px-16 pb-20 pt-36 grid grid-cols-1 lg:grid-cols-2 gap-10 items-end">
         <div>
-          <div className={`inline-flex items-center gap-2.5 border border-[#C9A46A]/50 bg-[#C9A46A]/10 px-4 py-2 mb-7 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"100ms"}}>
-            <span className="w-2 h-2 rounded-full bg-[#C9A46A] animate-pulse"/><span className="text-[10px] tracking-[0.24em] uppercase text-[#C9A46A] font-bold">Coming Soon to Tri-Valley Clinic</span>
+          <div className={`inline-flex items-center gap-2.5 border border-[#6B7C5E]/50 bg-[#6B7C5E]/10 px-4 py-2 mb-7 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"100ms"}}>
+            <span className="w-2 h-2 rounded-full bg-[#6B7C5E] animate-pulse"/><span className="text-[10px] tracking-[0.24em] uppercase text-[#6B7C5E] font-bold">Now Available at Tri-Valley Clinic</span>
           </div>
           <h1 className={`text-[48px] md:text-[62px] xl:text-[74px] text-[#F0E8DA] leading-[0.98] mb-5 transition-all duration-900 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,transitionDelay:"200ms"}}>
             TMS Therapy:<br/><em className="italic text-[#C9A46A]">When Depression Doesn't</em><br/>Respond to Medication.
           </h1>
-          <p className={`text-[#A89880] text-lg leading-relaxed max-w-lg font-light mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"440ms"}}>A non-invasive, FDA-cleared treatment for depression when medication alone hasn't been effective. Offered as part of our comprehensive psychiatric care at Tri-Valley Clinic. Available soon at Tri-Valley Clinic – join the waitlist today.</p>
+          <p className={`text-[#A89880] text-lg leading-relaxed max-w-lg font-light mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"440ms"}}>A non-invasive, FDA-cleared treatment for depression when medication alone hasn't been effective. Now offered in-office as part of our comprehensive psychiatric care — covered by many insurance plans, with prior authorization handled by our team.</p>
           <div className={`flex flex-wrap gap-4 mb-8 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"540ms"}}>
-            <a href="#waitlist" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Join the Waitlist <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+            <a href="#consultation" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Schedule Your Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
             <a href="#what-is-tms" className="flex items-center gap-3 border border-[#B8925A]/50 text-[#C9A46A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">Learn More ↓</a>
           </div>
           <div className={`flex flex-wrap gap-3 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"640ms"}}>
@@ -40,14 +43,14 @@ function Hero(){
           </div>
         </div>
         <div className={`hidden lg:flex flex-col gap-4 items-end transition-all duration-1000 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{transitionDelay:"380ms"}}>
-          {[{val:"FDA",lab:"Cleared Treatment",sub:"Approved for MDD since 2008"},{val:"~6wk",lab:"Treatment Course",sub:"~30 min sessions, 5x per week"},{val:"50–60%",lab:"Response Rate",sub:"In treatment-resistant patients"}].map((c,i)=>(<div key={c.lab} className="bg-[#FDFAF6]/8 border border-[#E8D5BE]/15 px-6 py-5 flex items-center gap-5 w-full max-w-xs" style={{animation:`fadeUp 0.8s ease ${0.5+i*0.12}s both`}}><p className="text-3xl text-[#C9A46A] flex-shrink-0" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>{c.val}</p><div><p className="text-[#F0E8DA] text-sm font-medium">{c.lab}</p><p className="text-[#A89880] text-xs font-light mt-0.5">{c.sub}</p></div></div>))}
+          {[{val:"FDA",lab:"Cleared Treatment",sub:"Cleared for MDD since 2008"},{val:"~6wk",lab:"Treatment Course",sub:"20–40 min sessions, 5x per week"},{val:"50–60%",lab:"Response Rate",sub:"In treatment-resistant patients"}].map((c,i)=>(<div key={c.lab} className="bg-[#FDFAF6]/8 border border-[#E8D5BE]/15 px-6 py-5 flex items-center gap-5 w-full max-w-xs" style={{animation:`fadeUp 0.8s ease ${0.5+i*0.12}s both`}}><p className="text-3xl text-[#C9A46A] flex-shrink-0" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>{c.val}</p><div><p className="text-[#F0E8DA] text-sm font-medium">{c.lab}</p><p className="text-[#A89880] text-xs font-light mt-0.5">{c.sub}</p></div></div>))}
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-28 pointer-events-none" style={{background:"linear-gradient(to top,#FDFAF6,transparent)"}}/>
     </section>
   );
 }
-function Mq(){const items=["TMS Therapy","Transcranial Magnetic Stimulation","Treatment-Resistant Depression","Non-Invasive","No Medication","FDA-Cleared","Coming Soon","Join the Waitlist","Tri-Valley Clinic · Fremont"];const rep=[...items,...items];return(<div className="bg-[#2C1A0E] py-3.5 overflow-hidden"><div className="flex whitespace-nowrap" style={{animation:"marquee 36s linear infinite",width:"max-content"}}>{rep.map((t,i)=><span key={i} className="inline-flex items-center gap-3 text-[#E8D5BE]/60 text-[10px] tracking-[0.22em] uppercase font-medium px-3">{t}<Dm/></span>)}</div></div>);}
+function Mq(){const items=["TMS Therapy","Transcranial Magnetic Stimulation","Treatment-Resistant Depression","Non-Invasive","No Medication","FDA-Cleared","Now Available","Accepting New Patients","Covered by Many Insurances","Tri-Valley Clinic · Fremont"];const rep=[...items,...items];return(<div className="bg-[#2C1A0E] py-3.5 overflow-hidden"><div className="flex whitespace-nowrap" style={{animation:"marquee 36s linear infinite",width:"max-content"}}>{rep.map((t,i)=><span key={i} className="inline-flex items-center gap-3 text-[#E8D5BE]/60 text-[10px] tracking-[0.22em] uppercase font-medium px-3">{t}<Dm/></span>)}</div></div>);}
 function WhatIsTMS(){
   const[ref,v]=useReveal();
   return(<section id="what-is-tms" className="py-24 px-5 md:px-10 bg-[#FDFAF6]"><div className="mx-auto max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -225,11 +228,11 @@ function WhoFor(){
     <div className={`border border-[#E8D5BE] bg-[#FDFAF6] p-10 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
       <p className="text-[#7A6556] text-base font-light mb-7 leading-relaxed">TMS is FDA-cleared for adults with Major Depressive Disorder who have not responded to one or more antidepressant medications. You may be a good candidate if you:</p>
       <ul className="space-y-4 mb-8">{yes.map(t=>(<li key={t} className="flex items-start gap-3 text-sm text-[#7A6556]"><div className="w-6 h-6 border border-[#6B7C5E]/40 flex items-center justify-center text-[#6B7C5E] flex-shrink-0 mt-0.5"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg></div>{t}</li>))}</ul>
-      <div className="border-t border-[#E8D5BE] pt-6"><p className="text-[#7A6556] text-sm font-light mb-5">Not sure if TMS is right for you? Dr. Japsharan Gill or Dr. Shabeg Gondara evaluates every patient individually. Join the waitlist and we'll reach out when TMS launches to schedule your consultation.</p><a href="#waitlist" className="inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Join the TMS Waitlist →</a></div>
+      <div className="border-t border-[#E8D5BE] pt-6"><p className="text-[#7A6556] text-sm font-light mb-5">Not sure if TMS is right for you? Dr. Japsharan Gill or Dr. Shabeg Gondara evaluates every patient individually. Request a consultation and our team will call you to schedule it.</p><a href="#consultation" className="inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Request a Consultation →</a></div>
     </div>
   </div></section>);
 }
-function WaitlistSec(){
+function ConsultSec(){
   const[ref,v]=useReveal();
   const[form,setForm]=useState({name:"",phone:"",email:"",note:""});
   const[sent,sSent]=useState(false);
@@ -248,7 +251,7 @@ function WaitlistSec(){
           phone:   form.phone,
           email:   form.email,
           message: form.note||"No additional notes",
-          subject: `TMS Waitlist — ${form.name} | Tri-Valley Clinic`,
+          subject: `TMS Consultation Request — ${form.name} | Tri-Valley Clinic`,
           _replyto: form.email,
         }),
       });
@@ -260,19 +263,19 @@ function WaitlistSec(){
       setSending(false);
     }
   };
-  return(<section id="waitlist" className="py-24 px-5 md:px-10" style={{background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)"}}>
+  return(<section id="consultation" className="py-24 px-5 md:px-10" style={{background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)"}}>
     <div className="mx-auto max-w-4xl">
-      <div ref={ref} className="text-center mb-12"><div className={`flex items-center justify-center gap-3 mb-5 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-2 h-2 rounded-full bg-[#C9A46A] animate-pulse"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#C9A46A] font-semibold">TMS Launching Soon</span></div><h2 className={`text-5xl md:text-6xl text-[#F0E8DA] transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>Join the <em className="italic text-[#C9A46A]">Waitlist</em></h2><p className={`text-[#A89880] text-base font-light mt-4 max-w-md mx-auto transition-all duration-700 delay-200 ${v?"opacity-100":"opacity-0"}`}>Not sure if TMS is right for you? Our clinical team evaluates each patient individually. Join the waitlist and we'll contact you to schedule a consultation when appointments become available.</p></div>
+      <div ref={ref} className="text-center mb-12"><div className={`flex items-center justify-center gap-3 mb-5 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-2 h-2 rounded-full bg-[#6B7C5E] animate-pulse"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#6B7C5E] font-semibold">Now Accepting TMS Patients</span></div><h2 className={`text-5xl md:text-6xl text-[#F0E8DA] transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>Request a <em className="italic text-[#C9A46A]">Consultation</em></h2><p className={`text-[#A89880] text-base font-light mt-4 max-w-md mx-auto transition-all duration-700 delay-200 ${v?"opacity-100":"opacity-0"}`}>Every patient is evaluated individually to determine whether TMS is the right fit. Send us your details and our team will call you to schedule your consultation and verify your insurance benefits.</p></div>
       <div className={`border border-[#E8D5BE]/15 bg-[#F5EEE4]/5 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
         <div className="h-[3px] bg-gradient-to-r from-transparent via-[#B8925A] to-transparent"/>
         <div className="p-8 md:p-12">
-          {sent?(<div className="text-center py-10"><div className="w-16 h-16 border border-[#B8925A]/40 flex items-center justify-center text-[#B8925A] mx-auto mb-5"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3 className="text-2xl text-[#F0E8DA] mb-2" style={{fontFamily:"'Cormorant Garamond',serif"}}>You're on the list!</h3><p className="text-[#A89880] text-sm font-light">We'll reach out as soon as TMS launches at Tri-Valley Clinic. Thank you for your interest.</p></div>):(
+          {sent?(<div className="text-center py-10"><div className="w-16 h-16 border border-[#B8925A]/40 flex items-center justify-center text-[#B8925A] mx-auto mb-5"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"><polyline points="20 6 9 17 4 12"/></svg></div><h3 className="text-2xl text-[#F0E8DA] mb-2" style={{fontFamily:"'Cormorant Garamond',serif"}}>Request received</h3><p className="text-[#A89880] text-sm font-light">Our team will call you to schedule your TMS consultation. If you'd like to speak with someone sooner, call <a href="tel:5105984921" className="text-[#C9A46A] hover:text-[#B8925A] transition-colors">(510) 598-4921</a>.</p></div>):(
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Full Name *</label><input type="text" placeholder="Your name" value={form.name} onChange={e=>setForm({...form,name:e.target.value})} required className="w-full bg-[#FDFAF6]/8 border border-[#E8D5BE]/20 px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300"/></div>
             <div><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Phone Number</label><input type="tel" placeholder="(510) 000-0000" value={form.phone} onChange={e=>setForm({...form,phone:e.target.value})} className="w-full bg-[#FDFAF6]/8 border border-[#E8D5BE]/20 px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300"/></div>
             <div className="md:col-span-2"><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Email Address *</label><input type="email" placeholder="your@email.com" value={form.email} onChange={e=>setForm({...form,email:e.target.value})} required className="w-full bg-[#FDFAF6]/8 border border-[#E8D5BE]/20 px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300"/></div>
-            <div className="md:col-span-2"><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">Anything You'd Like Us to Know</label><textarea rows={3} placeholder="e.g., medications tried, how long you've had depression..." value={form.note} onChange={e=>setForm({...form,note:e.target.value})} className="w-full bg-[#FDFAF6]/8 border border-[#E8D5BE]/20 px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300 resize-none"/></div>
-            <div className="md:col-span-2"><button type="submit" disabled={sending} className="group w-full bg-[#B8925A] text-[#FDFAF6] py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed">{sending?"Submitting...":(<>Join Waitlist — No Commitment <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></>)}</button></div>
+            <div className="md:col-span-2"><label className="text-[10px] tracking-[0.18em] uppercase text-[#B8925A]/70 font-semibold block mb-2">How Can We Help?</label><textarea rows={3} placeholder="e.g., the best time to reach you, or questions about insurance and scheduling" value={form.note} onChange={e=>setForm({...form,note:e.target.value})} className="w-full bg-[#FDFAF6]/8 border border-[#E8D5BE]/20 px-4 py-3 text-[#F0E8DA] placeholder-[#7A6556] text-sm focus:outline-none focus:border-[#B8925A] transition-colors duration-300 resize-none"/><p className="text-[10px] text-[#7A6556] font-light mt-2">Please don't include medical details in this form. We'll go over your history privately during your consultation.</p></div>
+            <div className="md:col-span-2"><button type="submit" disabled={sending} className="group w-full bg-[#B8925A] text-[#FDFAF6] py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed">{sending?"Submitting...":(<>Request Your Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></>)}</button><p className="text-[10px] tracking-[0.16em] uppercase text-[#7A6556] text-center mt-4">Prefer to call? <a href="tel:5105984921" className="text-[#C9A46A] hover:text-[#B8925A] transition-colors">(510) 598-4921</a></p></div>
           </form>)}
         </div>
       </div>
@@ -287,7 +290,7 @@ function FAQSec(){
     {q:"Will insurance cover TMS therapy?",a:"If TMS is recommended, our team will submit a prior authorization request to your insurance provider. Approval is required before treatment begins, and timing varies depending on your plan."},
     {q:"How long does it take to start treatment?",a:"After your evaluation, treatment begins once insurance authorization is approved. The timeline varies depending on your insurance provider."},
     {q:"When will I start to feel results?",a:"Many patients begin noticing improvements within the first few weeks of treatment, though response varies from person to person."},
-    {q:"What happens after I finish treatment?",a:"Some patients maintain their improvement after the initial course, while others may benefit from maintenance sessions depending on their response and clinical recommendations."},
+    {q:"What happens after I finish treatment?",a:"Some patients maintain their improvement after the initial course, while others may benefit from maintenance sessions depending on their response and clinical recommendations. Maintenance treatment requires a new prior authorization from your insurance provider."},
   ];
   return(<section className="py-24 px-5 md:px-10 bg-[#F5EEE4]"><div className="mx-auto max-w-4xl">
     <div ref={ref} className={`text-center mb-12 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
@@ -323,7 +326,7 @@ function CTA(){
           style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300,lineHeight:1.05}}>
           Don't Wait to<br/><em className="italic text-[#B8925A]">Feel Better.</em>
         </h2>
-        <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>TMS is launching soon at Tri-Valley Clinic. Join the waitlist and our team will reach out as soon as appointments open.</p>
+        <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>TMS therapy is now available at Tri-Valley Clinic. Call us or send a message and our team will schedule your consultation and verify your insurance benefits.</p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400"><Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
           <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
@@ -335,4 +338,4 @@ function CTA(){
 }
 function Ph(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;}
 function Dm({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10" fill="#B8925A"><polygon points="5,0 10,5 5,10 0,5"/></svg>;}
-const CSS=`*{cursor:none !important;}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;
+const CSS=`@media (pointer: fine){*{cursor:none !important;}}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;

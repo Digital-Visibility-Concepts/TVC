@@ -35,10 +35,15 @@ function Counter({ to, suffix = "", ms = 1800 }) {
   return <span ref={ref}>{v}{suffix}</span>;
 }
 
+/* ⚠ z-9998/9999 is the top of the site. Nothing may render above it
+   or the pointer vanishes (see src/constants/zIndex.js). */
 function Cursor() {
+  const [enabled, setEnabled] = useState(false);
   const dot = useRef(null), ring = useRef(null);
   const pos = useRef({ x: 0, y: 0 }), raf = useRef(null);
+  useEffect(() => { setEnabled(window.matchMedia("(pointer: fine)").matches); }, []);
   useEffect(() => {
+    if (!enabled) return;
     const mv = (e) => { pos.current = { x: e.clientX, y: e.clientY }; };
     const tk = () => {
       if (dot.current)  dot.current.style.transform  = `translate(${pos.current.x - 4}px,${pos.current.y - 4}px)`;
@@ -48,7 +53,8 @@ function Cursor() {
     window.addEventListener("mousemove", mv);
     raf.current = requestAnimationFrame(tk);
     return () => { window.removeEventListener("mousemove", mv); cancelAnimationFrame(raf.current); };
-  }, []);
+  }, [enabled]);
+  if (!enabled) return null;
   return (
     <>
       <div ref={dot}  className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{ transition: "none" }} />
@@ -317,7 +323,7 @@ function HeroSection() {
 
 /* ══ 2. MARQUEE ══ */
 function MarqueeStrip() {
-  const items = ["Dr. Japsharan Gill · Founder & CEO", "Dr. Shabeg Gondara · President", "Psychiatry & Wellness", "15+ Years Experience", "Fremont, CA", "Schedule Today", "Next-Day Appointments", "Telehealth · Statewide CA", "GLP-1 Weight Loss", "IV Hydration", "TMS Therapy · Coming Soon"];
+  const items = ["Dr. Japsharan Gill · Founder & CEO", "Dr. Shabeg Gondara · President", "Psychiatry & Wellness", "15+ Years Experience", "Fremont, CA", "Schedule Today", "Next-Day Appointments", "Telehealth · Statewide CA", "GLP-1 Weight Loss", "IV Hydration", "TMS Therapy"];
   const rep = [...items, ...items];
   return (
     <div className="bg-[#2C1A0E] py-3.5 overflow-hidden">
@@ -436,7 +442,7 @@ function DrGillBioSection() {
                 "Psychiatry, GLP-1, IV Hydration, TMS Therapy",
                 "Medical Weight Management · Advanced Wellness",
                 "GLP-1 / Semaglutide Physician-Supervised Programs",
-                "IV Hydration & TMS Therapy (launching soon)",
+                "IV Hydration & TMS Therapy",
                 "Telehealth — Available Statewide in California",
               ].map((c) => (
                 <li key={c} className="flex items-start gap-3 text-sm text-[#7A6556]">

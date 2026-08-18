@@ -1,10 +1,11 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useEffect, useRef, useState } from "react";
 import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
 import SEO from '../components/SEO';
 
 const CONDITIONS=[
-  {id:"anxiety",label:"Anxiety Disorders",sub:"GAD · Social · Panic",icon:"🧠",
+  {id:"anxiety",label:"Anxiety Disorders",sub:"GAD · Social · Panic",
     desc:`Anxiety disorders are common mental health conditions that can cause ongoing feelings of worry, fear, or unease, even when there is no immediate danger present. These feelings may occur occasionally or become more persistent over time.
 
 People may experience excessive worry, restlessness, difficulty relaxing, or a sense of being "on edge." Anxiety can also show up physically, such as a racing heart, muscle tension, or trouble sleeping.
@@ -12,7 +13,7 @@ People may experience excessive worry, restlessness, difficulty relaxing, or a s
 There are several types of anxiety disorders, including generalized anxiety disorder, social anxiety, panic disorder, and specific phobias. Each can affect people in different ways.
 
 Symptoms may become more noticeable during times of stress or uncertainty and can impact daily routines, relationships, and overall well-being.`},
-  {id:"psychosis",label:"Psychosis",sub:"Schizophrenia · Schizoaffective",icon:"🔮",
+  {id:"psychosis",label:"Psychosis",sub:"Schizophrenia · Schizoaffective",
     desc:`Psychosis is a mental health condition that affects how a person perceives reality. It can make it difficult to distinguish what is real from what is not.
 
 People may experience hallucinations (seeing or hearing things others do not), delusions (strong beliefs that are not based in reality), or confused thinking. It may also affect insight, making it harder to recognize that symptoms are part of a health condition.
@@ -20,7 +21,7 @@ People may experience hallucinations (seeing or hearing things others do not), d
 Psychosis can occur on its own or be associated with other mental health conditions, medical issues, or substance use.
 
 Symptoms can significantly impact daily functioning, relationships, and safety, and tend to require professional evaluation and support.`},
-  {id:"depression",label:"Depression",sub:"MDD · Persistent · Postpartum",icon:"💙",
+  {id:"depression",label:"Depression",sub:"MDD · Persistent · Postpartum",
     desc:`Depression is a common mental health condition that affects how a person thinks, feels, and functions in daily life. Symptoms can range from mild to severe and typically last for at least two weeks or longer.
 
 People may experience persistent sadness, loss of interest in activities they once enjoyed, or a general sense of emotional heaviness or disconnection.
@@ -28,7 +29,7 @@ People may experience persistent sadness, loss of interest in activities they on
 Common symptoms may include feelings of guilt or worthlessness, hopelessness, low energy, changes in sleep or appetite, and difficulty concentrating or staying motivated.
 
 Without appropriate support or treatment, some individuals may be at increased risk of substance use, self-harm, or suicidal thoughts, especially during periods of severe or prolonged symptoms.`},
-  {id:"adhd",label:"ADHD",sub:"Adult Diagnosis & Management",icon:"⚡",
+  {id:"adhd",label:"ADHD",sub:"Adult Diagnosis & Management",
     desc:`ADHD (Attention-Deficit/Hyperactivity Disorder) is a neurodevelopmental condition that begins in childhood and can continue into adulthood. It can affect attention, energy levels, and impulse control in daily life.
 
 People with ADHD may find it harder to stay focused, follow through on tasks, or stay organized. Forgetfulness and procrastination are also common. At times, individuals may experience periods of intense focus on activities that are highly engaging.
@@ -36,7 +37,7 @@ People with ADHD may find it harder to stay focused, follow through on tasks, or
 Some people also feel physically or mentally restless, have difficulty sitting still, or feel like they are constantly "on the go." This can sometimes show up as talking more than intended, interrupting others, or difficulty waiting.
 
 ADHD symptoms often become more noticeable during times of stress, lack of sleep, or when daily demands feel overwhelming.`},
-  {id:"ptsd",label:"PTSD & Trauma",sub:"Complex · Single Event",icon:"🌿",
+  {id:"ptsd",label:"PTSD & Trauma",sub:"Complex · Single Event",
     desc:`Trauma and chronic stress can change how a person thinks, feels, and responds in everyday life.
 
 People may feel more anxious than usual, get startled easily, or feel like they're always on edge.
@@ -44,7 +45,7 @@ People may feel more anxious than usual, get startled easily, or feel like they'
 It's also common to avoid certain people, places, or situations that bring up reminders of what happened.
 
 Some individuals with PTSD may turn to substances or other behaviors as a way to cope with difficult symptoms. Some people may also experience intrusive memories or trouble sleeping.`},
-  {id:"bipolar",label:"Bipolar Disorder",sub:"Type I · Type II",icon:"⚖️",
+  {id:"bipolar",label:"Bipolar Disorder",sub:"Type I · Type II",
     desc:`Bipolar disorder is a mental health condition characterized by significant shifts in mood, energy, and activity levels. These changes can affect how a person functions in daily life.
 
 Individuals may experience periods of elevated mood, increased energy, or feeling unusually "up," often referred to as mania or hypomania. During these times, a person may feel more confident, energetic, or easily distracted than usual.
@@ -52,7 +53,7 @@ Individuals may experience periods of elevated mood, increased energy, or feelin
 These periods are often followed by depressive episodes, which can include persistent sadness, low energy, loss of interest in activities, feelings of worthlessness, and difficulty sleeping or concentrating.
 
 These mood shifts can affect decision-making, relationships, and overall functioning. Without appropriate treatment, bipolar disorder may be associated with increased risk of substance use, self-harm, or suicidal thoughts.`},
-  {id:"ocd",label:"OCD",sub:"Obsessive-Compulsive Disorder",icon:"🔄",
+  {id:"ocd",label:"OCD",sub:"Obsessive-Compulsive Disorder",
     desc:`Obsessive-Compulsive Disorder (OCD) is a mental health condition characterized by unwanted, intrusive thoughts (obsessions) and repetitive behaviors or mental acts (compulsions) that a person feels driven to repeat. These patterns can be distressing and interfere with daily life.
 
 Individuals may experience persistent thoughts, worries, or fears that feel difficult to control, even when they recognize they are not fully rational. These thoughts can create significant anxiety or discomfort.
@@ -60,7 +61,7 @@ Individuals may experience persistent thoughts, worries, or fears that feel diff
 To reduce this distress, a person may engage in repetitive behaviors or rituals such as checking, cleaning, counting, or seeking reassurance. These behaviors may temporarily relieve anxiety but often become time-consuming or disruptive.
 
 Symptoms can feel more intense during periods of stress and may affect relationships, work, and overall daily functioning. Without appropriate support, OCD symptoms can contribute to ongoing anxiety and emotional exhaustion.`},
-  {id:"insomnia",label:"Insomnia",sub:"Chronic · Acute",icon:"🌙",
+  {id:"insomnia",label:"Insomnia",sub:"Chronic · Acute",
     desc:`Insomnia is a common sleep-related condition that makes it difficult to fall asleep, stay asleep, or get restful sleep on a regular basis. It can affect energy, mood, and overall functioning during the day.
 
 Individuals may lie awake for long periods at night, wake up frequently, or wake up too early and be unable to return to sleep. Even when enough time is spent in bed, sleep may still feel unrefreshing.
@@ -68,7 +69,7 @@ Individuals may lie awake for long periods at night, wake up frequently, or wake
 Common symptoms during the day may include fatigue, irritability, difficulty concentrating, low motivation, and reduced performance in daily activities.
 
 Insomnia can be influenced by stress, anxiety, medical conditions, or lifestyle factors, and symptoms may become more noticeable during periods of increased stress or emotional strain.`},
-  {id:"substance",label:"Substance Abuse",sub:"Dual Diagnosis",icon:"🛡️",
+  {id:"substance",label:"Substance Abuse",sub:"Dual Diagnosis",
     desc:`Substance use disorders involve the repeated use of alcohol or drugs in a way that begins to affect a person's health, relationships, work, or daily functioning. Over time, it may become difficult to reduce or stop use despite wanting to.
 
 Individuals may notice cravings, increased tolerance, withdrawal symptoms, or using substances to cope with stress, anxiety, trauma, or emotional discomfort. Substance use can also begin to take priority over responsibilities and relationships.
@@ -76,7 +77,7 @@ Individuals may notice cravings, increased tolerance, withdrawal symptoms, or us
 Symptoms can vary in severity and may affect both physical and mental health. Many people experience cycles of stopping and returning to use, especially during periods of stress or emotional difficulty.
 
 Without appropriate support, substance use disorders may contribute to worsening mental health symptoms, relationship strain, and increased risk of harm.`},
-  {id:"medmgmt",label:"Medication Management",sub:"Monitoring · Adjustment",icon:"💊",
+  {id:"medmgmt",label:"Medication Management",sub:"Monitoring · Adjustment",
     desc:`Medication management involves the careful evaluation, prescription, and ongoing monitoring of psychiatric medications to support mental health treatment. It is often used alongside therapy and other forms of care.
 
 Individuals may work with a provider to determine whether medication may help with symptoms such as anxiety, depression, mood instability, inattention, or sleep difficulties. Treatment plans are personalized and adjusted based on response and side effects.
@@ -87,7 +88,9 @@ The goal of medication management is to help reduce symptoms, improve daily func
 ];
 function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);useEffect(()=>{const el=ref.current;if(!el)return;const o=new IntersectionObserver(([e])=>{if(e.isIntersecting){sv(true);o.unobserve(el);}},{threshold:t,rootMargin:"0px 0px -60px 0px"});o.observe(el);return()=>o.disconnect();},[t]);return[ref,v];}
 function Counter({to,suffix="",ms=1800}){const[v,setV]=useState(0);const[ref,vis]=useReveal(0.5);useEffect(()=>{if(!vis)return;let t0=null;const f=(ts)=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/ms,1);setV(Math.floor(p*to));if(p<1)requestAnimationFrame(f);};requestAnimationFrame(f);},[vis,to,ms]);return <span ref={ref}>{v}{suffix}</span>;}
-function Cursor(){const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[]);return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
+/* ⚠ z-9998/9999 is the top of the site. Nothing may render above it
+   or the pointer vanishes (see src/constants/zIndex.js). */
+function Cursor(){const[en,setEn]=useState(false);const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{setEn(window.matchMedia("(pointer: fine)").matches);},[]);useEffect(()=>{if(!en)return;const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[en]);if(!en)return null;return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 
 export default function Psychiatric(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
@@ -381,4 +384,4 @@ function CTA(){
 function Ph(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;}
 function Dm({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10" fill="#B8925A"><polygon points="5,0 10,5 5,10 0,5"/></svg>;}
 function St(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="#B8925A"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>;}
-const CSS=`*{cursor:none !important;}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;
+const CSS=`@media (pointer: fine){*{cursor:none !important;}}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;

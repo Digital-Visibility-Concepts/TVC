@@ -1,5 +1,10 @@
 import { Link } from "react-router-dom";
 
+/* WordPress lives at /blog/ and is NOT part of this React app.
+   Absolute URL on purpose: a root-relative "/blog/" 404s on localhost
+   because WordPress isn't running there. Same value is in Navbar.jsx. */
+const BLOG_URL = "https://trivalleyclinic.com/blog/";
+
 const SERVICES = [
   { label: "Psychiatric Care",            to: "/psychiatry"  },
   { label: "Medical Weight Loss / GLP-1", to: "/medical-weight-loss"  },
@@ -13,7 +18,7 @@ const QUICK_LINKS = [
   { label: "About",              to: "/about"      },
   { label: "Insurance Accepted", to: "/insurance"  },
   { label: "Financing Options",  to: "/financing"  },
-  { label: "Blog & Resources",   to: "/blog"       },
+  { label: "Blog & Resources",   href: BLOG_URL    },   /* external — WordPress */
   { label: "Contact Us",         to: "/contact"    },
 ];
 
@@ -82,11 +87,11 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2.5 pt-1">
                 {[
-                  { label: "Facebook",  icon: <FBIcon />     },
+                
                   { label: "Instagram", icon: <IGIcon />     },
-                  { label: "Google",    icon: <GoogleIcon /> },
+                 
                 ].map((s) => (
-                  <a key={s.label} href="#" aria-label={s.label}
+                  <a key={s.label} href="https://www.instagram.com/trivalleyclinic/" aria-label={s.label}
                     className="w-9 h-9 border border-[#E8D5BE] bg-[#FDFAF6]/60 flex items-center justify-center text-[#7A6556] hover:border-[#B8925A] hover:text-[#B8925A] hover:bg-[#FDFAF6] transition-all duration-300">
                     {s.icon}
                   </a>
@@ -119,14 +124,22 @@ export default function Footer() {
             <div>
               <SectionHeading>Quick Links</SectionHeading>
               <ul className="space-y-2.5 mb-8">
-                {QUICK_LINKS.map((l) => (
-                  <li key={l.label}>
-                    <Link to={l.to} className="flex items-center gap-2.5 text-sm text-[#7A6556] hover:text-[#B8925A] transition-colors duration-200 group">
+                {QUICK_LINKS.map((l) => {
+                  const inner = (
+                    <>
                       <span className="w-[5px] h-[5px] rounded-full border border-[#B8925A]/40 group-hover:bg-[#B8925A] group-hover:border-[#B8925A] transition-all duration-200 flex-shrink-0" />
                       {l.label}
-                    </Link>
-                  </li>
-                ))}
+                    </>
+                  );
+                  const cls = "flex items-center gap-2.5 text-sm text-[#7A6556] hover:text-[#B8925A] transition-colors duration-200 group";
+                  return (
+                    <li key={l.label}>
+                      {l.href
+                        ? <a href={l.href} className={cls}>{inner}</a>
+                        : <Link to={l.to} className={cls}>{inner}</Link>}
+                    </li>
+                  );
+                })}
               </ul>
 
               {/* Two review badges — Dr. Gill + Dr. Gondara */}

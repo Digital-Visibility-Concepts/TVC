@@ -17,9 +17,14 @@ function useReveal(t = 0.12) {
   return [ref, v];
 }
 
+/* ⚠ z-9998/9999 is the top of the site. Nothing may render above it
+   or the pointer vanishes (see src/constants/zIndex.js). */
 function Cursor() {
+  const [enabled, setEnabled] = useState(false);
   const d = useRef(null), r = useRef(null), p = useRef({ x: 0, y: 0 }), f = useRef(null);
+  useEffect(() => { setEnabled(window.matchMedia("(pointer: fine)").matches); }, []);
   useEffect(() => {
+    if (!enabled) return;
     const mv = e => { p.current = { x: e.clientX, y: e.clientY }; };
     const tk = () => {
       if (d.current) d.current.style.transform = `translate(${p.current.x - 4}px,${p.current.y - 4}px)`;
@@ -29,7 +34,8 @@ function Cursor() {
     window.addEventListener("mousemove", mv);
     f.current = requestAnimationFrame(tk);
     return () => { window.removeEventListener("mousemove", mv); cancelAnimationFrame(f.current); };
-  }, []);
+  }, [enabled]);
+  if (!enabled) return null;
   return (
     <>
       <div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{ transition: "none" }} />

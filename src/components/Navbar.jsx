@@ -2,6 +2,11 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 
+/* WordPress lives at /blog/ and is NOT part of this React app.
+   Absolute URL on purpose: a root-relative "/blog/" 404s on localhost
+   because WordPress isn't running there. Same value is in Footer.jsx. */
+const BLOG_URL = "https://trivalleyclinic.com/blog/";
+
 const NAV_LINKS = [
   {
     label: "Services",
@@ -16,7 +21,7 @@ const NAV_LINKS = [
   { label: "About",     to: "/about"     },
   { label: "Insurance", to: "/insurance" },
   { label: "Financing", to: "/financing" },
-  { label: "Blog",      to: "/blog"      },
+  { label: "Blog",      href: BLOG_URL   },   /* external — WordPress */
   { label: "Contact",   to: "/contact"   },
 ];
 
@@ -63,7 +68,7 @@ export default function Navbar() {
         </span>
         <Pip />
         <a
-          href="tel:5105984921 "
+          href="tel:5105984921"
           className="flex items-center gap-1.5 text-[10px] tracking-[0.2em] uppercase font-semibold text-[#2C1A0E] hover:text-[#B8925A] transition-colors duration-200"
         >
           <PhoneIcon /> (510)&nbsp;598-4921
@@ -184,6 +189,14 @@ export default function Navbar() {
                     ))}
                   </div>
                 </div>
+              ) : link.href ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="flex items-center px-4 py-3.5 text-[10px] tracking-[0.2em] uppercase font-semibold text-[#7A6556] hover:text-[#B8925A] hover:bg-[#F5EEE4] transition-all duration-200"
+                >
+                  {link.label}
+                </a>
               ) : (
                 <Link
                   key={link.label}
@@ -219,15 +232,19 @@ export default function Navbar() {
 
 function NavItem({ link }) {
   const { pathname } = useLocation();
-  const active = pathname === link.to;
+  const active = !link.href && pathname === link.to;
+  const cls = `relative px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold block transition-colors duration-200 after:absolute after:bottom-[-1px] after:left-3 after:right-3 after:h-[1.5px] after:bg-[#B8925A] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:text-[#B8925A] hover:after:scale-x-100 ${active ? "text-[#B8925A] after:scale-x-100" : "text-[#7A6556]"}`;
+
+  /* External links must be a plain <a>. React Router's <Link> handles the
+     click in-browser and never requests the server, so Apache would never
+     get the chance to serve WordPress. */
   return (
     <li>
-      <Link
-        to={link.to}
-        className={`relative px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold block transition-colors duration-200 after:absolute after:bottom-[-1px] after:left-3 after:right-3 after:h-[1.5px] after:bg-[#B8925A] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:text-[#B8925A] hover:after:scale-x-100 ${active ? "text-[#B8925A] after:scale-x-100" : "text-[#7A6556]"}`}
-      >
-        {link.label}
-      </Link>
+      {link.href ? (
+        <a href={link.href} className={cls}>{link.label}</a>
+      ) : (
+        <Link to={link.to} className={cls}>{link.label}</Link>
+      )}
     </li>
   );
 }
