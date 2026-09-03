@@ -14,6 +14,7 @@ import Financing  from "./pages/Financing";
 import Contact    from "./pages/Contact";
 import LegalPrivacy from './pages/LegalPrivacy';
 import LegalTerms   from './pages/LegalTerms';
+import PatientInformation from "./pages/PatientInformation";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
      { path: "/privacy-policy", element: <LegalPrivacy /> },
 { path: "/terms-of-use",   element: <LegalTerms /> },
       { path: "contact",                element: <Contact />     },
+      { path: "patient-information", element: <PatientInformation /> },
     ],
   },
 ]);

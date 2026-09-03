@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable no-unused-vars */
 import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
