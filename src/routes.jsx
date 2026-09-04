@@ -23,7 +23,7 @@ const router = createBrowserRouter([
     children: [
       { index: true,                    element: <Home />        },
       { path: "about",                  element: <About />       },
-      { path: "psychiatry",             element: <Psychiatric /> }, // was "psychiatric"
+      { path: "psychiatric",             element: <Psychiatric /> }, // was "psychiatric"
       { path: "medical-weight-loss",    element: <WeightLoss />  }, // was "weight-loss"
       { path: "iv-hydration",           element: <IVHydration /> }, // ✅ same
       { path: "tms-therapy",            element: <TMS />         }, // was "tms"
