@@ -1,0 +1,24 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Force non-www
+  RewriteCond %{HTTP_HOST} ^www\.trivalleyclinic\.com$ [NC]
+  RewriteRule ^(.*)$ https://trivalleyclinic.com/$1 [L,R=301]
+
+  # Let WordPress handle /blog and /wordpress
+  RewriteCond %{REQUEST_URI} ^/blog [NC]
+  RewriteRule ^ - [L]
+
+  RewriteCond %{REQUEST_URI} ^/wordpress [NC]
+  RewriteRule ^ - [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^ /index.html [L]
+</IfModule>
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the "ea-php82" package as the default "PHP" programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82 .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit
