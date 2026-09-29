@@ -1,0 +1,148 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+env:
+  SITE: https://trivalleyclinic.com
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install Chrome system libraries (for react-snap)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libxkbcommon0 \
+            libxcomposite1 libxdamage1 libxrandr2 libxtst6 libxss1 libgbm1 \
+            libpango-1.0-0 libcairo2 libasound2 libgtk-3-0 libx11-xcb1
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build + prerender
+        run: npm run build
+
+      - name: Remove anything that would overwrite WordPress
+        run: |
+          # If react-snap crawled a React /blog route, it would write dist/blog/index.html,
+          # which would shadow WordPress's index.php in public_html/blog/. Never ship it.
+          rm -rf dist/blog
+
+      - name: Verify prerender (fail if any page is an empty shell)
+        run: |
+          fail=0
+          count=0
+          while IFS= read -r f; do
+            count=$((count+1))
+            if grep -q '<div id="root"></div>' "$f"; then
+              echo "::error::Empty shell (not prerendered): $f"
+              fail=1
+            fi
+          done < <(find dist -name index.html)
+          size=$(stat -c%s dist/index.html)
+          echo "Prerendered HTML files: $count"
+          echo "dist/index.html: $size bytes"
+          if [ "$size" -lt 20000 ]; then echo "::error::Homepage too small ($size bytes)"; fail=1; fi
+          if [ "$count" -lt 14 ]; then echo "::error::Expected at least 14 prerendered routes, got $count"; fail=1; fi
+          exit $fail
+
+      - name: Add build marker and cPanel deploy script
+        run: |
+          echo "${GITHUB_SHA}" > dist/build.txt
+          cp deploy/cpanel.deploy.yml dist/.cpanel.yml
+          test -f dist/.htaccess || { echo "::error::dist/.htaccess missing (public/.htaccess not in repo?)"; exit 1; }
+
+      - name: Push build to deploy branch
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REMOTE="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config --global user.name  "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          if git ls-remote --exit-code --heads "$REMOTE" deploy > /dev/null; then
+            git clone --depth 1 --branch deploy "$REMOTE" deploy-branch
+          else
+            mkdir deploy-branch
+            git -C deploy-branch init -b deploy
+            git -C deploy-branch remote add origin "$REMOTE"
+          fi
+
+          rsync -a --delete --exclude '.git' dist/ deploy-branch/
+          cd deploy-branch
+          git add -A
+          git commit -m "Build ${GITHUB_SHA::7}"
+          git push origin deploy
+
+      - name: Trigger server deploy (cPanel pulls deploy branch)
+        env:
+          HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+          HOOK_TOKEN: ${{ secrets.DEPLOY_HOOK_TOKEN }}
+        run: |
+          if [ -z "$HOOK_URL" ] || [ -z "$HOOK_TOKEN" ]; then
+            echo "::error::DEPLOY_HOOK_URL / DEPLOY_HOOK_TOKEN secrets not set. Build is on the deploy branch; set secrets and re-run."
+            exit 1
+          fi
+          curl -fsS --max-time 150 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=deploy"
+          echo
+
+      - name: Wait for new build to be live
+        run: |
+          for i in $(seq 1 30); do
+            live=$(curl -fsSL "${SITE}/build.txt?nc=$(date +%s)" 2>/dev/null | tr -d '[:space:]' || true)
+            if [ "$live" = "${GITHUB_SHA}" ]; then
+              echo "Live build matches ${GITHUB_SHA::7}"
+              exit 0
+            fi
+            echo "Waiting... live='${live:0:7}' expected='${GITHUB_SHA::7}' ($i/30)"
+            sleep 10
+          done
+          echo "::error::New build did not go live within 5 minutes. Check cPanel > Git Version Control > TVC-deploy deployment log."
+          exit 1
+
+      - name: Clear NGINX cache
+        env:
+          HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+          HOOK_TOKEN: ${{ secrets.DEPLOY_HOOK_TOKEN }}
+        run: |
+          curl -fsS --max-time 60 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=clear_cache" \
+            || echo "::warning::Cache clear failed - clear NGINX cache manually in cPanel."
+          echo
+
+      - name: Verify live pages (curl -L follows trailing-slash redirects)
+        run: |
+          fail=0
+          for p in / /insurance /tms-therapy; do
+            size=$(curl -sL -o /dev/null -w '%{size_download}' "${SITE}${p}")
+            code=$(curl -sL -o /dev/null -w '%{http_code}' "${SITE}${p}")
+            echo "${p} -> HTTP ${code}, ${size} bytes"
+            if [ "$code" != "200" ] || [ "$size" -lt 20000 ]; then
+              echo "::error::${p} failed check"; fail=1
+            fi
+          done
+          blog=$(curl -sL -o /dev/null -w '%{http_code}' "${SITE}/blog/")
+          echo "/blog/ -> HTTP ${blog}"
+          [ "$blog" = "200" ] || { echo "::error::WordPress blog not returning 200"; fail=1; }
+          exit $fail

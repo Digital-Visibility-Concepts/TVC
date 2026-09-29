@@ -1,0 +1,8 @@
+---
+# Lives on the `deploy` branch as .cpanel.yml (copied there by GitHub Actions).
+# Copy only. NO delete step: never touches public_html/blog, _deploy, or anything else.
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/trivalleyclinic/public_html/
+    - /bin/cp -R ./* $DEPLOYPATH
+    - /bin/cp -f .htaccess $DEPLOYPATH
