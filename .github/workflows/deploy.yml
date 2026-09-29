@@ -56,42 +56,89 @@ jobs:
           fi
           echo "PASS: prerendering produced full pages."
 
-      # The ssh-agent action has no passphrase input, so the key is
-      # loaded manually and the passphrase is fed to ssh-add through a
-      # tiny askpass helper (ssh-add will not read a passphrase from a
-      # pipe, only from a TTY or SSH_ASKPASS).
+      # cPanel keys can be in OPENSSH or PEM format and the passphrase
+      # must be fed through SSH_ASKPASS because ssh-add will not read one
+      # from a pipe. Each stage below reports what it found so a failure
+      # points at the cause instead of just exiting 1.
       - name: Set up SSH
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
           SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
         run: |
+          set +e
+
           mkdir -p ~/.ssh
           chmod 700 ~/.ssh
 
           printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
 
-          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-          chmod 644 ~/.ssh/known_hosts
+          echo "=== key sanity ==="
+          echo "lines in key file: $(wc -l < ~/.ssh/deploy_key)"
+          echo "first line: $(head -1 ~/.ssh/deploy_key)"
+          echo "last line:  $(tail -1 ~/.ssh/deploy_key)"
 
+          if ! head -1 ~/.ssh/deploy_key | grep -q "BEGIN"; then
+            echo "FAIL: key does not start with a BEGIN line."
+            echo "The SSH_PRIVATE_KEY secret is probably missing the header,"
+            echo "or has leading whitespace. Re-paste the whole key including"
+            echo "-----BEGIN ...----- and -----END ...----- lines."
+            exit 1
+          fi
+
+          echo "=== does the passphrase open the key? ==="
+          ssh-keygen -y -P "$SSH_PASSPHRASE" -f ~/.ssh/deploy_key > /tmp/pub.out 2>/tmp/pub.err
+          if [ $? -ne 0 ]; then
+            echo "FAIL: could not read the key with the given passphrase."
+            cat /tmp/pub.err
+            echo ""
+            echo "Either SSH_PASSPHRASE is wrong, or the key body is corrupted"
+            echo "(line breaks lost when pasting into the GitHub secret)."
+            exit 1
+          fi
+          echo "OK: key unlocked. Public key fingerprint:"
+          ssh-keygen -lf /tmp/pub.out || true
+
+          echo "=== loading key into agent ==="
           eval "$(ssh-agent -s)"
           echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
           echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
 
-          SSH_ASKPASS_SCRIPT=$(mktemp)
-          printf '#!/bin/sh\necho "$SSH_PASSPHRASE"\n' > "$SSH_ASKPASS_SCRIPT"
-          chmod +x "$SSH_ASKPASS_SCRIPT"
+          ASKPASS=$(mktemp)
+          printf '#!/bin/sh\necho "$SSH_PASSPHRASE"\n' > "$ASKPASS"
+          chmod +x "$ASKPASS"
 
-          DISPLAY=:0 SSH_ASKPASS="$SSH_ASKPASS_SCRIPT" SSH_ASKPASS_REQUIRE=force \
+          DISPLAY=:0 SSH_ASKPASS="$ASKPASS" SSH_ASKPASS_REQUIRE=force \
             ssh-add ~/.ssh/deploy_key
+          ADD_RC=$?
+          rm -f "$ASKPASS"
 
-          rm -f "$SSH_ASKPASS_SCRIPT"
+          if [ $ADD_RC -ne 0 ]; then
+            echo "FAIL: ssh-add could not load the key (exit $ADD_RC)."
+            exit 1
+          fi
           ssh-add -l
 
-      # --delete removes old files so stale pages don't linger, but the
-      # excludes protect the WordPress blog and the server-side files
-      # that are not part of this build.
+          echo "=== testing connection to the server ==="
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 644 ~/.ssh/known_hosts
+
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=no \
+              "$SSH_USERNAME@$SSH_HOST" "echo CONNECTED; pwd; ls -d ~/public_html"
+          SSH_RC=$?
+          if [ $SSH_RC -ne 0 ]; then
+            echo "FAIL: SSH connection refused (exit $SSH_RC)."
+            echo "The key loaded fine, so this is the server side:"
+            echo "  1. Is the public key Authorized in cPanel?"
+            echo "     Manage SSH Keys -> Manage SSH Public Keys -> Authorize"
+            echo "  2. Is SSH_USERNAME correct? Currently: $SSH_USERNAME"
+            echo "  3. Is SSH_HOST correct? Currently: $SSH_HOST"
+            exit 1
+          fi
+          echo "SUCCESS: SSH connection works."
+
       - name: Deploy to public_html
         run: |
           rsync -avz --delete \
