@@ -8,9 +8,17 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
-dist/assets/
 dist-ssr
 *.local
+
+# dist IS committed. The cPanel server cannot run Chrome, so react-snap
+# prerendering only works on a developer machine - the built HTML has to
+# reach the server through git.
+#
+# dist/assets is NOT committed. Those are the same images that already
+# live in public/assets and are already on the server in public_html/assets.
+# Committing them twice would push the repo past 350 MB.
+dist/assets/
 
 # Editor directories and files
 .vscode/*
@@ -22,4 +30,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archives - a 175 MB zip once blocked a push to GitHub
 *.zip

@@ -1,6 +1,8 @@
 ---
 deployment:
   tasks:
+    - export REPO=/home/trivalleyclinic/repositories/TVC
     - export DEPLOYPATH=/home/trivalleyclinic/public_html
-    - /bin/find $DEPLOYPATH/ -mindepth 1 -maxdepth 1 ! -name 'blog' ! -name 'deploy.php' ! -name 'webhook' ! -name '.well-known' -exec rm -rf {} +
-    - /bin/cp -R /home/trivalleyclinic/repositories/TVC/dist/. $DEPLOYPATH/
+    - /bin/cp -R $REPO/dist/. $DEPLOYPATH/
+    - /bin/cp -R $REPO/public/assets/. $DEPLOYPATH/assets/
+    - /bin/cp $REPO/public/.htaccess $DEPLOYPATH/ 2>/dev/null; true
