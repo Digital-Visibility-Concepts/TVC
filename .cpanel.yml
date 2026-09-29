@@ -1,9 +1,6 @@
 ---
 deployment:
   tasks:
-    - cd /home/trivalleyclinic/repositories/TVC
-    - npm install
-    - npm run build
-    - find /home/trivalleyclinic/public_html/ -mindepth 1 -maxdepth 1 ! -name 'blog' -exec rm -rf {} +
-    - /bin/cp -R dist/* /home/trivalleyclinic/public_html/
-    - /bin/cp dist/.htaccess /home/trivalleyclinic/public_html/ 2>/dev/null; true
+    - export DEPLOYPATH=/home/trivalleyclinic/public_html
+    - /bin/find $DEPLOYPATH/ -mindepth 1 -maxdepth 1 ! -name 'blog' ! -name 'deploy.php' ! -name 'webhook' ! -name '.well-known' -exec rm -rf {} +
+    - /bin/cp -R /home/trivalleyclinic/repositories/TVC/dist/. $DEPLOYPATH/
