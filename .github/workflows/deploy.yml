@@ -23,10 +23,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # GitHub's runner has the Chrome libraries the cPanel server is
-      # missing (libXtst.so.6 and friends), so react-snap's postbuild
-      # step works here. This is the whole reason the build runs on
-      # GitHub instead of on the server.
+      # The cPanel server is missing the libraries Chrome needs to start
+      # (libXtst.so.6 and friends), which is why react-snap's postbuild
+      # step always failed there and published an empty shell. GitHub's
+      # runner can install them, so the build happens here instead.
       - name: Install Chrome dependencies for react-snap
         run: |
           sudo apt-get update
@@ -38,8 +38,9 @@ jobs:
       - name: Build site
         run: npm run build
 
-      # Stop before touching the server if prerendering silently failed.
-      # A real homepage is ~150 KB; the broken empty shell is ~3 KB.
+      # Stop before uploading if prerendering silently failed. A real
+      # homepage is ~150 KB; the broken empty shell is ~3 KB. This is the
+      # guard that stops a blank site ever reaching production again.
       - name: Verify prerender worked
         run: |
           echo "--- dist contents ---"
@@ -50,114 +51,46 @@ jobs:
             echo "FAIL: index.html is only $SIZE bytes - react-snap did not prerender."
             exit 1
           fi
-          if [ ! -f dist/tms-therapy/index.html ]; then
-            echo "FAIL: dist/tms-therapy/index.html missing - route folders were not generated."
-            exit 1
-          fi
-          echo "PASS: prerendering produced full pages."
+          for ROUTE in tms-therapy psychiatric medical-weight-loss insurance; do
+            if [ ! -f "dist/$ROUTE/index.html" ]; then
+              echo "FAIL: dist/$ROUTE/index.html missing - route folders not generated."
+              exit 1
+            fi
+          done
+          echo "PASS: prerendering produced full pages for all routes."
 
-      # cPanel keys can be in OPENSSH or PEM format and the passphrase
-      # must be fed through SSH_ASKPASS because ssh-add will not read one
-      # from a pipe. Each stage below reports what it found so a failure
-      # points at the cause instead of just exiting 1.
-      - name: Set up SSH
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-        run: |
-          set +e
-
-          mkdir -p ~/.ssh
-          chmod 700 ~/.ssh
-
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-
-          echo "=== key sanity ==="
-          echo "lines in key file: $(wc -l < ~/.ssh/deploy_key)"
-          echo "first line: $(head -1 ~/.ssh/deploy_key)"
-          echo "last line:  $(tail -1 ~/.ssh/deploy_key)"
-
-          if ! head -1 ~/.ssh/deploy_key | grep -q "BEGIN"; then
-            echo "FAIL: key does not start with a BEGIN line."
-            echo "The SSH_PRIVATE_KEY secret is probably missing the header,"
-            echo "or has leading whitespace. Re-paste the whole key including"
-            echo "-----BEGIN ...----- and -----END ...----- lines."
-            exit 1
-          fi
-
-          echo "=== does the passphrase open the key? ==="
-          ssh-keygen -y -P "$SSH_PASSPHRASE" -f ~/.ssh/deploy_key > /tmp/pub.out 2>/tmp/pub.err
-          if [ $? -ne 0 ]; then
-            echo "FAIL: could not read the key with the given passphrase."
-            cat /tmp/pub.err
-            echo ""
-            echo "Either SSH_PASSPHRASE is wrong, or the key body is corrupted"
-            echo "(line breaks lost when pasting into the GitHub secret)."
-            exit 1
-          fi
-          echo "OK: key unlocked. Public key fingerprint:"
-          ssh-keygen -lf /tmp/pub.out || true
-
-          echo "=== loading key into agent ==="
-          eval "$(ssh-agent -s)"
-          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
-          echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
-
-          ASKPASS=$(mktemp)
-          printf '#!/bin/sh\necho "$SSH_PASSPHRASE"\n' > "$ASKPASS"
-          chmod +x "$ASKPASS"
-
-          DISPLAY=:0 SSH_ASKPASS="$ASKPASS" SSH_ASKPASS_REQUIRE=force \
-            ssh-add ~/.ssh/deploy_key
-          ADD_RC=$?
-          rm -f "$ASKPASS"
-
-          if [ $ADD_RC -ne 0 ]; then
-            echo "FAIL: ssh-add could not load the key (exit $ADD_RC)."
-            exit 1
-          fi
-          ssh-add -l
-
-          echo "=== testing connection to the server ==="
-          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
-          chmod 644 ~/.ssh/known_hosts
-
-          ssh -o BatchMode=yes -o StrictHostKeyChecking=no \
-              "$SSH_USERNAME@$SSH_HOST" "echo CONNECTED; pwd; ls -d ~/public_html"
-          SSH_RC=$?
-          if [ $SSH_RC -ne 0 ]; then
-            echo "FAIL: SSH connection refused (exit $SSH_RC)."
-            echo "The key loaded fine, so this is the server side:"
-            echo "  1. Is the public key Authorized in cPanel?"
-            echo "     Manage SSH Keys -> Manage SSH Public Keys -> Authorize"
-            echo "  2. Is SSH_USERNAME correct? Currently: $SSH_USERNAME"
-            echo "  3. Is SSH_HOST correct? Currently: $SSH_HOST"
-            exit 1
-          fi
-          echo "SUCCESS: SSH connection works."
-
-      - name: Deploy to public_html
-        run: |
-          rsync -avz --delete \
-            --exclude 'blog/' \
-            --exclude 'webhook/' \
-            --exclude 'deploy.php' \
-            --exclude '.well-known/' \
-            --exclude 'cgi-bin/' \
-            dist/ \
-            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/trivalleyclinic/public_html/
+      # dangerous-clean-slate is off on purpose: it would wipe the whole
+      # of public_html including the WordPress blog. exclude list below
+      # protects everything on the server that is not part of this build.
+      - name: Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: public_html/
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            blog/**
+            webhook/**
+            deploy.php
+            .well-known/**
+            cgi-bin/**
 
       - name: Confirm deployment
         run: |
-          sleep 5
+          sleep 10
           echo "--- checking live site ---"
-          SIZE=$(curl -sL https://trivalleyclinic.com/ | wc -c)
-          echo "Homepage returned $SIZE bytes"
-          if [ "$SIZE" -lt 20000 ]; then
-            echo "WARNING: live homepage is only $SIZE bytes. Check for caching."
+          HOME_SIZE=$(curl -sL https://trivalleyclinic.com/ | wc -c)
+          TMS_SIZE=$(curl -sL https://trivalleyclinic.com/tms-therapy/ | wc -c)
+          echo "Homepage:  $HOME_SIZE bytes"
+          echo "TMS page:  $TMS_SIZE bytes"
+          if [ "$HOME_SIZE" -lt 20000 ]; then
+            echo "WARNING: live homepage is only $HOME_SIZE bytes - check server caching."
           else
             echo "SUCCESS: live site is serving full prerendered content."
           fi
