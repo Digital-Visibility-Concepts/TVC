@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - cd /home/trivalleyclinic/repositories/TVC
+    - cd /home/trivalleyclinic/repositories/TVC 
     - npm install
     - npm run build
     - find /home/trivalleyclinic/public_html/ -mindepth 1 -maxdepth 1 ! -name 'blog' -exec rm -rf {} +
