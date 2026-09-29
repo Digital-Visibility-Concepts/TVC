@@ -1,0 +1,116 @@
+name: Build and Deploy to cPanel
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # GitHub's runner has the Chrome libraries the cPanel server is
+      # missing (libXtst.so.6 and friends), so react-snap's postbuild
+      # step works here. This is the whole reason the build runs on
+      # GitHub instead of on the server.
+      - name: Install Chrome dependencies for react-snap
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libxtst6 libnss3 libatk-bridge2.0-0 libdrm2 libxkbcommon0 \
+            libxcomposite1 libxdamage1 libxrandr2 libgbm1 libasound2t64 \
+            libatk1.0-0 libcups2 libxss1 || true
+
+      - name: Build site
+        run: npm run build
+
+      # Stop before touching the server if prerendering silently failed.
+      # A real homepage is ~150 KB; the broken empty shell is ~3 KB.
+      - name: Verify prerender worked
+        run: |
+          echo "--- dist contents ---"
+          ls -la dist/
+          SIZE=$(wc -c < dist/index.html)
+          echo "dist/index.html is $SIZE bytes"
+          if [ "$SIZE" -lt 20000 ]; then
+            echo "FAIL: index.html is only $SIZE bytes - react-snap did not prerender."
+            exit 1
+          fi
+          if [ ! -f dist/tms-therapy/index.html ]; then
+            echo "FAIL: dist/tms-therapy/index.html missing - route folders were not generated."
+            exit 1
+          fi
+          echo "PASS: prerendering produced full pages."
+
+      # The ssh-agent action has no passphrase input, so the key is
+      # loaded manually and the passphrase is fed to ssh-add through a
+      # tiny askpass helper (ssh-add will not read a passphrase from a
+      # pipe, only from a TTY or SSH_ASKPASS).
+      - name: Set up SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+
+          ssh-keyscan -H "$SSH_HOST" >> ~/.ssh/known_hosts 2>/dev/null
+          chmod 644 ~/.ssh/known_hosts
+
+          eval "$(ssh-agent -s)"
+          echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK" >> $GITHUB_ENV
+          echo "SSH_AGENT_PID=$SSH_AGENT_PID" >> $GITHUB_ENV
+
+          SSH_ASKPASS_SCRIPT=$(mktemp)
+          printf '#!/bin/sh\necho "$SSH_PASSPHRASE"\n' > "$SSH_ASKPASS_SCRIPT"
+          chmod +x "$SSH_ASKPASS_SCRIPT"
+
+          DISPLAY=:0 SSH_ASKPASS="$SSH_ASKPASS_SCRIPT" SSH_ASKPASS_REQUIRE=force \
+            ssh-add ~/.ssh/deploy_key
+
+          rm -f "$SSH_ASKPASS_SCRIPT"
+          ssh-add -l
+
+      # --delete removes old files so stale pages don't linger, but the
+      # excludes protect the WordPress blog and the server-side files
+      # that are not part of this build.
+      - name: Deploy to public_html
+        run: |
+          rsync -avz --delete \
+            --exclude 'blog/' \
+            --exclude 'webhook/' \
+            --exclude 'deploy.php' \
+            --exclude '.well-known/' \
+            --exclude 'cgi-bin/' \
+            dist/ \
+            ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/home/trivalleyclinic/public_html/
+
+      - name: Confirm deployment
+        run: |
+          sleep 5
+          echo "--- checking live site ---"
+          SIZE=$(curl -sL https://trivalleyclinic.com/ | wc -c)
+          echo "Homepage returned $SIZE bytes"
+          if [ "$SIZE" -lt 20000 ]; then
+            echo "WARNING: live homepage is only $SIZE bytes. Check for caching."
+          else
+            echo "SUCCESS: live site is serving full prerendered content."
+          fi
