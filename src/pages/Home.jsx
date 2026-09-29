@@ -1146,7 +1146,7 @@ function ConsultBand() {
           <span className="w-px h-3 bg-[#B8925A]/30"/>
           <span className="text-[9px] tracking-[0.2em] uppercase text-[#7A6556]">Mon–Fri · 9:30 AM – 5:30 PM</span>
           <span className="w-px h-3 bg-[#B8925A]/30 hidden md:block"/>
-          <span className="hidden md:block text-[9px] tracking-[0.2em] uppercase text-[#7A6556]">Telehealth Available Statewide CA</span>
+          <span className="hidden md:block text-[9px] tracking-[0.2em] uppercase text-[#7A6556]">Telehealth Available Statewide </span>
         </div>
 
         {/* Main content */}
