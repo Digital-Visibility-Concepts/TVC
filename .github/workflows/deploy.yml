@@ -47,7 +47,7 @@ jobs:
       - name: Remove anything that would overwrite WordPress
         run: |
           # If react-snap crawled a React /blog route, it would write dist/blog/index.html,
-          # which would shadow WordPress's index.php in public_html/blog/. Never ship it.
+          # which would shadow WordPress in public_html/blog/. Never ship it.
           rm -rf dist/blog
 
       - name: Verify prerender (fail if any page is an empty shell)
@@ -60,7 +60,6 @@ jobs:
             const p=require('./package.json');
             const inc=(p.reactSnap&&p.reactSnap.include)||[];
             if(!inc.length){console.error('reactSnap.include missing in package.json');process.exit(1);}
-            // dist/blog is deleted before this step, so do not count /blog routes
             console.log(inc.filter(r=>!r.startsWith('/blog')).length);
           ")
           echo "Routes listed in package.json reactSnap.include: $expected"
@@ -88,11 +87,14 @@ jobs:
           fi
           exit $fail
 
-      - name: Add build marker and cPanel deploy script
+      - name: Add build marker + manifest
         run: |
-          echo "${GITHUB_SHA}" > dist/build.txt
-          cp deploy/cpanel.deploy.yml dist/.cpanel.yml
           test -f dist/.htaccess || { echo "::error::dist/.htaccess missing (public/.htaccess not in repo?)"; exit 1; }
+          echo "${GITHUB_SHA}" > dist/build.txt
+          # Optional: lets cPanel's own "Deploy HEAD Commit" button work too (copy-only, no delete)
+          cp deploy/cpanel.deploy.yml dist/.cpanel.yml
+          # List of every file + sha256. The server hook copies ONLY these, and verifies each hash.
+          node deploy/make-manifest.cjs dist
 
       - name: Push build to deploy branch
         env:
@@ -116,41 +118,26 @@ jobs:
           git commit -m "Build ${GITHUB_SHA::7}"
           git push origin deploy
 
-      - name: Trigger server deploy (cPanel pulls deploy branch)
+      - name: Deploy on server (hook pulls deploy branch, copies + hash-verifies every file)
         env:
           HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
           HOOK_TOKEN: ${{ secrets.DEPLOY_HOOK_TOKEN }}
         run: |
           if [ -z "$HOOK_URL" ] || [ -z "$HOOK_TOKEN" ]; then
-            echo "::error::DEPLOY_HOOK_URL / DEPLOY_HOOK_TOKEN secrets not set. Build is on the deploy branch; set secrets and re-run."
+            echo "::error::DEPLOY_HOOK_URL / DEPLOY_HOOK_TOKEN secrets not set."
             exit 1
           fi
-          curl -fsS --max-time 150 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=deploy"
-          echo
-
-      - name: Wait for new build to be live
-        run: |
-          for i in $(seq 1 30); do
-            live=$(curl -fsSL -H "Cache-Control: no-cache" "${SITE}/build.txt?nc=$(date +%s)" 2>/dev/null | tr -d '[:space:]' || true)
-            if [ "$live" = "${GITHUB_SHA}" ]; then
-              echo "Live build matches ${GITHUB_SHA::7}"
-              exit 0
-            fi
-            echo "Waiting... live='${live:0:7}' expected='${GITHUB_SHA::7}' ($i/30)"
-            sleep 10
-          done
-          echo "::error::New build did not go live within 5 minutes. Check cPanel > Git Version Control > TVC-deploy deployment log."
-          exit 1
-
-      - name: Diagnose (runs only if something above failed)
-        if: failure()
-        env:
-          HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
-          HOOK_TOKEN: ${{ secrets.DEPLOY_HOOK_TOKEN }}
-        run: |
-          [ -n "$HOOK_URL" ] && [ -n "$HOOK_TOKEN" ] || { echo "no hook secrets, skipping"; exit 0; }
-          curl -sS --max-time 60 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=diag" || true
-          echo
+          code=$(curl -sS --max-time 290 -o resp.json -w '%{http_code}' \
+            -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=deploy")
+          cat resp.json; echo
+          if [ "$code" != "200" ]; then
+            echo "::error::Hook returned HTTP ${code}"
+            exit 1
+          fi
+          # The server itself must confirm: no errors AND public_html/build.txt == this commit
+          jq -e --arg sha "$GITHUB_SHA" '.ok == true and .build == $sha and .live_build_txt == $sha' resp.json > /dev/null \
+            || { echo "::error::Server did not confirm build ${GITHUB_SHA::7}"; exit 1; }
+          echo "Server confirmed build ${GITHUB_SHA::7} is on disk."
 
       - name: Clear NGINX cache
         env:
@@ -160,6 +147,20 @@ jobs:
           curl -fsS --max-time 60 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=clear_cache" \
             || echo "::warning::Cache clear failed - clear NGINX cache manually in cPanel."
           echo
+
+      - name: Wait until the public site serves the new build
+        run: |
+          for i in $(seq 1 12); do
+            live=$(curl -fsSL -H "Cache-Control: no-cache" "${SITE}/build.txt?nc=$(date +%s)" 2>/dev/null | tr -d '[:space:]' || true)
+            if [ "$live" = "${GITHUB_SHA}" ]; then
+              echo "Public site serves build ${GITHUB_SHA::7}"
+              exit 0
+            fi
+            echo "Waiting... public='${live:0:7}' expected='${GITHUB_SHA::7}' ($i/12)"
+            sleep 10
+          done
+          echo "::error::Files are on disk (server confirmed) but the public site still serves an old response. This is an NGINX/CDN cache issue - clear cache in cPanel."
+          exit 1
 
       - name: Verify live pages (curl -L follows trailing-slash redirects)
         run: |
@@ -176,3 +177,14 @@ jobs:
           echo "/blog/ -> HTTP ${blog}"
           [ "$blog" = "200" ] || { echo "::error::WordPress blog not returning 200"; fail=1; }
           exit $fail
+
+      - name: Diagnose (runs only if something above failed)
+        if: failure()
+        env:
+          HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+          HOOK_TOKEN: ${{ secrets.DEPLOY_HOOK_TOKEN }}
+        run: |
+          [ -n "$HOOK_URL" ] && [ -n "$HOOK_TOKEN" ] || { echo "no hook secrets, skipping"; exit 0; }
+          echo "----- server diagnostics -----"
+          curl -sS --max-time 60 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=diag" || true
+          echo
