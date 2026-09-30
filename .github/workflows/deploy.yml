@@ -115,7 +115,7 @@ jobs:
           rsync -a --delete --exclude '.git' dist/ deploy-branch/
           cd deploy-branch
           git add -A
-          git commit -m "Build ${GITHUB_SHA::7}"
+          git commit -m "Build ${GITHUB_SHA::7}" || echo "Nothing new to commit (identical build) - continuing"
           git push origin deploy
 
       - name: Deploy on server (hook pulls deploy branch, copies + hash-verifies every file)
@@ -177,6 +177,13 @@ jobs:
           echo "/blog/ -> HTTP ${blog}"
           [ "$blog" = "200" ] || { echo "::error::WordPress blog not returning 200"; fail=1; }
           exit $fail
+
+      - name: Verify EVERY file on the public site against the manifest (sha256)
+        run: |
+          # Wait ~2.5 min so a competing writer (cron, scanner, old script) has time to show itself,
+          # then compare all files as the public actually receives them.
+          sleep 150
+          node deploy/verify-live.cjs dist/manifest.json "${SITE}"
 
       - name: Diagnose (runs only if something above failed)
         if: failure()
