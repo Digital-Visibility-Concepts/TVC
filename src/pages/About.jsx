@@ -658,7 +658,7 @@ function StatsSection() {
             style={{ transitionDelay: `${i * 100}ms` }}>
             <p className="text-5xl sm:text-6xl md:text-7xl text-[#B8925A] mb-2 leading-none"
               style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>
-              {vis ? <Counter to={s.to} suffix={s.s} /> : `0${s.s}`}
+              {vis ? <Counter to={s.to} suffix={s.s} /> : `${s.to}${s.s}`}
             </p>
             <p className="text-[9px] tracking-[0.22em] uppercase text-[#7A6556] font-medium">{s.label}</p>
           </div>

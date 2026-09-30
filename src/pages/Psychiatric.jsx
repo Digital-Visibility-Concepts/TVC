@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
 import SEO from '../components/SEO';
+import PatientReviews from "../components/PatientReviews";
 
 const CONDITIONS=[
   {id:"anxiety",label:"Anxiety Disorders",sub:"GAD · Social · Panic",
@@ -99,7 +100,7 @@ export default function Psychiatric(){
   description="Comprehensive psychiatric care for anxiety, depression, ADHD, PTSD, bipolar disorder, OCD, insomnia, and substance abuse. Board-certified psychiatrists in Fremont, CA. Accepting new patients."
   path="/psychiatric"
 />
-<style>{CSS}</style><Cursor/><Hero/><Mq/><CondSection/><ProcessSection/><DrSection/><TestSection/><FAQSection/><CTA/></main>);
+<style>{CSS}</style><Cursor/><Hero/><Mq/><CondSection/><ProcessSection/><DrSection/><PatientReviews variant="compact" /><FAQSection/><CTA/></main>);
 }
 
 function Hero(){
@@ -294,37 +295,6 @@ function DrSection(){
   );
 }
 
-function TestSection(){
-  const[ref,v]=useReveal();
-  const revs=[
-    {name:"Sarah M.",role:"Fremont",   q:"Dr. Japsharan Gill finally gave me an ADHD diagnosis after years of being dismissed. She didn't just prescribe — she explained everything."},
-    {name:"James T.",role:"Union City",q:"I've seen many psychiatrists. Dr. Japsharan Gill is the first who made me feel like a person, not a chart."},
-    {name:"Priya K.",role:"Newark",    q:"The clinic environment alone made a difference. I actually looked forward to my appointments."},
-  ];
-  return(
-    <section className="py-24 px-5 md:px-10 bg-[#FDFAF6]">
-      <div className="mx-auto max-w-7xl">
-        <div ref={ref} className={`text-center mb-14 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
-          <h2 className="text-5xl md:text-6xl text-[#2C1A0E]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>Patient <em className="italic text-[#B8925A]">Stories</em></h2>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {revs.map((r,i)=>(
-            <div key={r.name} className={`group relative bg-[#F5EEE4] border border-[#E8D5BE] p-8 transition-all duration-700 hover:shadow-[0_12px_40px_rgba(184,146,90,0.10)] hover:border-[#B8925A]/40 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-10"}`} style={{transitionDelay:`${i*130}ms`,transitionDuration:"700ms"}}>
-              <div className="text-[80px] text-[#B8925A]/12 leading-none absolute top-2 left-5 pointer-events-none select-none" style={{fontFamily:"'Cormorant Garamond',serif"}}>"</div>
-              <div className="flex gap-0.5 mb-5">{Array(5).fill(0).map((_,j)=><St key={j}/>)}</div>
-              <p className="text-[#7A6556] text-sm leading-relaxed italic font-light mb-6 relative z-10">"{r.q}"</p>
-              <div className="border-t border-[#E8D5BE] pt-4 flex items-center justify-between">
-                <div><p className="text-[#2C1A0E] text-lg" style={{fontFamily:"'Cormorant Garamond',serif"}}>{r.name}</p><p className="text-[9px] tracking-[0.18em] uppercase text-[#B8925A]/60 mt-0.5">Patient · {r.role}</p></div>
-                <div className="flex gap-0.5">{Array(5).fill(0).map((_,j)=><St key={j}/>)}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function FAQSection(){
   const[ref,v]=useReveal();const[open,sOpen]=useState(null);
   const faqs=[
@@ -383,5 +353,4 @@ function CTA(){
 
 function Ph(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 012 2.93h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 8.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>;}
 function Dm({size=8}){return <svg width={size} height={size} viewBox="0 0 10 10" fill="#B8925A"><polygon points="5,0 10,5 5,10 0,5"/></svg>;}
-function St(){return <svg width="13" height="13" viewBox="0 0 24 24" fill="#B8925A"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26"/></svg>;}
 const CSS=`@media (pointer: fine){*{cursor:none !important;}}@keyframes fadeUp{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(22px,-30px) scale(1.06)}66%{transform:translate(-14px,18px) scale(0.94)}}@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}@keyframes scrollLine{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}`;

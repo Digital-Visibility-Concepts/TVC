@@ -24,22 +24,19 @@
    headingAccent string (italic gold)      default "Real Results"
    max           max reviews shown         default 3
    showAward     boolean                   default true (needs AWARD_IMG set)
-   showDist      star breakdown            default true on full, false on compact
    id            string, for anchor links
    ═══════════════════════════════════════════════════════════════ */
 
 import { useEffect, useRef, useState } from "react";
 import {
-  ZOCDOC_URL,
-  ZOC,
+  GOOGLE_URL,
+  GOOGLE_SCORE,
+  GOOGLE_COUNT,
   REVIEWS,
   AWARD_IMG,
   AWARD_ALT,
   AWARD_CAPTION,
   REVIEW_DISCLAIMER,
-  GOOGLE_URL,
-  GOOGLE_SCORE,
-  GOOGLE_COUNT,
 } from "../constants/reviews";
 
 /* ── Self-contained reveal hook (no dependency on Home.jsx) ── */
@@ -143,26 +140,6 @@ function StarRow({ value, size = 13, gap = 2, label, t }) {
       >
         {row(t.gold)}
       </span>
-    </span>
-  );
-}
-
-function ZocdocMark({ size = 14 }) {
-  return (
-    <span
-      className="inline-flex items-center justify-center flex-shrink-0 font-bold"
-      style={{
-        width: size + 6,
-        height: size + 6,
-        background: "#FFF0A0",
-        color: "#1A0F08",
-        fontSize: size - 3,
-        fontFamily: "'Jost', sans-serif",
-        letterSpacing: "-0.02em",
-      }}
-      aria-hidden="true"
-    >
-      Z
     </span>
   );
 }
@@ -403,61 +380,13 @@ function GoogleMark({ size = 14 }) {
   );
 }
 
-/* ── Outbound Google reviews link ──────────────────────────────
-   Shows a rating line only when GOOGLE_SCORE and GOOGLE_COUNT are
-   set in reviews.js, so this can never display a number nobody has
-   verified. Link-only until then. */
+/* ── Outbound Google reviews link ── */
 function GoogleLink({ t }) {
   if (!GOOGLE_URL) return null;
-  const hasScore = GOOGLE_SCORE != null && GOOGLE_COUNT != null;
 
   return (
     <a
       href={GOOGLE_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group block border px-6 py-3.5 transition-all duration-300 w-full"
-      style={{ background: t.cardBg, borderColor: t.border, color: t.muted }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = t.goldSoft;
-        e.currentTarget.style.color = t.gold;
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = t.border;
-        e.currentTarget.style.color = t.muted;
-      }}
-    >
-      <span className="flex items-center justify-center gap-3 text-[10px] tracking-widest uppercase">
-        <GoogleMark size={12} />
-        Read our reviews on Google
-        <span className="group-hover:translate-x-1 transition-transform duration-300">
-          &rarr;
-        </span>
-      </span>
-
-      {hasScore && (
-        <span className="flex items-center justify-center gap-2 mt-2">
-          <span
-            className="text-[15px]"
-            style={{ fontFamily: "'Cormorant Garamond',serif", color: t.gold }}
-          >
-            {Number(GOOGLE_SCORE).toFixed(1)}
-          </span>
-          <StarRow value={Number(GOOGLE_SCORE)} size={10} t={t} />
-          <span className="text-[9px] tracking-[0.16em] uppercase" style={{ color: t.muted }}>
-            {GOOGLE_COUNT} {GOOGLE_COUNT === 1 ? "review" : "reviews"}
-          </span>
-        </span>
-      )}
-    </a>
-  );
-}
-
-/* ── Outbound Zocdoc link ── */
-function ZocdocLink({ t }) {
-  return (
-    <a
-      href={ZOCDOC_URL}
       target="_blank"
       rel="noopener noreferrer"
       className="group flex items-center justify-center gap-3 border px-6 py-3.5 text-[10px] tracking-widest uppercase transition-all duration-300 w-full"
@@ -471,8 +400,8 @@ function ZocdocLink({ t }) {
         e.currentTarget.style.color = t.muted;
       }}
     >
-      <ZocdocMark size={12} />
-      Read all reviews on Zocdoc
+      <GoogleMark size={12} />
+      Read all reviews on Google
       <span className="group-hover:translate-x-1 transition-transform duration-300">
         →
       </span>
@@ -488,14 +417,19 @@ function ReviewCard({ rev, t, equalise = false }) {
       style={{ background: t.cardBg, borderColor: t.border }}
     >
       <div className="flex items-center gap-3 mb-4 flex-wrap">
-        <StarRow value={rev.stars} t={t} label={`${rev.stars} out of 5 stars`} />
-        <span className="w-px h-3" style={{ background: t.goldSoft }} />
-        <span
-          className="text-[9px] tracking-[0.18em] uppercase"
-          style={{ color: t.muted }}
-        >
-          {rev.provider}
-        </span>
+        {typeof rev.stars === "number" ? (
+          <StarRow value={rev.stars} t={t} label={`${rev.stars} out of 5 stars`} />
+        ) : (
+          <span className="flex items-center gap-2">
+            <GoogleMark size={11} />
+            <span
+              className="text-[9px] tracking-[0.18em] uppercase"
+              style={{ color: t.muted }}
+            >
+              Google Review
+            </span>
+          </span>
+        )}
       </div>
 
       <p
@@ -508,6 +442,21 @@ function ReviewCard({ rev, t, equalise = false }) {
         {rev.text}
         <span style={{ color: t.goldSoft, marginLeft: 2 }}>&rdquo;</span>
       </p>
+
+      {rev.excerpt && (
+        <a
+          href={GOOGLE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group inline-flex items-center gap-2 self-start mb-5 text-[9px] tracking-[0.16em] uppercase font-semibold"
+          style={{ color: t.gold }}
+        >
+          Read full review on Google
+          <span className="group-hover:translate-x-1 transition-transform duration-300">
+            →
+          </span>
+        </a>
+      )}
 
       <div
         className="border-t pt-4 flex items-center justify-between gap-4"
@@ -524,16 +473,16 @@ function ReviewCard({ rev, t, equalise = false }) {
             className="text-[9px] tracking-[0.18em] uppercase mt-0.5"
             style={{ color: t.muted }}
           >
-            Verified Patient{rev.date ? ` · ${rev.date}` : ""}
+            Google Review
           </p>
         </div>
         <span className="flex items-center gap-1.5 flex-shrink-0">
-          <ZocdocMark size={11} />
+          <GoogleMark size={11} />
           <span
             className="text-[8px] tracking-[0.16em] uppercase"
             style={{ color: t.muted }}
           >
-            Zocdoc
+            Google
           </span>
         </span>
       </div>
@@ -542,23 +491,25 @@ function ReviewCard({ rev, t, equalise = false }) {
 }
 
 /* ── Rating summary card ── */
-function RatingCard({ t, vis, showDist }) {
+function RatingCard({ t }) {
+  if (GOOGLE_SCORE == null || GOOGLE_COUNT == null) return null;
+
   return (
     <div className="p-7 border" style={{ background: t.cardBg, borderColor: t.border }}>
       <div
         className="flex items-center gap-2 mb-5 pb-4 border-b"
         style={{ borderColor: t.rule }}
       >
-        <ZocdocMark />
+        <GoogleMark />
         <span
           className="text-[9px] tracking-[0.2em] uppercase font-semibold"
           style={{ color: t.muted }}
         >
-          Verified on Zocdoc
+          Google Reviews
         </span>
       </div>
 
-      <div className="flex items-end gap-3 mb-4">
+      <div className="flex items-end gap-3">
         <span
           className="text-6xl leading-none"
           style={{
@@ -567,72 +518,23 @@ function RatingCard({ t, vis, showDist }) {
             color: t.gold,
           }}
         >
-          {ZOC.overall.toFixed(1)}
+          {GOOGLE_SCORE.toFixed(1)}
         </span>
         <div className="pb-1.5">
           <div className="mb-1">
             <StarRow
-              value={ZOC.overall}
+              value={GOOGLE_SCORE}
               t={t}
-              label={`${ZOC.overall} out of 5 on Zocdoc`}
+              label={`${GOOGLE_SCORE} out of 5 on Google`}
             />
           </div>
           <p
             className="text-[9px] tracking-[0.18em] uppercase"
             style={{ color: t.muted }}
           >
-            {ZOC.count} Verified Reviews
+            {GOOGLE_COUNT} Google reviews
           </p>
         </div>
-      </div>
-
-      {showDist &&
-        ZOC.dist.map((d) => {
-          const pct = Math.round((d.n / ZOC.count) * 100);
-          return (
-            <div key={d.stars} className="flex items-center gap-3 mb-1.5">
-              <span className="text-[10px] w-3 text-right" style={{ color: t.muted }}>
-                {d.stars}
-              </span>
-              <StarSvg size={10} color={t.gold} />
-              <div className="flex-1 h-1 overflow-hidden" style={{ background: t.track }}>
-                <div
-                  className="h-full transition-all duration-1000"
-                  style={{ width: `${vis ? pct : 0}%`, background: t.gold }}
-                />
-              </div>
-              <span className="text-[10px] w-7 text-right" style={{ color: t.muted }}>
-                {pct}%
-              </span>
-            </div>
-          );
-        })}
-
-      <div className="mt-5 pt-4 border-t space-y-2.5" style={{ borderColor: t.rule }}>
-        {ZOC.subs.map((s) => (
-          <div key={s.label} className="flex items-center justify-between">
-            <span
-              className="text-[9px] tracking-[0.16em] uppercase"
-              style={{ color: t.muted }}
-            >
-              {s.label}
-            </span>
-            <span className="flex items-center gap-2">
-              <StarRow
-                value={s.value}
-                size={10}
-                t={t}
-                label={`${s.label} ${s.value} out of 5`}
-              />
-              <span
-                className="text-[13px]"
-                style={{ fontFamily: "'Cormorant Garamond',serif", color: t.gold }}
-              >
-                {s.value.toFixed(1)}
-              </span>
-            </span>
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -649,7 +551,6 @@ export default function PatientReviews({
   headingAccent = "Real Results",
   max = 3,
   showAward = true,
-  showDist,
   id,
 }) {
   const t = TONES[tone] || TONES.light;
@@ -657,8 +558,6 @@ export default function PatientReviews({
 
   const items = REVIEWS.slice(0, max);
   if (!items.length) return null;
-
-  const distOn = showDist ?? variant === "full";
 
   /* ─────────── COMPACT — service pages, 3 across ─────────── */
   if (variant === "compact") {
@@ -712,30 +611,30 @@ export default function PatientReviews({
                     color: t.gold,
                   }}
                 >
-                  {ZOC.overall.toFixed(1)}
+                  {GOOGLE_SCORE.toFixed(1)}
                 </span>
                 <div className="pb-1">
                   <div className="mb-0.5">
-                    <StarRow value={ZOC.overall} size={11} t={t} />
+                    <StarRow value={GOOGLE_SCORE} size={11} t={t} />
                   </div>
                   <p
                     className="text-[8px] tracking-[0.16em] uppercase"
                     style={{ color: t.muted }}
                   >
-                    {ZOC.count} reviews
+                    {GOOGLE_COUNT} Google reviews
                   </p>
                 </div>
               </div>
               <span className="w-px self-stretch" style={{ background: t.rule }} />
               <a
-                href={ZOCDOC_URL}
+                href={GOOGLE_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group flex items-center gap-2 text-[9px] tracking-[0.16em] uppercase font-semibold whitespace-nowrap"
                 style={{ color: t.gold }}
               >
-                <ZocdocMark size={11} />
-                On Zocdoc
+                <GoogleMark size={11} />
+                On Google
                 <span className="group-hover:translate-x-1 transition-transform duration-300">
                   →
                 </span>
@@ -823,8 +722,7 @@ export default function PatientReviews({
             className="text-[13px] font-light leading-relaxed md:text-right md:max-w-xs"
             style={{ color: t.muted }}
           >
-            Every review below was collected and verified by Zocdoc after an
-            appointment, and is shown exactly as written.
+            Reviews are posted by patients on Google and shown as written.
           </p>
         </div>
 
@@ -832,9 +730,8 @@ export default function PatientReviews({
         <div className="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-6 lg:gap-8 items-start">
           {/* LEFT — rating, award, link */}
           <div className="flex flex-col gap-3">
-            <RatingCard t={t} vis={vis} showDist={distOn} />
+            <RatingCard t={t} />
             {showAward && <AwardBlock t={t} />}
-            <ZocdocLink t={t} />
             <GoogleLink t={t} />
           </div>
 

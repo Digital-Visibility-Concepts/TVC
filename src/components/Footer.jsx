@@ -1,4 +1,11 @@
 import { Link } from "react-router-dom";
+import {
+  REVIEWS as ALL_REVIEWS,
+  FOOTER_REVIEW_IDS,
+  GOOGLE_URL,
+  GOOGLE_SCORE,
+  GOOGLE_COUNT,
+} from "../constants/reviews";
 
 /* WordPress lives at /blog/ and is NOT part of this React app.
    Absolute URL on purpose: a root-relative "/blog/" 404s on localhost
@@ -28,16 +35,9 @@ const CONDITIONS = [
   "Insomnia", "Substance Abuse",
 ];
 
-const REVIEWS = [
-  {
-    text: "Dr. Gill truly listens — I felt heard from the very first visit.",
-    label: "Google Review · 5 Stars · Dr. Gill",
-  },
-  {
-    text: "Dr. Gondara is incredibly compassionate. He took his time and explained everything clearly.",
-    label: "Google Review · 5 Stars · Dr. Gondara",
-  },
-];
+const FOOTER_REVIEWS = FOOTER_REVIEW_IDS
+  .map((id) => ALL_REVIEWS.find((r) => r.id === id))
+  .filter(Boolean);
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -142,15 +142,25 @@ export default function Footer() {
                 })}
               </ul>
 
-              {/* Two review badges — Dr. Gill + Dr. Gondara */}
+              {/* Google rating line + selected reviews (ids in constants/reviews.js) */}
               <div className="space-y-3">
-                {REVIEWS.map((r) => (
-                  <div key={r.label} className="border border-[#E8D5BE] bg-[#FDFAF6]/70 p-4 space-y-2">
-                    <div className="flex gap-0.5">
+                {GOOGLE_URL && GOOGLE_SCORE != null && GOOGLE_COUNT != null && (
+                  <a
+                    href={GOOGLE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 text-[10px] tracking-wider uppercase text-[#7A6556] hover:text-[#B8925A] transition-colors duration-200"
+                  >
+                    <span className="flex gap-0.5">
                       {Array(5).fill(0).map((_, i) => <StarIcon key={i} />)}
-                    </div>
+                    </span>
+                    {GOOGLE_SCORE.toFixed(1)} · {GOOGLE_COUNT} Google reviews
+                  </a>
+                )}
+                {FOOTER_REVIEWS.map((r) => (
+                  <div key={r.id} className="border border-[#E8D5BE] bg-[#FDFAF6]/70 p-4 space-y-2">
                     <p className="text-xs text-[#7A6556] leading-relaxed italic">"{r.text}"</p>
-                    <p className="text-[10px] tracking-wider uppercase text-[#B8925A]">{r.label}</p>
+                    <p className="text-[10px] tracking-wider uppercase text-[#B8925A]">Google Review · {r.name}</p>
                   </div>
                 ))}
               </div>
@@ -204,11 +214,13 @@ export default function Footer() {
               {[
                 { label: "Privacy Policy", to: "/privacy-policy" },
                 { label: "Terms of Use",   to: "/terms-of-use"   },
-                { label: "Sitemap",        to: "/about"        },
+                { label: "Sitemap",        href: "/sitemap.xml" },
               ].map((item, i) => (
                 <span key={item.label} className="flex items-center gap-4">
                   {i > 0 && <span className="w-px h-3 bg-[#E8D5BE]" />}
-                  <Link to={item.to} className="hover:text-[#B8925A] transition-colors duration-200">{item.label}</Link>
+                  {item.href
+                    ? <a href={item.href} className="hover:text-[#B8925A] transition-colors duration-200">{item.label}</a>
+                    : <Link to={item.to} className="hover:text-[#B8925A] transition-colors duration-200">{item.label}</Link>}
                 </span>
               ))}
             </div>

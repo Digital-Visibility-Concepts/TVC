@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import IMAGES from "../constants/images";
 import SEO from '../components/SEO';
 import PatientReviews from "../components/PatientReviews";
+import { GOOGLE_SCORE } from "../constants/reviews";
 
 /* ─── IMAGE ASSIGNMENTS FOR THIS PAGE ─────────────────────
    Hero right portrait      → DR_GILL_HERO     (Photo 1 outdoor)
@@ -362,7 +363,7 @@ function HeroSection() {
           {/* Trust row */}
           <div className={`flex gap-5 mt-4 pt-4 border-t border-[#B8925A]/15 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
             style={{transitionDelay:"850ms"}}>
-            {[{n:"15+",l:"Yrs"},{n:"2",l:"Physicians"},{n:"5★",l:"Rating"},{n:"CA",l:"Telehealth"}].map(t=>(
+            {[{n:"15+",l:"Yrs"},{n:"2",l:"Physicians"},...(GOOGLE_SCORE!=null?[{n:`${GOOGLE_SCORE.toFixed(1)}★`,l:"Google"}]:[]),{n:"CA",l:"Telehealth"}].map(t=>(
               <div key={t.l} className="flex items-baseline gap-1">
                 <span className="text-base text-[#B8925A]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:500}}>{t.n}</span>
                 <span className="text-[7px] tracking-[0.14em] uppercase text-[#7A6556]">{t.l}</span>
@@ -442,7 +443,7 @@ function HeroSection() {
 
           <div className={`flex flex-wrap gap-5 transition-all duration-700 ${phase>=4?"opacity-100":"opacity-0"}`}
             style={{transitionDelay:"1000ms"}}>
-            {[{n:"15+",l:"Yrs Exp"},{n:"2",l:"Physicians"},{n:"5★",l:"Rating"},{n:"CA",l:"Telehealth"}].map(t=>(
+            {[{n:"15+",l:"Yrs Exp"},{n:"2",l:"Physicians"},...(GOOGLE_SCORE!=null?[{n:`${GOOGLE_SCORE.toFixed(1)}★`,l:"Google"}]:[]),{n:"CA",l:"Telehealth"}].map(t=>(
               <div key={t.l} className="flex items-baseline gap-1.5">
                 <p className="text-xl text-[#B8925A]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:500}}>{t.n}</p>
                 <p className="text-[8px] tracking-[0.16em] uppercase text-[#7A6556]">{t.l}</p>
@@ -532,7 +533,7 @@ function StatsSection() {
         {stats.map((s,i)=>(
           <div key={s.label} className={`text-center transition-all duration-700 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{ transitionDelay:`${i*100}ms` }}>
             <p className="text-6xl md:text-7xl text-[#B8925A] mb-2 leading-none" style={{ fontFamily:"'Cormorant Garamond',serif",fontWeight:300 }}>
-              {vis?<Counter to={s.to} suffix={s.s}/>:`0${s.s}`}
+              {vis?<Counter to={s.to} suffix={s.s}/>:`${s.to}${s.s}`}
             </p>
             <p className="text-[9px] tracking-[0.22em] uppercase text-[#7A6556] font-medium">{s.label}</p>
           </div>
@@ -916,7 +917,7 @@ function DrGillSection() {
             {/* 15+ badge */}
             <div className="absolute -bottom-4 -left-4 md:-left-6 bg-[#B8925A] text-[#FDFAF6] px-6 py-5 shadow-xl z-20">
               <p className="text-4xl font-light mb-0.5" style={{fontFamily:"'Cormorant Garamond',serif"}}>
-                {vis?<Counter to={15} suffix="+"/>:"0+"}
+                {vis?<Counter to={15} suffix="+"/>:"15+"}
               </p>
               <p className="text-[9px] tracking-[0.22em] uppercase opacity-80">Years of Practice</p>
             </div>
@@ -1393,10 +1394,10 @@ function InsuranceSection() {
             <h2 className="text-5xl md:text-6xl text-[#F0E8DA] mb-8" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>
               We Accept<br/><em className="italic text-[#C9A46A]">Most Major Plans</em>
             </h2>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 mb-5">
+            <div className="flex flex-wrap justify-center gap-2 mb-5">
               {plans.map((p,i)=>(
                 <div key={p.name}
-                  className={`border flex items-center justify-center py-3.5 px-2 text-[9px] tracking-[0.14em] uppercase text-center font-semibold transition-all duration-300 hover:-translate-y-0.5 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}
+                  className={`w-[calc((100%_-_1rem)/3)] sm:w-[calc((100%_-_1.5rem)/4)] md:w-[calc((100%_-_2.5rem)/6)] border flex items-center justify-center py-3.5 px-2 text-[9px] tracking-[0.14em] uppercase text-center font-semibold transition-all duration-300 hover:-translate-y-0.5 ${vis?"opacity-100 translate-y-0":"opacity-0 translate-y-4"}`}
                   style={{
                     transitionDelay:`${i*40}ms`,transitionDuration:"500ms",
                     borderColor:p.tier==="top"?"rgba(184,146,90,0.45)":"rgba(184,146,90,0.15)",

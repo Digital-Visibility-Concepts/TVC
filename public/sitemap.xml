@@ -73,14 +73,6 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Blog -->
-  <url>
-    <loc>https://trivalleyclinic.com/blog</loc>
-    <lastmod>2026-06-08</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-
   <!-- Contact -->
   <url>
     <loc>https://trivalleyclinic.com/contact</loc>
