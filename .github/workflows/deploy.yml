@@ -131,7 +131,7 @@ jobs:
       - name: Wait for new build to be live
         run: |
           for i in $(seq 1 30); do
-            live=$(curl -fsSL "${SITE}/build.txt?nc=$(date +%s)" 2>/dev/null | tr -d '[:space:]' || true)
+            live=$(curl -fsSL -H "Cache-Control: no-cache" "${SITE}/build.txt?nc=$(date +%s)" 2>/dev/null | tr -d '[:space:]' || true)
             if [ "$live" = "${GITHUB_SHA}" ]; then
               echo "Live build matches ${GITHUB_SHA::7}"
               exit 0
@@ -141,6 +141,16 @@ jobs:
           done
           echo "::error::New build did not go live within 5 minutes. Check cPanel > Git Version Control > TVC-deploy deployment log."
           exit 1
+
+      - name: Diagnose (runs only if something above failed)
+        if: failure()
+        env:
+          HOOK_URL: ${{ secrets.DEPLOY_HOOK_URL }}
+          HOOK_TOKEN: ${{ secrets.DEPLOY_HOOK_TOKEN }}
+        run: |
+          [ -n "$HOOK_URL" ] && [ -n "$HOOK_TOKEN" ] || { echo "no hook secrets, skipping"; exit 0; }
+          curl -sS --max-time 60 -X POST -H "X-Deploy-Token: ${HOOK_TOKEN}" "${HOOK_URL}?action=diag" || true
+          echo
 
       - name: Clear NGINX cache
         env:
