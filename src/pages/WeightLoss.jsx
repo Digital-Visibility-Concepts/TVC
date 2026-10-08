@@ -378,8 +378,8 @@ function LeadCaptureSection(){
     const errs=validate();
     if(Object.keys(errs).length){setErrors(errs);return;}
     // TODO: pending Chirasha — Web3Forms key for the GLP-1 lead form. Form will not deliver until this is set.
-    const ACCESS_KEY="REPLACE_WITH_GLP1_ACCESS_KEY";
-    if(ACCESS_KEY==="REPLACE_WITH_GLP1_ACCESS_KEY")console.warn("GLP-1 lead form: Web3Forms access key is still a placeholder — submissions will not be delivered.");
+    const ACCESS_KEY="b7be731d-ea38-4eb8-9071-c3c95f5d094b";
+    if(ACCESS_KEY==="b7be731d-ea38-4eb8-9071-c3c95f5d094b")console.warn("GLP-1 lead form: Web3Forms access key is still a placeholder — submissions will not be delivered.");
     setSending(true);
     try{
       const res=await fetch("https://api.web3forms.com/submit",{
