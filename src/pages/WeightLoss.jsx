@@ -139,6 +139,7 @@ function WhatAreGLP1s(){
             </div>
           </div>
         </div>
+        <GLP1Pricing/>
       </div>
     </section>
   );
@@ -148,7 +149,7 @@ function OurProgram(){
   const[ref,v]=useReveal();
   const[open,setOpen]=useState(null);
   const steps=[
-    {t:"Consultation",d:"Your care begins with a comprehensive medical evaluation. We review your health history, goals, and current health status to determine if GLP-1 therapy is appropriate for you. If it is, we create a personalized treatment plan and submit for any required insurance authorization."},
+    {t:"Consultation",d:"Your care begins with a comprehensive medical evaluation. We review your health history, goals, and current health status to determine if GLP-1 therapy is appropriate for you. If it is, we create a personalized treatment plan."},
     {t:"Weekly Care",d:"Once your program begins, you receive your compounded GLP-1 medication with clear instructions. Our team checks in with you regularly to review how you are responding, address any questions, and adjust your dosing as needed."},
     {t:"Ongoing Support",d:"Your progress is monitored throughout the program. We track your results, make clinical adjustments, and provide guidance on maintaining long-term success — not just during treatment, but beyond it."},
   ];
@@ -377,9 +378,8 @@ function LeadCaptureSection(){
     e.preventDefault();
     const errs=validate();
     if(Object.keys(errs).length){setErrors(errs);return;}
-    // TODO: pending Chirasha — Web3Forms key for the GLP-1 lead form. Form will not deliver until this is set.
+    // Web3Forms access key for the "GLP-1 Lead Form" (submissions go to contact@trivalleyclinic.com).
     const ACCESS_KEY="b7be731d-ea38-4eb8-9071-c3c95f5d094b";
-    if(ACCESS_KEY==="b7be731d-ea38-4eb8-9071-c3c95f5d094b")console.warn("GLP-1 lead form: Web3Forms access key is still a placeholder — submissions will not be delivered.");
     setSending(true);
     try{
       const res=await fetch("https://api.web3forms.com/submit",{
@@ -525,6 +525,57 @@ function CTA(){
         <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${v?"opacity-100":"opacity-0"}`}>Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA</p>
       </div>
     </section>
+  );
+}
+
+/* GLP-1 pricing — approved by Dr. Gill (Aug 10 email, change #1; green light on the Sept 10 call, confirmed by Bruce).
+   Source of truth for the numbers: Dr. Gill's price table. Edit ONLY here when prices change.
+   [dose, price per month (4 weekly injections), price per weekly dose] */
+const GLP1_PRICING=[
+  {name:"Tirzepatide",note:"Dual GIP/GLP-1 receptor agonist",rows:[["2.5 mg",299,79],["5 mg",359,99],["7.5 mg",439,119],["10 mg",499,134],["12.5 mg",549,149],["15 mg",598,159]]},
+  {name:"Semaglutide",note:"GLP-1 receptor agonist",rows:[["0.25 mg",259,68],["0.5 mg",259,68],["1 mg",374,98],["2 mg",449,119]]},
+];
+function GLP1Pricing(){
+  const[ref,v]=useReveal();
+  return(
+    <div id="glp1-pricing" ref={ref} className={`mt-24 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
+      <div className="text-center mb-10">
+        <div className="flex items-center justify-center gap-3 mb-4"><span className="w-8 h-px bg-[#B8925A]"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Transparent Pricing</span><span className="w-8 h-px bg-[#B8925A]"/></div>
+        <h2 className="text-4xl md:text-5xl text-[#2C1A0E]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>GLP-1 Medication <em className="italic text-[#B8925A]">Pricing</em></h2>
+        <p className="text-[#7A6556] text-base leading-[1.95] font-light mt-4 max-w-2xl mx-auto">Pricing depends on the medication and the dose prescribed. Monthly pricing covers four weekly injections. Your provider confirms the appropriate dose at your consultation.</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+        {GLP1_PRICING.map(t=>(
+          <div key={t.name} className="border border-[#E8D5BE] bg-[#F5EEE4]">
+            <div className="h-[3px] bg-gradient-to-r from-[#B8925A] to-transparent"/>
+            <div className="px-6 pt-6 pb-3">
+              <h3 className="text-3xl text-[#2C1A0E]" style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>{t.name}</h3>
+              <p className="text-[#7A6556] text-xs font-light mt-1">{t.note}</p>
+            </div>
+            <table className="w-full text-left">
+              <caption className="sr-only">{t.name} pricing by dose</caption>
+              <thead>
+                <tr className="border-y border-[#E8D5BE] text-[9px] tracking-[0.18em] uppercase text-[#B8925A] font-semibold">
+                  <th scope="col" className="px-6 py-3 font-semibold">Dose</th>
+                  <th scope="col" className="px-3 py-3 font-semibold text-right">Monthly <span className="hidden sm:inline">(4 weekly injections)</span></th>
+                  <th scope="col" className="px-6 py-3 font-semibold text-right">Per weekly dose</th>
+                </tr>
+              </thead>
+              <tbody>
+                {t.rows.map(([dose,monthly,weekly])=>(
+                  <tr key={dose} className="border-b border-[#E8D5BE]/70 last:border-b-0">
+                    <th scope="row" className="px-6 py-3.5 text-sm text-[#2C1A0E] font-medium">{dose}</th>
+                    <td className="px-3 py-3.5 text-right text-lg text-[#2C1A0E]" style={{fontFamily:"'Cormorant Garamond',serif"}}>${monthly}</td>
+                    <td className="px-6 py-3.5 text-right text-lg text-[#7A6556]" style={{fontFamily:"'Cormorant Garamond',serif"}}>${weekly}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </div>
+      <p className="text-[#7A6556] text-xs leading-relaxed font-light text-center mt-6 max-w-2xl mx-auto">Pricing is subject to change. The medical weight-loss program is not covered by insurance; <a href="/financing" className="text-[#B8925A] underline underline-offset-2 hover:text-[#C9A46A]">financing options are available</a>. Call <a href="tel:5105984921" className="text-[#B8925A] underline underline-offset-2 hover:text-[#C9A46A]">(510) 598-4921</a> to confirm current pricing.</p>
+    </div>
   );
 }
 
