@@ -5,6 +5,11 @@
   RewriteCond %{HTTP_HOST} ^www\.trivalleyclinic\.com$ [NC]
   RewriteRule ^(.*)$ https://trivalleyclinic.com/$1 [L,R=301]
 
+  # Old / planned URLs -> the real pages (permanent). Absolute https like the www rule above.
+  RewriteRule ^psychiatry/?$ https://trivalleyclinic.com/psychiatric/ [R=301,L]
+  RewriteRule ^weight-loss/?$ https://trivalleyclinic.com/medical-weight-loss/ [R=301,L]
+  RewriteRule ^tms-therapy/?$ https://trivalleyclinic.com/tms/ [R=301,L]
+
   # Let WordPress handle /blog and /wordpress
   RewriteCond %{REQUEST_URI} ^/blog [NC]
   RewriteRule ^ - [L]
