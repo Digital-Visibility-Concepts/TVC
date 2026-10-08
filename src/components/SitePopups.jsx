@@ -37,9 +37,9 @@ const GAP_DELAY   = 500;    // ms between closing one and opening the next
 const GLP1_ROUTES = ["/"];
 
 /* Routes where the TMS popup is pointless or unwanted.
-   /tms-therapy is excluded because the popup's Book Now button links
+   /tms is excluded because the popup's Book Now button links
    to that same page. Set to [] to show it on every page. */
-const TMS_EXCLUDE = ["/tms-therapy", "/privacy-policy", "/terms-of-use"];
+const TMS_EXCLUDE = ["/tms", "/privacy-policy", "/terms-of-use"];
 
 /* Switch to "localStorage" if the client wants a dismissal to stick
    permanently instead of for the browsing session only. */
@@ -124,7 +124,7 @@ function TmsPopup({ onClose }) {
       <div className="flex items-center gap-2 mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" /><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Now Available</span></div>
       <h2 id="tms-popup-heading" className="text-3xl md:text-4xl text-[#2C1A0E] mb-4" style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>TMS Therapy Is Now <em className="italic text-[#B8925A]">Available.</em></h2>
       <p className="text-[#7A6556] text-sm leading-relaxed font-light mb-7">TMS Therapy is now available at Tri-Valley Clinic. A non-invasive, FDA-approved treatment for depression. Schedule your consultation today.</p>
-      <a href="/tms-therapy#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+      <a href="/tms#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
     </PopupShell>
   );
 }

@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       { path: "psychiatric",             element: <Psychiatric /> }, // was "psychiatric"
       { path: "medical-weight-loss",    element: <WeightLoss />  }, // was "weight-loss"
       { path: "iv-hydration",           element: <IVHydration /> }, // ✅ same
-      { path: "tms-therapy",            element: <TMS />         }, // was "tms"
+      { path: "tms",                    element: <TMS />         }, // was "tms-therapy" (SEO lead: /tms is canonical)
       { path: "telehealth",             element: <Telehealth />  }, // ✅ same
       { path: "insurance",              element: <Insurance />   },
       { path: "financing",              element: <Financing />   },

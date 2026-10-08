@@ -16,7 +16,7 @@ const SERVICES = [
   { label: "Psychiatric Care",            to: "/psychiatric"  },
   { label: "Medical Weight Loss / GLP-1", to: "/medical-weight-loss"  },
   { label: "IV Hydration Therapy",        to: "/iv-hydration" },
-  { label: "TMS Therapy",                 to: "/tms-therapy"          },
+  { label: "TMS Therapy",                 to: "/tms"          },
   { label: "Telehealth",                  to: "/telehealth"   },
   { label: "Medication Management",       to: "/psychiatric"  },
 ];

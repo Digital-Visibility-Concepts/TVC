@@ -20,7 +20,9 @@ export default function SEO({
   noindex = false,
   schema = null,
 }) {
-  const url = `${SITE.url}${path}`;
+  // The server answers every page at its trailing-slash URL (directory index),
+  // so the canonical must be that exact URL, not the 301-redirecting no-slash one.
+  const url = `${SITE.url}${path === '/' ? '' : path.replace(/\/+$/, '')}/`;
   const fullTitle = path === '/' ? title : `${title} | ${SITE.name}`;
 
   return (

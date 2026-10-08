@@ -191,7 +191,7 @@ export default function Home() {
 //       <div className="flex items-center gap-2 mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" /><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Now Available</span></div>
 //       <h2 id="tms-popup-heading" className="text-3xl md:text-4xl text-[#2C1A0E] mb-4" style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>TMS Therapy Is Now <em className="italic text-[#B8925A]">Available.</em></h2>
 //       <p className="text-[#7A6556] text-sm leading-relaxed font-light mb-7">TMS Therapy is now available at Tri-Valley Clinic. A non-invasive, FDA-approved treatment for depression. Schedule your consultation today.</p>
-//       <a href="/tms-therapy#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+//       <a href="/tms#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
 //     </HomePopup>
 //   );
 // }
@@ -677,7 +677,7 @@ function ServicesSection() {
     { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_CARD,     tag:"Core",         href:"/psychiatric",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
     { title:"Medical Weight Loss",     sub:"GLP-1 / Semaglutide Programs",      img:"/assets/weightloss-bg.jpg", tag:"Now Available", href:"/medical-weight-loss",  desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based care with medical oversight.", accent:"#B8925A" },
     { title:"IV Hydration Therapy",    sub:"Restore · Revive · Rehydrate",      img:IMAGES.CLINIC_TABLE,     tag:"Unique",        href:"/iv-hydration", desc:"First psychiatric clinic in Fremont offering premium IV nutrient therapy supervised by our trusted team of licensed clinicians.", accent:"#A8C59A" },
-    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Now Available",   href:"/tms-therapy",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression.",          accent:"#C9A46A" },
+    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Now Available",   href:"/tms",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression.",          accent:"#C9A46A" },
   ];
   return(
     <section className="py-24 px-5 md:px-10" style={{ background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)" }}>
@@ -736,7 +736,7 @@ function SpotlightSection() {
     { n:"01", title:"Psychiatric Care",    tag:"Mental Health",     sub:"Anxiety · Depression · ADHD · PTSD · Bipolar · OCD",           stat:"Accepting New Patients", href:"/psychiatric",  img: IMAGES.DR_GONDARA_WORKING, imgPos:"center 15%", color:"#C9A46A" },
     { n:"02", title:"Medical Weight Loss", tag:"GLP-1 Therapy",     sub:"Physician-Supervised · Semaglutide & Tirzepatide",              stat:"Now Available",   href:"/medical-weight-loss",  img: IMAGES.BOTH_OUTDOOR,       imgPos:"center 10%", color:"#B8925A", desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based GLP-1 care with medical oversight." },
     { n:"03", title:"IV Hydration",        tag:"Wellness Infusion", sub:"12 Custom Drip Formulas · Energy · Immunity · Glow · Recovery", stat:"Walk-In Welcome", href:"/iv-hydration", img: "/assets/iv-img.jpg",      imgPos:"center 30%", color:"#A8C59A" },
-    { n:"04", title:"TMS Therapy",         tag:"Brain Stimulation", sub:"FDA-Cleared · Non-Invasive · No Medication · No Side Effects",  stat:"Now Available",   href:"/tms-therapy",          img: "/assets/tms-img.jpg",     imgPos:"center 40%", color:"#C9A46A" },
+    { n:"04", title:"TMS Therapy",         tag:"Brain Stimulation", sub:"FDA-Cleared · Non-Invasive · No Medication · No Side Effects",  stat:"Now Available",   href:"/tms",          img: "/assets/tms-img.jpg",     imgPos:"center 40%", color:"#C9A46A" },
     { n:"05", title:"Telehealth",          tag:"Virtual Care",      sub:"Secure HIPAA Video · All Psychiatric Services · All of CA",    stat:"Statewide CA", href:"/telehealth",   img: IMAGES.BOTH_ARMS_CROSSED,  imgPos:"center top",  color:"#B8925A" },
   ];
 
@@ -1277,7 +1277,7 @@ function ServiceMiniSpotlight() {
       img:"/assets/tms-img.jpg",
       imgPos:"center 40%",
       color:"#B8925A",
-      href:"/tms-therapy",
+      href:"/tms",
       detail:"Transcranial Magnetic Stimulation — the most advanced non-medication treatment for depression. Schedule a consultation today.",
     },
   ];

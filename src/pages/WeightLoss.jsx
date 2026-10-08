@@ -4,6 +4,7 @@ import IMAGES from "../constants/images";
 import DoctorAvatars from "../components/DoctorAvatars";
 import { useEffect, useRef, useState } from "react";
 import SEO from '../components/SEO';
+import PatientReviews from "../components/PatientReviews";
 
 const P={hero:"/assets/weightloss-bg.jpg",drGill:"/assets/dr-gill-white.jpg",drGillIn:"/assets/dr J gill-inside.jpg",interior:"/assets/inetrioir clinic.jpg",inside:"/assets/inside clinic1.jpg",table:"/assets/emptytabel.jpg"};
 
@@ -15,11 +16,11 @@ function Cursor(){const[en,setEn]=useState(false);const d=useRef(null),r=useRef(
 export default function WeightLoss(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
        <SEO
-  title="GLP-1 Weight Loss Program Fremont CA"
-  description="Physician-supervised GLP-1 weight loss program with Semaglutide and Tirzepatide in Fremont, CA. Personalized treatment plans by Dr. Gill. Evidence-based, safe, and effective."
+  title="Medical Weight Loss Program Fremont, CA"
+  description="Physician-led medical weight loss in Fremont, CA: ongoing monitoring, monthly check-ins and GLP-1 options (semaglutide, tirzepatide). Free consultation."
   path="/medical-weight-loss"
 />
-<style>{CSS}</style><Cursor/><Hero/><Marquee/><WhatAreGLP1s/><HowProgramWorks/><OurProgram/><WhatSetsApartSection/><EligibilitySection/><LeadCaptureSection/><FAQSection/><CTA/></main>);
+<style>{CSS}</style><Cursor/><Hero/><Marquee/><WhatSetsApartSection/><HowProgramWorks/><OurProgram/><EligibilitySection/><WhatAreGLP1s/><PatientReviews variant="compact" /><LeadCaptureSection/><FAQSection/><CTA/></main>);
 }
 
 function Hero(){
@@ -47,10 +48,10 @@ function Hero(){
             Real Weight Loss.<br/><em className="italic text-[#C9A46A]">Physician</em><br/>Supervised.
           </h1>
           <div className={`flex items-center gap-4 mb-5 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"370ms"}}>
-            <span className="w-10 h-px bg-[#B8925A]/60"/><span className="text-[10px] tracking-[0.22em] uppercase text-[#A89880] font-light">GLP-1 Therapy · Physician-Supervised Weight Loss Program</span>
+            <span className="w-10 h-px bg-[#B8925A]/60"/><span className="text-[10px] tracking-[0.22em] uppercase text-[#A89880] font-light">Medical Weight Loss Program · Fremont, CA</span>
           </div>
           <p className={`text-[#A89880] text-lg leading-relaxed max-w-lg font-light mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"440ms"}}>
-            Tri-Valley Clinic now offers a unique, structured GLP-1 program designed to support both physical and behavioral change—guided by licensed clinicians and built around your individual needs. Safe, effective and science-backed.
+            Tri-Valley Clinic offers a physician-led medical weight loss program designed to support both physical and behavioral change—built around your individual needs, with regular check-ins and clinical monitoring, and GLP-1 medication (semaglutide, tirzepatide) when clinically appropriate. Safe, effective and science-backed.
           </p>
           <div className={`flex flex-wrap gap-4 mb-8 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"540ms"}}>
             <a href="/contact" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
@@ -156,7 +157,7 @@ function OurProgram(){
       <div className="mx-auto max-w-4xl">
         <div ref={ref} className="text-center mb-12">
           <div className={`flex items-center justify-center gap-3 mb-5 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-12 h-px bg-[#B8925A]/50"/><Dm size={7}/><span className="w-12 h-px bg-[#B8925A]/50"/></div>
-          <h2 className={`text-5xl md:text-6xl text-[#2C1A0E] transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>How the Program <em className="italic text-[#B8925A]">Works</em></h2>
+          <h2 className={`text-5xl md:text-6xl text-[#2C1A0E] transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>What to <em className="italic text-[#B8925A]">Expect</em></h2>
         </div>
         <div className={`space-y-2 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           {steps.map((s,i)=>(

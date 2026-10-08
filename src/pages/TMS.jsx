@@ -52,7 +52,7 @@ function trackQuestionnaireStart() {
       event: "tms_questionnaire_start",
       instrument: "NeuroStar PHQ-10 Patient Survey",
       survey_id: "90673",
-      page_path: "/tms-therapy",
+      page_path: "/tms",
     });
   } catch { /* analytics must never block the link */ }
 }
@@ -67,7 +67,7 @@ export default function TMS(){
     <SEO
   title="TMS Therapy"
   description="FDA-cleared Transcranial Magnetic Stimulation (TMS) therapy now available at Tri-Valley Clinic in Fremont, CA. A non-invasive treatment for depression — no medication, no systemic side effects. Covered by many insurance plans. Call (510) 598-4921."
-  path="/tms-therapy"
+  path="/tms"
 />
 <style>{CSS}</style><Cursor/><Hero/><Mq/><WhatIsTMS/><HowWorks/><QuestionnaireSec/><ConsultSec/><FAQSec/><CTA/></main>);
 }
