@@ -13,6 +13,17 @@ function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);us
    or the pointer vanishes (see src/constants/zIndex.js). */
 function Cursor(){const[en,setEn]=useState(false);const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{setEn(window.matchMedia("(pointer: fine)").matches);},[]);useEffect(()=>{if(!en)return;const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[en]);if(!en)return null;return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 
+/* GA4 key event for a SENT GLP-1 lead form (GTM GTM-PPTHL8R9 · GA4 G-ES9FZWTL7Z).
+   gtag sends "generate_lead" straight to GA4 (mark it as a key event in GA4: Admin > Events). The dataLayer push is only for GTM uses:
+   do NOT also build a GA4 event tag on it, or every lead counts twice. No form content is sent, only the form name. */
+function trackLeadSent() {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "glp1_lead_submit", form_name: "glp1_lead", page_path: "/medical-weight-loss/" });
+    if (typeof window.gtag === "function") window.gtag("event", "generate_lead", { form_name: "glp1_lead", page_path: "/medical-weight-loss/" });
+  } catch { /* analytics must never block the form */ }
+}
+
 export default function WeightLoss(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
        <SEO
@@ -398,7 +409,7 @@ function LeadCaptureSection(){
           _replyto:form.email,
         }),
       });
-      if(res.ok){setSent(true);}
+      if(res.ok){setSent(true);trackLeadSent();}
       else{alert("Something went wrong. Please call us at (510) 598-4921.");}
     }catch{
       alert("Network error. Please call us at (510) 598-4921.");

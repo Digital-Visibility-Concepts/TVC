@@ -81,7 +81,7 @@ export default function Home() {
     <main style={{ fontFamily: "'Jost', sans-serif", background: "#FDFAF6", cursor: "none" }}>
       <SEO
   title="Tri-Valley Clinic | Psychiatry & Wellness | Fremont, CA"
-  description="Psychiatry, medical weight loss, IV hydration and TMS therapy in Fremont, CA. Led by Dr. Japsharan Gill and Dr. Shabeg Gondara. Accepting new patients."
+  description="Psychiatry, TMS therapy and physician-led GLP-1 weight loss in Fremont, CA, with Dr. Japsharan Gill and Dr. Shabeg Gondara. Accepting new patients."
   path="/"
 />
       <style>{CSS}</style>

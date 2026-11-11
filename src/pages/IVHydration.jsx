@@ -146,7 +146,7 @@ export default function IVHydration() {
     <main style={{ fontFamily: "'Jost', sans-serif", background: "#FDFAF6", cursor: "none" }}>
       <SEO
         title="IV Hydration Therapy"
-        description="Premium IV hydration therapy in Fremont, CA. Energy, immunity, beauty, and recovery drip formulas. Physician-supervised in a spa-like clinic setting."
+        description="Physician-supervised IV therapy in Fremont, CA. Energy, immunity, recovery and glutathione drip formulas at Tri-Valley Clinic. Call (510) 598-4921."
         path="/iv-hydration"
       />
       <style>{CSS}</style>
