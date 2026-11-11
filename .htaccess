@@ -1,9 +1,15 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # Force non-www
+  # Force non-www in ONE redirect. A page path without a slash gets its trailing slash in the same hop
+  # (the final address is https + no www + trailing slash), so www/about does not need a second redirect.
+  RewriteCond %{HTTP_HOST} ^www\.trivalleyclinic\.com$ [NC]
+  RewriteRule ^([^.]*[^/.])$ https://trivalleyclinic.com/$1/ [L,R=301]
   RewriteCond %{HTTP_HOST} ^www\.trivalleyclinic\.com$ [NC]
   RewriteRule ^(.*)$ https://trivalleyclinic.com/$1 [L,R=301]
+
+  # /home was never a page: send it to the homepage (permanent)
+  RewriteRule ^home/?$ https://trivalleyclinic.com/ [R=301,L]
 
   # Old / planned URLs -> the real pages (permanent). Absolute https like the www rule above.
   RewriteRule ^psychiatry/?$ https://trivalleyclinic.com/psychiatric/ [R=301,L]
