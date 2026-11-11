@@ -99,7 +99,7 @@ export default function About() {
       className="overflow-x-hidden">
       <SEO
         title="About Us"
-        description="Meet Dr. Japsharan Gill and Dr. Shabeg Gondara, board-certified psychiatrists leading Tri-Valley Clinic in Fremont, CA. 15+ years of combined experience in psychiatry, wellness, and integrative care."
+        description="Meet Dr. Japsharan Gill and Dr. Shabeg Gondara, the psychiatrists at Tri-Valley Clinic in Fremont, CA. Personalized psychiatric and wellness care."
         path="/about"
       />
       <style>{CSS}</style>
@@ -182,7 +182,7 @@ function HeroSection() {
 
           <div className={`flex flex-wrap gap-4 mb-12 transition-all duration-700 ${on ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
             style={{ transitionDelay: "580ms" }}>
-            <a href="/contact"
+            <a href="/contact/"
               className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-6 sm:px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-all duration-400">
               <Ph /> Schedule Today
               <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
@@ -453,7 +453,7 @@ function DrGillBioSection() {
             </ul>
 
             <div className="flex flex-wrap gap-4">
-              <a href="/contact"
+              <a href="/contact/"
                 className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-6 sm:px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300">
                 <Ph /> Book with Dr. Japsharan Gill
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -519,7 +519,7 @@ function DrGondaraBioSection() {
               ))}
             </ul>
 
-            <a href="/contact"
+            <a href="/contact/"
               className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-6 sm:px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300">
               <Ph /> Book with Dr. Shabeg Gondara
               <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -739,7 +739,7 @@ Our team is always here to assist you. We're just a call away to answer any ques
             <Ph /> Call (510) 598-4921
             <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
-          <a href="/contact"
+          <a href="/contact/"
             className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-8 sm:px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300 w-full sm:w-auto justify-center">
             Send a Message
           </a>

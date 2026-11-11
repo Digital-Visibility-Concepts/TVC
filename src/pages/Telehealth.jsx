@@ -13,7 +13,7 @@ export default function Telehealth(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none"}}>
     <SEO
   title="Telehealth Psychiatry"
-  description="HIPAA-compliant telehealth psychiatry appointments available throughout California. See Dr. Gill or Dr. Gondara from the comfort of your home. Insurance accepted. Next-day appointments available."
+  description="Secure, HIPAA-compliant telehealth psychiatry for patients statewide in California: evaluations, medication management and follow-up visits."
   path="/telehealth"
 />
 <style>{CSS}</style><Cursor/><Hero/><Mq/><WhatWeTreat/><HowWorks/><CASection/><WhyCover/><FAQSec/><CTA/></main>);
@@ -96,7 +96,7 @@ function WhatWeTreat(){
   return(<section className="py-24 px-5 md:px-10 bg-[#FDFAF6]"><div className="mx-auto max-w-7xl">
     <div ref={ref} className="text-center mb-14"><div className={`flex items-center justify-center gap-3 mb-5 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}><span className="w-12 h-px bg-[#6B7C5E]/50"/><svg width="7" height="7" viewBox="0 0 10 10" fill="#6B7C5E"><polygon points="5,0 10,5 5,10 0,5"/></svg><span className="w-12 h-px bg-[#6B7C5E]/50"/></div><h2 className={`text-5xl md:text-6xl text-[#2C1A0E] mb-4 transition-all duration-700 delay-100 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`} style={{fontFamily:"'Cormorant Garamond',serif",fontWeight:300}}>What We Treat <em className="italic text-[#6B7C5E]">via Telehealth</em></h2><p className={`text-[#7A6556] text-lg font-light max-w-xl mx-auto transition-all duration-700 delay-200 ${v?"opacity-100":"opacity-0"}`}>Most conditions we treat in person can also be managed through telehealth for patients across California.</p></div>
     <TelehealthCondAccordion conditions={TELEHEALTH_CONDITIONS} visible={v}/>
-    <div className={`mt-8 text-center transition-all duration-700 delay-700 ${v?"opacity-100":"opacity-0"}`}><p className="text-[#7A6556] text-sm font-light">Don't see your condition listed? <a href="/contact" className="text-[#6B7C5E] underline underline-offset-2 hover:text-[#B8925A] transition-colors">Contact us</a> — our clinical team treats a wide range of concerns through telehealth.</p></div>
+    <div className={`mt-8 text-center transition-all duration-700 delay-700 ${v?"opacity-100":"opacity-0"}`}><p className="text-[#7A6556] text-sm font-light">Don't see your condition listed? <a href="/contact/" className="text-[#6B7C5E] underline underline-offset-2 hover:text-[#B8925A] transition-colors">Contact us</a> — our clinical team treats a wide range of concerns through telehealth.</p></div>
   </div></section>);
 }
 
@@ -167,7 +167,7 @@ function CTA(){
         <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>Schedule your telehealth visit with our clinical team today.</p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400"><Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
-          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
+          <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
         </div>
         <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${v?"opacity-100":"opacity-0"}`}>Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA</p>
       </div>

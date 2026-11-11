@@ -82,7 +82,7 @@ export default function LegalTerms() {
             </PolicySection>
 
             <PolicySection number="10" title="Privacy">
-              <p>Your use of this website is also governed by our <a href="/privacy-policy" className="text-[#B8925A] hover:underline">Privacy Policy</a>, which explains how we collect and use personal information.</p>
+              <p>Your use of this website is also governed by our <a href="/privacy-policy/" className="text-[#B8925A] hover:underline">Privacy Policy</a>, which explains how we collect and use personal information.</p>
             </PolicySection>
 
             <PolicySection number="11" title="SMS and Online Communications">

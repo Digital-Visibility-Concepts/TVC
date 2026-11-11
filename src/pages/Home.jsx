@@ -81,7 +81,7 @@ export default function Home() {
     <main style={{ fontFamily: "'Jost', sans-serif", background: "#FDFAF6", cursor: "none" }}>
       <SEO
   title="Tri-Valley Clinic | Psychiatry & Wellness | Fremont, CA"
-  description="Board-certified psychiatry, medical weight loss, IV hydration, and TMS therapy in Fremont, CA. Led by Dr. Japsharan Gill and Dr. Shabeg Gondara. Accepting new patients."
+  description="Psychiatry, medical weight loss, IV hydration and TMS therapy in Fremont, CA. Led by Dr. Japsharan Gill and Dr. Shabeg Gondara. Accepting new patients."
   path="/"
 />
       <style>{CSS}</style>
@@ -181,7 +181,7 @@ export default function Home() {
 //       <HomePopup key="glp1" titleId="glp1-popup-heading" onClose={close}>
 //         <div className="flex items-center gap-2 mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" /><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Limited-Time Offer</span></div>
 //         <h2 id="glp1-popup-heading" className="text-3xl md:text-4xl text-[#2C1A0E] mb-7" style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>15% Off <em className="italic text-[#B8925A]">GLP-1 Treatment.</em></h2>
-//         <a href="/medical-weight-loss#glp1-form" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">See If I Qualify <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+//         <a href="/medical-weight-loss/#glp1-form" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">See If I Qualify <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
 //       </HomePopup>
 //     );
 //   }
@@ -191,7 +191,7 @@ export default function Home() {
 //       <div className="flex items-center gap-2 mb-4"><span className="w-1.5 h-1.5 rounded-full bg-[#6B7C5E] animate-pulse" /><span className="text-[10px] tracking-[0.24em] uppercase text-[#B8925A] font-semibold">Now Available</span></div>
 //       <h2 id="tms-popup-heading" className="text-3xl md:text-4xl text-[#2C1A0E] mb-4" style={{ fontFamily: "'Cormorant Garamond',serif", fontWeight: 300 }}>TMS Therapy Is Now <em className="italic text-[#B8925A]">Available.</em></h2>
 //       <p className="text-[#7A6556] text-sm leading-relaxed font-light mb-7">TMS Therapy is now available at Tri-Valley Clinic. A non-invasive, FDA-approved treatment for depression. Schedule your consultation today.</p>
-//       <a href="/tms#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+//       <a href="/tms/#consultation" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">Book Now <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
 //     </HomePopup>
 //   );
 // }
@@ -354,7 +354,7 @@ function HeroSection() {
               className="flex items-center gap-2 bg-[#B8925A] text-[#1A0F08] px-5 py-3.5 text-[9px] font-bold tracking-[0.22em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 flex-1 justify-center">
               <Ph/> Call Now
             </a>
-            <a href="/contact"
+            <a href="/contact/"
               className="flex items-center justify-center gap-2 border border-[#B8925A]/50 text-[#C9A46A] px-5 py-3.5 text-[9px] font-bold tracking-[0.22em] uppercase hover:border-[#B8925A] transition-colors duration-300 flex-1">
               Schedule today
             </a>
@@ -435,7 +435,7 @@ function HeroSection() {
               className="group flex items-center gap-2.5 bg-[#B8925A] text-[#1A0F08] px-7 py-3.5 text-[10px] font-bold tracking-[0.22em] uppercase hover:bg-[#C9A46A] transition-all duration-300">
               <Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform">→</span>
             </a>
-            <a href="/contact"
+            <a href="/contact/"
               className="flex items-center gap-2 border border-[#B8925A]/40 text-[#C9A46A] px-7 py-3.5 text-[10px] font-bold tracking-[0.22em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/8 transition-all duration-300">
               Schedule Today
             </a>
@@ -674,10 +674,10 @@ function ExperienceSection() {
 function ServicesSection() {
   const [ref,vis]=useReveal();
   const svcs=[
-    { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_CARD,     tag:"Core",         href:"/psychiatric",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
-    { title:"Medical Weight Loss",     sub:"GLP-1 / Semaglutide Programs",      img:"/assets/weightloss-bg.jpg", tag:"Now Available", href:"/medical-weight-loss",  desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based care with medical oversight.", accent:"#B8925A" },
-    { title:"IV Hydration Therapy",    sub:"Restore · Revive · Rehydrate",      img:IMAGES.CLINIC_TABLE,     tag:"Unique",        href:"/iv-hydration", desc:"First psychiatric clinic in Fremont offering premium IV nutrient therapy supervised by our trusted team of licensed clinicians.", accent:"#A8C59A" },
-    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Now Available",   href:"/tms",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression.",          accent:"#C9A46A" },
+    { title:"Psychiatric Services",    sub:"Comprehensive Mental Health Care",  img:IMAGES.DR_GILL_CARD,     tag:"Core",         href:"/psychiatric/",  desc:"Anxiety, depression, ADHD, PTSD, bipolar disorder — precise diagnosis and personalized treatment.",          accent:"#C9A46A" },
+    { title:"Medical Weight Loss",     sub:"GLP-1 / Semaglutide Programs",      img:"/assets/weightloss-bg.jpg", tag:"Now Available", href:"/medical-weight-loss/",  desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based care with medical oversight.", accent:"#B8925A" },
+    { title:"IV Hydration Therapy",    sub:"Restore · Revive · Rehydrate",      img:IMAGES.CLINIC_TABLE,     tag:"Unique",        href:"/iv-hydration/", desc:"First psychiatric clinic in Fremont offering premium IV nutrient therapy supervised by our trusted team of licensed clinicians.", accent:"#A8C59A" },
+    { title:"TMS Therapy",             sub:"Non-Invasive · No Side Effects",    img:IMAGES.CLINIC_CHAIRS,    tag:"Now Available",   href:"/tms/",          desc:"FDA-cleared transcranial magnetic stimulation for treatment-resistant depression.",          accent:"#C9A46A" },
   ];
   return(
     <section className="py-24 px-5 md:px-10" style={{ background:"linear-gradient(160deg,#2C1A0E 0%,#3D2B1F 100%)" }}>
@@ -689,7 +689,7 @@ function ServicesSection() {
               Our <em className="italic text-[#C9A46A]">Signature</em><br/>Services
             </h2>
           </div>
-          <a href="/psychiatric" className={`inline-flex items-center gap-2 border border-[#B8925A]/40 text-[#C9A46A] px-6 py-3 text-[10px] tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300 ${vis?"opacity-100":"opacity-0"}`}>View All Services →</a>
+          <a href="/psychiatric/" className={`inline-flex items-center gap-2 border border-[#B8925A]/40 text-[#C9A46A] px-6 py-3 text-[10px] tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300 ${vis?"opacity-100":"opacity-0"}`}>View All Services →</a>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {svcs.map((s,i)=><ServiceCard key={s.title} {...s} delay={i*130} vis={vis}/>)}
@@ -733,11 +733,11 @@ function SpotlightSection() {
   const INTERVAL = 5200;
 
   const SVCS = [
-    { n:"01", title:"Psychiatric Care",    tag:"Mental Health",     sub:"Anxiety · Depression · ADHD · PTSD · Bipolar · OCD",           stat:"Accepting New Patients", href:"/psychiatric",  img: IMAGES.DR_GONDARA_WORKING, imgPos:"center 15%", color:"#C9A46A" },
-    { n:"02", title:"Medical Weight Loss", tag:"GLP-1 Therapy",     sub:"Physician-Supervised · Semaglutide & Tirzepatide",              stat:"Now Available",   href:"/medical-weight-loss",  img: IMAGES.BOTH_OUTDOOR,       imgPos:"center 10%", color:"#B8925A", desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based GLP-1 care with medical oversight." },
-    { n:"03", title:"IV Hydration",        tag:"Wellness Infusion", sub:"12 Custom Drip Formulas · Energy · Immunity · Glow · Recovery", stat:"Walk-In Welcome", href:"/iv-hydration", img: "/assets/iv-img.jpg",      imgPos:"center 30%", color:"#A8C59A" },
-    { n:"04", title:"TMS Therapy",         tag:"Brain Stimulation", sub:"FDA-Cleared · Non-Invasive · No Medication · No Side Effects",  stat:"Now Available",   href:"/tms",          img: "/assets/tms-img.jpg",     imgPos:"center 40%", color:"#C9A46A" },
-    { n:"05", title:"Telehealth",          tag:"Virtual Care",      sub:"Secure HIPAA Video · All Psychiatric Services · All of CA",    stat:"Statewide CA", href:"/telehealth",   img: IMAGES.BOTH_ARMS_CROSSED,  imgPos:"center top",  color:"#B8925A" },
+    { n:"01", title:"Psychiatric Care",    tag:"Mental Health",     sub:"Anxiety · Depression · ADHD · PTSD · Bipolar · OCD",           stat:"Accepting New Patients", href:"/psychiatric/",  img: IMAGES.DR_GONDARA_WORKING, imgPos:"center 15%", color:"#C9A46A" },
+    { n:"02", title:"Medical Weight Loss", tag:"GLP-1 Therapy",     sub:"Physician-Supervised · Semaglutide & Tirzepatide",              stat:"Now Available",   href:"/medical-weight-loss/",  img: IMAGES.BOTH_OUTDOOR,       imgPos:"center 10%", color:"#B8925A", desc:"Physician-led weight loss program tailored to your needs. Structured, evidence-based GLP-1 care with medical oversight." },
+    { n:"03", title:"IV Hydration",        tag:"Wellness Infusion", sub:"12 Custom Drip Formulas · Energy · Immunity · Glow · Recovery", stat:"Walk-In Welcome", href:"/iv-hydration/", img: "/assets/iv-img.jpg",      imgPos:"center 30%", color:"#A8C59A" },
+    { n:"04", title:"TMS Therapy",         tag:"Brain Stimulation", sub:"FDA-Cleared · Non-Invasive · No Medication · No Side Effects",  stat:"Now Available",   href:"/tms/",          img: "/assets/tms-img.jpg",     imgPos:"center 40%", color:"#C9A46A" },
+    { n:"05", title:"Telehealth",          tag:"Virtual Care",      sub:"Secure HIPAA Video · All Psychiatric Services · All of CA",    stat:"Statewide CA", href:"/telehealth/",   img: IMAGES.BOTH_ARMS_CROSSED,  imgPos:"center top",  color:"#B8925A" },
   ];
 
   useEffect(() => {
@@ -859,7 +859,7 @@ function SpotlightSection() {
 
         {/* CTA */}
         <div className="mt-7 pt-5 border-t border-[#E8D5BE]">
-          <a href="/contact"
+          <a href="/contact/"
             className="group flex items-center justify-center gap-3 w-full bg-[#2C1A0E] text-[#F0E8DA] py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400 mb-2">
             <Ph/> Schedule today <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
@@ -972,10 +972,10 @@ function DrGillSection() {
             </div>
 
             <div className="flex flex-wrap gap-4">
-              <a href="/contact" className="group inline-flex items-center gap-3 border border-[#B8925A] text-[#B8925A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] hover:text-[#FDFAF6] transition-all duration-300">
+              <a href="/contact/" className="group inline-flex items-center gap-3 border border-[#B8925A] text-[#B8925A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] hover:text-[#FDFAF6] transition-all duration-300">
                 <Ph/> Schedule today <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
               </a>
-              <a href="/about" className="flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase text-[#7A6556] hover:text-[#B8925A] transition-colors duration-300 px-4 py-4">
+              <a href="/about/" className="flex items-center gap-2 text-[11px] font-bold tracking-[0.2em] uppercase text-[#7A6556] hover:text-[#B8925A] transition-colors duration-300 px-4 py-4">
                 Meet the Team ↗
               </a>
             </div>
@@ -1042,14 +1042,14 @@ function DoctorSpotlight() {
       img:IMAGES.DR_GILL_HERO, imgPos:"center 8%",
       quote:"I built Tri-Valley Clinic for people who wanted more than a quick appointment and a prescription — for people who wanted a physician who actually listens.",
       pills:["Psychiatry","GLP-1 Weight Loss","IV Hydration","TMS Therapy","Telehealth CA"],
-      color:"#C9A46A", href:"/about#dr-gill",
+      color:"#C9A46A", href:"/about/#dr-gill",
     },
     {
       name:"Dr. Shabeg Gondara, MD", role:"President", tag:"Adult Psychiatry",
       img:IMAGES.DR_GONDARA_CARD, imgPos:"center 5%",
       quote:"My approach emphasizes clarity, collaboration, and long-term stability — helping patients achieve functional improvement and genuine emotional well-being.",
       pills:["Psychiatric Evaluations","Medication Management","Evidence-Based Care","Telehealth Statewide"],
-      color:"#B8925A", href:"/about#dr-gondara",
+      color:"#B8925A", href:"/about/#dr-gondara",
     },
   ];
   const doc = DOCS[who];
@@ -1116,7 +1116,7 @@ function DoctorSpotlight() {
                 style={{background:doc.color,color:"#1A0F08"}}>
                 Full Biography <span className="group-hover:translate-x-1 transition-transform">→</span>
               </a>
-              <a href="/contact" className="inline-flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A]/5 hover:border-[#B8925A] transition-all duration-300">
+              <a href="/contact/" className="inline-flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A]/5 hover:border-[#B8925A] transition-all duration-300">
                 <Ph/> Schedule Today
               </a>
             </div>
@@ -1167,7 +1167,7 @@ function ConsultBand() {
             <a href="tel:5105984921" className="group flex items-center justify-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 whitespace-nowrap">
               <Ph/> Call (510) 598-4921 →
             </a>
-            <a href="/contact" className="flex items-center justify-center border border-[#B8925A]/40 text-[#C9A46A] px-8 py-3.5 text-[10px] tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">
+            <a href="/contact/" className="flex items-center justify-center border border-[#B8925A]/40 text-[#C9A46A] px-8 py-3.5 text-[10px] tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">
               Send a Message
             </a>
             <p className="text-[9px] text-[#7A6556] text-center tracking-wide">Most insurance accepted · Cherry financing available</p>
@@ -1183,10 +1183,10 @@ function WhyUsSection() {
   const items=[
     { icon:"💬", num:"Call",  numSub:"Us Today",      title:"Schedule Your Visit",   text:"Contact our office by phone or form. We'll verify your insurance and work to get you scheduled for a next-day or same-day appointment.",    cta:"Call Now",href:"tel:5105984921" },
     { icon:"📅", num:"Next",  numSub:"Day Available",  title:"Next-Day Scheduling",   text:"Once insurance is verified, next-day availability for in-person and telehealth visits. We work to accommodate your schedule.",  cta:"Check Availability",href:"tel:5105984921" },
-    { icon:"💳", num:"Most",  numSub:"Plans Accepted", title:"Insurance Accepted",    text:"We accept most major insurances for our psychiatry services including TMS and Telehealth. Cherry financing available for wellness services — apply in seconds.",      cta:"Verify Insurance",href:"/insurance" },
+    { icon:"💳", num:"Most",  numSub:"Plans Accepted", title:"Insurance Accepted",    text:"We accept most major insurances for our psychiatry services including TMS and Telehealth. Cherry financing available for wellness services — apply in seconds.",      cta:"Verify Insurance",href:"/insurance/" },
     { icon:"📍", num:"1",     numSub:"Dedicated Clinic",title:"One Beautiful Location",text:"680 Mowry Ave, Fremont — one dedicated space where every resource is focused entirely on your care and comfort.",           cta:"Get Directions",href:"https://maps.google.com/?q=680+Mowry+Ave+Fremont+CA" },
-    { icon:"🖥️", num:"58+",  numSub:"CA Cities",       title:"Statewide Telehealth",  text:"Secure, HIPAA-compliant video visits available to all California residents. Same expert care from wherever you are.",       cta:"Book Telehealth",href:"/telehealth" },
-    { icon:"👥", num:"2",     numSub:"Physicians",      title:"Two Doctors, One Mission",text:"Dr. Japsharan Gill and Dr. Shabeg Gondara — both board-eligible, both accepting new patients, both personally invested.", cta:"Meet the Team",href:"/about" },
+    { icon:"🖥️", num:"58+",  numSub:"CA Cities",       title:"Statewide Telehealth",  text:"Secure, HIPAA-compliant video visits available to all California residents. Same expert care from wherever you are.",       cta:"Book Telehealth",href:"/telehealth/" },
+    { icon:"👥", num:"2",     numSub:"Physicians",      title:"Two Doctors, One Mission",text:"Dr. Japsharan Gill and Dr. Shabeg Gondara — both board-eligible, both accepting new patients, both personally invested.", cta:"Meet the Team",href:"/about/" },
   ];
   return(
     <section className="py-24 px-5 md:px-10 bg-[#F5EEE4]">
@@ -1234,7 +1234,7 @@ function WhyUsSection() {
 
         {/* Bottom CTA */}
         <div className={`mt-12 text-center transition-all duration-700 delay-700 ${vis?"opacity-100":"opacity-0"}`}>
-          <a href="/contact" className="group inline-flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400">
+          <a href="/contact/" className="group inline-flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400">
             <Ph/> Book Your Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
         </div>
@@ -1255,7 +1255,7 @@ function ServiceMiniSpotlight() {
       img:"/assets/iv-img.jpg",
       imgPos:"center 30%",
       color:"#A8C59A",
-      href:"/iv-hydration",
+      href:"/iv-hydration/",
       detail:"First psychiatric clinic in Fremont offering premium IV nutrient therapy supervised by our licensed clinicians.",
     },
     {
@@ -1266,7 +1266,7 @@ function ServiceMiniSpotlight() {
       img:"/assets/weightloss-bg.jpg",
       imgPos:"center 40%",
       color:"#C9A46A",
-      href:"/medical-weight-loss",
+      href:"/medical-weight-loss/",
       detail:"Physician-led weight loss program tailored to your needs. Structured, science-backed GLP-1 care with full medical oversight.",
     },
     {
@@ -1277,7 +1277,7 @@ function ServiceMiniSpotlight() {
       img:"/assets/tms-img.jpg",
       imgPos:"center 40%",
       color:"#B8925A",
-      href:"/tms",
+      href:"/tms/",
       detail:"Transcranial Magnetic Stimulation — the most advanced non-medication treatment for depression. Schedule a consultation today.",
     },
   ];
@@ -1297,7 +1297,7 @@ function ServiceMiniSpotlight() {
               Services You Won't Find <em className="italic text-[#C9A46A]">Everywhere</em>
             </h2>
           </div>
-          <a href="/iv-hydration" className="hidden md:inline-flex items-center gap-2 border border-[#B8925A]/30 text-[#B8925A] px-6 py-3 text-[10px] tracking-[0.2em] uppercase hover:border-[#B8925A] transition-colors whitespace-nowrap">
+          <a href="/iv-hydration/" className="hidden md:inline-flex items-center gap-2 border border-[#B8925A]/30 text-[#B8925A] px-6 py-3 text-[10px] tracking-[0.2em] uppercase hover:border-[#B8925A] transition-colors whitespace-nowrap">
             View All Services →
           </a>
         </div>
@@ -1426,7 +1426,7 @@ function InsuranceSection() {
             <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-7 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300 mb-3">
               <Ph/> Call to Verify Coverage
             </a>
-            <a href="/financing" className="flex items-center justify-center border border-[#B8925A]/30 text-[#B8925A] px-7 py-3 text-[10px] tracking-[0.18em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/8 transition-all duration-300">
+            <a href="/financing/" className="flex items-center justify-center border border-[#B8925A]/30 text-[#B8925A] px-7 py-3 text-[10px] tracking-[0.18em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/8 transition-all duration-300">
               Cherry Financing Available →
             </a>
             <p className="text-[#7A6556]/50 text-[9px] mt-4 text-center tracking-wide">Mon–Fri · 9:30 AM – 5:30 PM</p>
@@ -1460,7 +1460,7 @@ function TelehealthSection() {
               <li key={t} className="flex items-center gap-3 text-[#A8B89E] text-sm font-light"><span className="w-1.5 h-1.5 rounded-full bg-[#A8C59A] flex-shrink-0"/>{t}</li>
             ))}
           </ul>
-          <a href="/contact" className="inline-flex items-center gap-3 bg-[#6B7C5E] text-[#F0EDE8] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#7D9170] transition-colors duration-300">
+          <a href="/contact/" className="inline-flex items-center gap-3 bg-[#6B7C5E] text-[#F0EDE8] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#7D9170] transition-colors duration-300">
             <Ph/> Book Telehealth Visit
           </a>
         </div>
@@ -1525,7 +1525,7 @@ function FinalCTA() {
             <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400">
               <Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
             </a>
-            <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">
+            <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">
               Send a Message
             </a>
           </div>

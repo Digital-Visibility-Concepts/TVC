@@ -11,18 +11,18 @@ const NAV_LINKS = [
   {
     label: "Services",
     dropdown: [
-      { label: "Psychiatric Services",       to: "/psychiatric"  },
-      { label: "Medical Weight Loss / GLP-1",to: "/medical-weight-loss"  },
-      { label: "IV Hydration Therapy",       to: "/iv-hydration" },
-      { label: "TMS Therapy",                to: "/tms"          },
-      { label: "Telehealth",                 to: "/telehealth"   },
+      { label: "Psychiatric Services",       to: "/psychiatric/"  },
+      { label: "Medical Weight Loss / GLP-1",to: "/medical-weight-loss/"  },
+      { label: "IV Hydration Therapy",       to: "/iv-hydration/" },
+      { label: "TMS Therapy",                to: "/tms/"          },
+      { label: "Telehealth",                 to: "/telehealth/"   },
     ],
   },
-  { label: "About",     to: "/about"     },
-  { label: "Insurance", to: "/insurance" },
-  { label: "Financing", to: "/financing" },
+  { label: "About",     to: "/about/"     },
+  { label: "Insurance", to: "/insurance/" },
+  { label: "Financing", to: "/financing/" },
   { label: "Blog",      href: BLOG_URL   },   /* external — WordPress */
-  { label: "Contact",   to: "/contact"   },
+  { label: "Contact",   to: "/contact/"   },
 ];
 
 export default function Navbar() {
@@ -124,7 +124,7 @@ export default function Navbar() {
             </a>
             {/* Schedule Today → /contact */}
             <Link
-              to="/contact"
+              to="/contact/"
               className="group relative overflow-hidden px-6 py-[11px] border border-[#B8925A] text-[10px] font-bold tracking-[0.2em] uppercase bg-[#B8925A] text-[#FDFAF6] transition-all duration-300 hover:bg-transparent hover:text-[#B8925A]"
             >
               Schedule Today
@@ -218,7 +218,7 @@ export default function Navbar() {
             </a>
             {/* Schedule Today → /contact */}
             <Link
-              to="/contact"
+              to="/contact/"
               className="flex items-center justify-center w-full py-3.5 bg-[#B8925A] text-[#FDFAF6] text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-200"
             >
               Schedule Today
@@ -232,7 +232,8 @@ export default function Navbar() {
 
 function NavItem({ link }) {
   const { pathname } = useLocation();
-  const active = !link.href && pathname === link.to;
+  const norm = (x) => (x || "").replace(/\/+$/, "") || "/";
+  const active = !link.href && norm(pathname) === norm(link.to);
   const cls = `relative px-[14px] py-2 text-[11px] tracking-[0.14em] uppercase font-semibold block transition-colors duration-200 after:absolute after:bottom-[-1px] after:left-3 after:right-3 after:h-[1.5px] after:bg-[#B8925A] after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:text-[#B8925A] hover:after:scale-x-100 ${active ? "text-[#B8925A] after:scale-x-100" : "text-[#7A6556]"}`;
 
   /* External links must be a plain <a>. React Router's <Link> handles the

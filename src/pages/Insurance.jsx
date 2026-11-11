@@ -87,7 +87,7 @@ export default function Insurance() {
     <main style={{ fontFamily: "'Jost', sans-serif", background: "#FDFAF6", cursor: "none", overflowX: "hidden" }}>
       <SEO
   title="Insurance"
-  description="Tri-Valley Clinic accepts most major insurance plans including Aetna, Blue Shield, United Healthcare, Cigna, Kaiser, Medicare, Medi-Cal, and Alameda Alliance."
+  description="Insurance accepted for psychiatric and TMS services: Aetna, Blue Cross, Blue Shield, Medicare, Tricare and Alameda Alliance. Call (510) 598-4921."
   path="/insurance"
 />
       <style>{CSS}</style>
@@ -171,7 +171,7 @@ function HeroSection() {
 
           <div className={`flex flex-wrap gap-4 mb-10 transition-all duration-700 ${loaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`}
             style={{ transitionDelay: "560ms" }}>
-            <a href="/contact"
+            <a href="/contact/"
               className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">
               <PhoneIcon /> Verify My Insurance
               <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
@@ -589,7 +589,7 @@ function FinancingSection() {
               ))}
             </ul>
             <div className="flex flex-wrap gap-4">
-              <a href="/financing"
+              <a href="/financing/"
                 className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300">
                 Apply for Cherry Financing
                 <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
@@ -634,8 +634,8 @@ function FAQSection() {
     { q: "What is my copay or deductible for psychiatry?",        a: <>Copays and deductibles vary by insurance. We verify your insurance before your first visit as a courtesy to our patients. Otherwise insurance verification is the <strong className="font-semibold text-[#2C1A0E]">patient's responsibility</strong>. If you have any questions specifically regarding insurance please call the member services number on the back of your insurance card.</> },
     { q: "Is telehealth covered by my insurance?",                a: "Most major insurance plans now cover telehealth psychiatric visits in California at the same rate as in-person care. We verify telehealth benefits as part of our standard insurance check." },
     { q: "Is medical weight loss (GLP-1) covered by insurance?",  a: "GLP-1 medications used in our program are compounded and are not covered by insurance. We can review all costs with you during your consultation." },
-    { q: "What if I don't have insurance?",                       a: <>We offer self-pay options for our psychiatric services. We do not accept insurance for our wellness services however we do offer financing options. Please visit our <a href="/financing" className="text-[#B8925A] hover:underline">Financing page</a> for more information.</> },
-    { q: "Do you offer a sliding-scale fee?",                     a: <>We do not offer sliding-scale fees at this time for any of our services. For our wellness services we offer financing options, please see our <a href="/financing" className="text-[#B8925A] hover:underline">Financing page</a> for more information on this.</> },
+    { q: "What if I don't have insurance?",                       a: <>We offer self-pay options for our psychiatric services. We do not accept insurance for our wellness services however we do offer financing options. Please visit our <a href="/financing/" className="text-[#B8925A] hover:underline">Financing page</a> for more information.</> },
+    { q: "Do you offer a sliding-scale fee?",                     a: <>We do not offer sliding-scale fees at this time for any of our services. For our wellness services we offer financing options, please see our <a href="/financing/" className="text-[#B8925A] hover:underline">Financing page</a> for more information on this.</> },
     { q: "Does my insurance cover IV Hydration Therapy?",         a: "Our IV Hydration services are not covered by insurance. We offer flexible financing options through Cherry to make treatment more accessible." },
   ];
   return (
@@ -705,7 +705,7 @@ function CTASection() {
             <PhoneIcon /> Call (510) 598-4921
             <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
-          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">
+          <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">
             Send a Message
           </a>
         </div>

@@ -11,11 +11,23 @@ function useReveal(t=0.12){const ref=useRef(null);const[v,sv]=useState(false);us
    or the pointer vanishes (see src/constants/zIndex.js). */
 function Cursor(){const[en,setEn]=useState(false);const d=useRef(null),r=useRef(null),p=useRef({x:0,y:0}),f=useRef(null);useEffect(()=>{setEn(window.matchMedia("(pointer: fine)").matches);},[]);useEffect(()=>{if(!en)return;const mv=e=>{p.current={x:e.clientX,y:e.clientY};};const tk=()=>{if(d.current)d.current.style.transform=`translate(${p.current.x-4}px,${p.current.y-4}px)`;if(r.current)r.current.style.transform=`translate(${p.current.x-16}px,${p.current.y-16}px)`;f.current=requestAnimationFrame(tk);};window.addEventListener("mousemove",mv);f.current=requestAnimationFrame(tk);return()=>{window.removeEventListener("mousemove",mv);cancelAnimationFrame(f.current);};},[en]);if(!en)return null;return(<><div ref={d} className="fixed top-0 left-0 w-2 h-2 rounded-full bg-[#B8925A] z-[9999] pointer-events-none" style={{transition:"none"}}/><div ref={r} className="fixed top-0 left-0 w-8 h-8 rounded-full border border-[#B8925A]/50 z-[9998] pointer-events-none" style={{transition:"transform 0.12s ease-out"}}/></>);}
 
+/* GA4 key event for a SENT contact form (GTM GTM-PPTHL8R9 · GA4 G-ES9FZWTL7Z).
+   gtag sends "generate_lead" straight to GA4: mark it as a key event in GA4 (Admin > Events).
+   The dataLayer push is only for GTM uses: do NOT also build a GA4 event tag on it, or every lead counts twice.
+   No form content is sent, only the form name. */
+function trackContactSent() {
+  try {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "contact_form_submit", form_name: "contact", page_path: "/contact/" });
+    if (typeof window.gtag === "function") window.gtag("event", "generate_lead", { form_name: "contact", page_path: "/contact/" });
+  } catch { /* analytics must never block the form */ }
+}
+
 export default function Contact(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",overflowX:"hidden",cursor:"none"}}>
     <SEO
   title="Contact Us"
-  description="Contact Tri-Valley Clinic in Fremont, CA. Call (510) 598-4921 to schedule an appointment. Accepting new patients for psychiatry, weight loss, IV hydration, and TMS therapy."
+  description="Call (510) 598-4921 or send a message to Tri-Valley Clinic at 680 Mowry Ave, Fremont, CA. Open Monday to Friday, 9:30 AM to 5:30 PM."
   path="/contact"
 />
 <style>{CSS}</style><Cursor/><Hero/><Marquee/><MainSection/><PhotoRow/><MapSection/><FAQ/><CTA/></main>);
@@ -117,7 +129,7 @@ function MainSection(){
           _replyto: form.email,
         }),
       });
-      if (res.ok) { sSent(true); }
+      if (res.ok) { sSent(true); trackContactSent(); }
       else { alert("Something went wrong. Please call us at (510) 598-4921."); }
     } catch {
       alert("Network error. Please call us at (510) 598-4921.");
@@ -226,7 +238,7 @@ function PhotoRow(){
       <div ref={ref} className="mx-auto max-w-7xl">
         <div className={`flex items-center gap-3 mb-8 transition-all duration-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-8"}`}>
           <span className="w-8 h-px bg-[#B8925A]"/><span className="text-[10px] tracking-[0.28em] uppercase text-[#B8925A] font-semibold">Our Clinic</span>
-          <span className="flex-1 h-px bg-[#E8D5BE]"/><a href="/about" className="text-[10px] tracking-[0.18em] uppercase text-[#7A6556] hover:text-[#B8925A] transition-colors">Full Gallery →</a>
+          <span className="flex-1 h-px bg-[#E8D5BE]"/><a href="/about/" className="text-[10px] tracking-[0.18em] uppercase text-[#7A6556] hover:text-[#B8925A] transition-colors">Full Gallery →</a>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {photos.map((p,i)=>(

@@ -13,20 +13,20 @@ import {
 const BLOG_URL = "https://trivalleyclinic.com/blog/";
 
 const SERVICES = [
-  { label: "Psychiatric Care",            to: "/psychiatric"  },
-  { label: "Medical Weight Loss / GLP-1", to: "/medical-weight-loss"  },
-  { label: "IV Hydration Therapy",        to: "/iv-hydration" },
-  { label: "TMS Therapy",                 to: "/tms"          },
-  { label: "Telehealth",                  to: "/telehealth"   },
-  { label: "Medication Management",       to: "/psychiatric"  },
+  { label: "Psychiatric Care",            to: "/psychiatric/"  },
+  { label: "Medical Weight Loss / GLP-1", to: "/medical-weight-loss/"  },
+  { label: "IV Hydration Therapy",        to: "/iv-hydration/" },
+  { label: "TMS Therapy",                 to: "/tms/"          },
+  { label: "Telehealth",                  to: "/telehealth/"   },
+  { label: "Medication Management",       to: "/psychiatric/"  },
 ];
 
 const QUICK_LINKS = [
-  { label: "About",              to: "/about"      },
-  { label: "Insurance Accepted", to: "/insurance"  },
-  { label: "Financing Options",  to: "/financing"  },
+  { label: "About",              to: "/about/"      },
+  { label: "Insurance Accepted", to: "/insurance/"  },
+  { label: "Financing Options",  to: "/financing/"  },
   { label: "Blog & Resources",   href: BLOG_URL    },   /* external — WordPress */
-  { label: "Contact Us",         to: "/contact"    },
+  { label: "Contact Us",         to: "/contact/"    },
 ];
 
 const CONDITIONS = [
@@ -115,7 +115,7 @@ export default function Footer() {
               <SectionHeading>Conditions We Treat</SectionHeading>
               <div className="grid grid-cols-2 gap-x-3 gap-y-2">
                 {CONDITIONS.map((c) => (
-                  <Link key={c} to="/psychiatric" className="text-xs text-[#7A6556]/80 leading-relaxed hover:text-[#B8925A] transition-colors duration-200">{c}</Link>
+                  <Link key={c} to="/psychiatric/" className="text-xs text-[#7A6556]/80 leading-relaxed hover:text-[#B8925A] transition-colors duration-200">{c}</Link>
                 ))}
               </div>
             </div>
@@ -212,8 +212,8 @@ export default function Footer() {
             <p>© {year} Tri-Valley Clinic · All rights reserved · Fremont, CA</p>
             <div className="flex items-center gap-4">
               {[
-                { label: "Privacy Policy", to: "/privacy-policy" },
-                { label: "Terms of Use",   to: "/terms-of-use"   },
+                { label: "Privacy Policy", to: "/privacy-policy/" },
+                { label: "Terms of Use",   to: "/terms-of-use/"   },
                 { label: "Sitemap",        href: "/sitemap.xml" },
               ].map((item, i) => (
                 <span key={item.label} className="flex items-center gap-4">

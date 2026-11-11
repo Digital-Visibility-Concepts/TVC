@@ -332,7 +332,7 @@ function Hero() {
             <PhoneIcon /> (510) 598-4921
           </a>
           <a
-            href="/contact"
+            href="/contact/"
             className="inline-flex items-center border border-[#B8925A]/50 text-[#C9A46A] px-7 py-3.5 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300"
           >
             Contact Us
@@ -554,7 +554,7 @@ function ClosingNote() {
             <PhoneIcon /> Call (510) 598-4921
           </a>
           <a
-            href="/contact"
+            href="/contact/"
             className="inline-flex items-center border border-[#B8925A]/50 text-[#B8925A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300"
           >
             Send a Message

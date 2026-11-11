@@ -191,7 +191,7 @@ function Hero() {
             IV nutrient therapy delivered in a calm, comfortable setting at Tri-Valley Clinic. Whether you're looking to boost energy, support recovery, enhance immunity, or simply feel your best — our physician-supervised drip formulas are designed to deliver real results, fast.
           </p>
           <div className={`flex flex-wrap gap-4 mb-8 transition-all duration-700 ${on ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"}`} style={{ transitionDelay: "540ms" }}>
-            <a href="/contact" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">
+            <a href="/contact/" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">
               <Ph /> Book a Session <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
             </a>
             <a href="#menu" className="flex items-center gap-3 border border-[#B8925A]/50 text-[#C9A46A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">View IV Menu ↓</a>
@@ -513,7 +513,7 @@ function DripsMenu() {
 
         <div className={`mt-10 text-center transition-all duration-700 delay-700 ${v ? "opacity-100" : "opacity-0"}`}>
           <p className="text-[#7A6556] text-sm font-light mb-5">Call for current pricing and custom formula consultations.</p>
-          <a href="/contact" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-10 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">
+          <a href="/contact/" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-10 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300">
             <Ph /> Book Your IV Session <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
         </div>
@@ -648,7 +648,7 @@ function CTA() {
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400 w-full sm:w-auto justify-center">
             <Ph /> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span>
           </a>
-          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300 w-full sm:w-auto justify-center">
+          <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300 w-full sm:w-auto justify-center">
             Send a Message
           </a>
         </div>

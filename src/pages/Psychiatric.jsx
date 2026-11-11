@@ -97,7 +97,7 @@ export default function Psychiatric(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
     <SEO
   title="Psychiatry Services"
-  description="Comprehensive psychiatric care for anxiety, depression, ADHD, PTSD, bipolar disorder, OCD, insomnia, and substance abuse. Board-certified psychiatrists in Fremont, CA. Accepting new patients."
+  description="Psychiatric care in Fremont, CA: evaluations, medication management and telehealth for anxiety, depression, ADHD, PTSD, bipolar disorder and more."
   path="/psychiatric"
 />
 <style>{CSS}</style><Cursor/><Hero/><Mq/><CondSection/><ProcessSection/><DrSection/><PatientReviews variant="compact" /><FAQSection/><CTA/></main>);
@@ -132,7 +132,7 @@ function Hero(){
             Comprehensive adult psychiatric evaluations, precise diagnosis, and personalized medication management — delivered by Dr. Japsharan Gill and Dr. Shabeg Gondara with warmth and clinical excellence.
           </p>
           <div className={`flex flex-wrap gap-4 mb-10 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"540ms"}}>
-            <a href="/contact" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Schedule today <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+            <a href="/contact/" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Schedule today <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
             <a href="#conditions" className="flex items-center gap-3 border border-[#B8925A]/50 text-[#C9A46A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">View Conditions ↓</a>
           </div>
           <div className={`flex flex-wrap gap-3 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"640ms"}}>
@@ -287,7 +287,7 @@ function DrSection(){
                 <li key={t} className="flex items-start gap-3 text-sm text-[#7A6556]"><span className="w-1.5 h-1.5 rounded-full bg-[#B8925A] flex-shrink-0 mt-2"/>{t}</li>
               ))}
             </ul>
-            <a href="/contact" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300"><Ph/> Book an Evaluation <span className="group-hover:translate-x-1 transition-transform duration-300">→</span></a>
+            <a href="/contact/" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#2C1A0E] transition-colors duration-300"><Ph/> Book an Evaluation <span className="group-hover:translate-x-1 transition-transform duration-300">→</span></a>
           </div>
         </div>
       </div>
@@ -343,7 +343,7 @@ function CTA(){
         <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>Call our office or send a message to schedule your appointment with Dr. Japsharan Gill or Dr. Shabeg Gondara.</p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400"><Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
-          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
+          <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
         </div>
         <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${v?"opacity-100":"opacity-0"}`}>Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA</p>
       </div>

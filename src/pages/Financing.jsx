@@ -53,7 +53,7 @@ export default function Financing() {
     <main style={{ fontFamily: "'Jost', sans-serif", background: "#FDFAF6", cursor: "none" }}>
       <SEO
   title="Financing Options"
-  description="Affordable payment plans for psychiatric care, weight loss, IV hydration, and TMS therapy at Tri-Valley Clinic. Cherry financing available with flexible monthly payments."
+  description="Cherry financing for medical weight loss and IV hydration therapy at Tri-Valley Clinic in Fremont, CA. A soft credit check is used to apply."
   path="/financing"
 />
       <style>{CSS}</style>

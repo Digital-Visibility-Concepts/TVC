@@ -17,7 +17,7 @@ export default function WeightLoss(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
        <SEO
   title="Medical Weight Loss Program Fremont, CA"
-  description="Physician-led medical weight loss in Fremont, CA: ongoing monitoring, monthly check-ins and GLP-1 options (semaglutide, tirzepatide). Free consultation."
+  description="Physician-led medical weight loss in Fremont, CA, with clinical monitoring and GLP-1 options (semaglutide, tirzepatide). Free consultation."
   path="/medical-weight-loss"
 />
 <style>{CSS}</style><Cursor/><Hero/><Marquee/><WhatSetsApartSection/><HowProgramWorks/><OurProgram/><EligibilitySection/><WhatAreGLP1s/><PatientReviews variant="compact" /><LeadCaptureSection/><FAQSection/><CTA/></main>);
@@ -54,7 +54,7 @@ function Hero(){
             Tri-Valley Clinic offers a physician-led medical weight loss program designed to support both physical and behavioral change—built around your individual needs, with regular check-ins and clinical monitoring, and GLP-1 medication (semaglutide, tirzepatide) when clinically appropriate. Safe, effective and science-backed.
           </p>
           <div className={`flex flex-wrap gap-4 mb-8 transition-all duration-700 ${on?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`} style={{transitionDelay:"540ms"}}>
-            <a href="/contact" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+            <a href="/contact/" className="group flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Free Consultation <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
             <a href="#how-it-works" className="flex items-center gap-3 border border-[#B8925A]/50 text-[#C9A46A] px-8 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/10 transition-all duration-300">How It Works ↓</a>
           </div>
           <div className={`flex flex-wrap gap-3 transition-all duration-700 ${on?"opacity-100":"opacity-0"}`} style={{transitionDelay:"640ms"}}>
@@ -282,7 +282,7 @@ function HowProgramWorks(){
           ))}
         </div>
         <div className={`mt-14 text-center transition-all duration-700 delay-700 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
-          <a href="/contact" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-10 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Start Your Journey <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
+          <a href="/contact/" className="group inline-flex items-center gap-3 bg-[#B8925A] text-[#FDFAF6] px-10 py-4 text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#C9A46A] transition-colors duration-300"><Ph/> Start Your Journey <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
           <p className="mt-6 text-[10px] text-[#7A6556]/50 max-w-2xl mx-auto leading-relaxed">This program is a medically supervised GLP-1 weight loss program with structured support supervised by licensed clinicians. Treatment may include pharmacy-compounded GLP-1 medications when clinically appropriate. Individual results vary and are not guaranteed.</p>
         </div>
       </div>
@@ -456,7 +456,7 @@ function LeadCaptureSection(){
                 </div>
                 <div className="flex items-start gap-3">
                   <input type="checkbox" id="glp1-terms" checked={terms} onChange={e=>setTerms(e.target.checked)} className="mt-1 accent-[#B8925A]"/>
-                  <label htmlFor="glp1-terms" className="text-sm text-[#A89880] font-light cursor-pointer">I accept the <a href="/terms-of-use" className="text-[#B8925A] hover:underline">terms and conditions</a>. *</label>
+                  <label htmlFor="glp1-terms" className="text-sm text-[#A89880] font-light cursor-pointer">I accept the <a href="/terms-of-use/" className="text-[#B8925A] hover:underline">terms and conditions</a>. *</label>
                 </div>
                 {errors.terms&&<p className="text-red-400 text-[10px] -mt-3">{errors.terms}</p>}
                 <div className="flex items-start gap-3">
@@ -520,7 +520,7 @@ function CTA(){
         <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>We offer a free initial consultation to see if our program is right for you. Call us to get started today.</p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400"><Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
-          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
+          <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
         </div>
         <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${v?"opacity-100":"opacity-0"}`}>Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA</p>
       </div>
@@ -574,7 +574,7 @@ function GLP1Pricing(){
           </div>
         ))}
       </div>
-      <p className="text-[#7A6556] text-xs leading-relaxed font-light text-center mt-6 max-w-2xl mx-auto">Pricing is subject to change. The medical weight-loss program is not covered by insurance; <a href="/financing" className="text-[#B8925A] underline underline-offset-2 hover:text-[#C9A46A]">financing options are available</a>. Call <a href="tel:5105984921" className="text-[#B8925A] underline underline-offset-2 hover:text-[#C9A46A]">(510) 598-4921</a> to confirm current pricing.</p>
+      <p className="text-[#7A6556] text-xs leading-relaxed font-light text-center mt-6 max-w-2xl mx-auto">Pricing is subject to change. The medical weight-loss program is not covered by insurance; <a href="/financing/" className="text-[#B8925A] underline underline-offset-2 hover:text-[#C9A46A]">financing options are available</a>. Call <a href="tel:5105984921" className="text-[#B8925A] underline underline-offset-2 hover:text-[#C9A46A]">(510) 598-4921</a> to confirm current pricing.</p>
     </div>
   );
 }

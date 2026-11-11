@@ -66,7 +66,7 @@ export default function TMS(){
   return(<main style={{fontFamily:"'Jost',sans-serif",background:"#FDFAF6",cursor:"none",overflowX:"hidden"}}>
     <SEO
   title="TMS Therapy"
-  description="FDA-cleared Transcranial Magnetic Stimulation (TMS) therapy now available at Tri-Valley Clinic in Fremont, CA. A non-invasive treatment for depression — no medication, no systemic side effects. Covered by many insurance plans. Call (510) 598-4921."
+  description="TMS therapy in Fremont, CA: an FDA-cleared, non-invasive treatment for depression when medication alone has not been enough. Call (510) 598-4921."
   path="/tms"
 />
 <style>{CSS}</style><Cursor/><Hero/><Mq/><WhatIsTMS/><HowWorks/><QuestionnaireSec/><ConsultSec/><FAQSec/><CTA/></main>);
@@ -439,7 +439,7 @@ function CTA(){
         <p className={`text-[#7A6556] text-lg font-light max-w-lg mx-auto mb-10 leading-relaxed transition-all duration-700 delay-200 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>TMS therapy is now available at Tri-Valley Clinic. Call us or send a message and our team will schedule your consultation and verify your insurance benefits.</p>
         <div className={`flex flex-col sm:flex-row items-center justify-center gap-4 transition-all duration-700 delay-300 ${v?"opacity-100 translate-y-0":"opacity-0 translate-y-6"}`}>
           <a href="tel:5105984921" className="group flex items-center gap-3 bg-[#2C1A0E] text-[#F0E8DA] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:bg-[#B8925A] transition-colors duration-400"><Ph/> Call (510) 598-4921 <span className="group-hover:translate-x-1.5 transition-transform duration-300">→</span></a>
-          <a href="/contact" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
+          <a href="/contact/" className="flex items-center gap-2 border border-[#B8925A]/50 text-[#B8925A] px-10 py-[18px] text-[11px] font-bold tracking-[0.2em] uppercase hover:border-[#B8925A] hover:bg-[#B8925A]/5 transition-all duration-300">Send a Message</a>
         </div>
         <p className={`mt-7 text-[10px] tracking-[0.2em] uppercase text-[#7A6556]/45 transition-all duration-700 delay-400 ${v?"opacity-100":"opacity-0"}`}>Mon – Fri · 9:30 AM – 5:30 PM · 680 Mowry Ave, Fremont, CA · Telehealth Statewide CA</p>
       </div>
